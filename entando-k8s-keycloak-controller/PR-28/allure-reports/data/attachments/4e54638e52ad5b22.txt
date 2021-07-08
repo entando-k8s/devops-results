@@ -1,0 +1,43 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    ProvidedCapability: "my-keycloak"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "my-keycloak-53979154"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "dfe6f073-a9b5-4138-8a1b-a212a83b4a8a"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-07-08T13:49:28Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-keycloak"
+  namespace: "my-namespace"
+  resourceVersion: "3566820"
+  uid: "dfe6f073-a9b5-4138-8a1b-a212a83b4a8a"
+lastTimestamp: "2021-07-08T13:49:28Z"
+message: "The ProvidedCapability  my-namespace/my-keycloak received status update\
+  \ for main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Normal"
