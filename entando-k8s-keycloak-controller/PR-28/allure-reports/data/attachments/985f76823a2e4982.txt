@@ -1,0 +1,43 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "EntandoKeycloakServer"
+    EntandoKeycloakServer: "my-app-sso"
+    entando.org/capability-provision-scope: "Dedicated"
+  name: "my-app-sso-07652356"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoKeycloakServer"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app-sso"
+    uid: "570390f6-4795-443a-8247-b9394001804d"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-07-08T12:50:41Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoKeycloakServer"
+  fieldPath: "status"
+  name: "my-app-sso"
+  namespace: "my-namespace"
+  resourceVersion: "5524557"
+  uid: "570390f6-4795-443a-8247-b9394001804d"
+lastTimestamp: "2021-07-08T12:50:41Z"
+message: "The EntandoKeycloakServer  my-namespace/my-app-sso received status update\
+  \ for main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-keycloak-server-controller"
+type: "Normal"

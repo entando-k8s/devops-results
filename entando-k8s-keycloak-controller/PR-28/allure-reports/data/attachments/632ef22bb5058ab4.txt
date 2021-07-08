@@ -1,0 +1,50 @@
+---
+apiVersion: "entando.org/v1"
+kind: "ProvidedCapability"
+metadata:
+  annotations:
+    entando.org/origin-uuid: "aac12d1e-6249-44be-9aaa-5cb79386a8c1"
+  generation: 1
+  labels:
+    entando.org/capability: "Sso"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "default-sso-in-namespace"
+  namespace: "my-namespace"
+  resourceVersion: "9582513"
+  uid: "f4fbd6b3-0c60-4d40-a522-363b77748af0"
+spec:
+  capability: "sso"
+  resolutionScopePreference:
+  - "Namespace"
+  capabilityParameters: {}
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-07-08T12:50:44+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-sso-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      finished: "2021-07-08T12:50:44+0000"
+      serviceName: "default-sso-in-namespace-service"
+      deploymentName: "default-sso-in-namespace-deployment"
+      adminSecretName: "default-sso-in-namespace-admin-secret"
+      webContexts:
+        server: "/auth"
+      podPhases:
+        default-sso-in-namespace-dbprep-0024: "Complete"
+        default-sso-in-namespace-deployment: "Running"
+      persistentVolumeClaimPhases:
+        default-sso-in-namespace-server-pvc: "Pending"
+      ingressName: "default-sso-in-namespace-ingress"
+      externalBaseUrl: "https://default-sso-in-namespace-my-namespace.apps.serv.run/auth"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "providedcapabilities.entando.org"

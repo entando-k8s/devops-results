@@ -1,0 +1,26 @@
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "my-keycloak"
+    entando.org/entando-resource-kind: "EntandoKeycloakServer"
+    EntandoKeycloakServer: "my-keycloak"
+  name: "my-keycloak-server-pvc"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoKeycloakServer"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "36c49654-cc1c-4beb-a469-473b916268bf"
+spec:
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    limits:
+      storage: "2048Mi"
+    requests:
+      storage: "512Mi"
