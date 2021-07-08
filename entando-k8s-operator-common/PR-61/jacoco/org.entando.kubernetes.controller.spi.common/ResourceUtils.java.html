@@ -60,20 +60,24 @@ public class ResourceUtils {
 <span class="fc" id="L60">        return labels;</span>
     }
 
-    public static void addCapabilityLabels(ProvidedCapability providedCapability) {
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (providedCapability.getMetadata().getLabels() == null) {</span>
-<span class="fc" id="L65">            providedCapability.getMetadata().setLabels(new HashMap&lt;&gt;());</span>
+    public static boolean addCapabilityLabels(ProvidedCapability providedCapability) {
+<span class="fc" id="L64">        boolean changed = false;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (providedCapability.getMetadata().getLabels() == null) {</span>
+<span class="fc" id="L66">            providedCapability.getMetadata().setLabels(new HashMap&lt;&gt;());</span>
         }
-<span class="fc" id="L67">        Map&lt;String, String&gt; labels = providedCapability.getMetadata().getLabels();</span>
-<span class="fc" id="L68">        CapabilityRequirement spec = providedCapability.getSpec();</span>
-<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (!labels.containsKey(LabelNames.CAPABILITY.getName())) {</span>
-<span class="fc" id="L70">            labels.put(LabelNames.CAPABILITY.getName(), spec.getCapability().getCamelCaseName());</span>
-<span class="fc" id="L71">            spec.getImplementation().ifPresent(standardCapabilityImplementation -&gt; labels</span>
-<span class="fc" id="L72">                    .put(LabelNames.CAPABILITY_IMPLEMENTATION.getName(), standardCapabilityImplementation.getCamelCaseName()));</span>
+<span class="fc" id="L68">        Map&lt;String, String&gt; labels = providedCapability.getMetadata().getLabels();</span>
+<span class="fc" id="L69">        CapabilityRequirement spec = providedCapability.getSpec();</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (!labels.containsKey(LabelNames.CAPABILITY.getName())) {</span>
+<span class="fc" id="L71">            changed = true;</span>
+<span class="fc" id="L72">            labels.put(LabelNames.CAPABILITY.getName(), spec.getCapability().getCamelCaseName());</span>
+<span class="fc" id="L73">            spec.getImplementation().ifPresent(standardCapabilityImplementation -&gt; labels</span>
+<span class="fc" id="L74">                    .put(LabelNames.CAPABILITY_IMPLEMENTATION.getName(), standardCapabilityImplementation.getCamelCaseName()));</span>
         }
-<span class="pc bpc" id="L74" title="2 of 4 branches missed.">        if (!(labels.containsKey(LabelNames.CAPABILITY_PROVISION_SCOPE.getName()) || spec.getResolutionScopePreference().isEmpty())) {</span>
-<span class="fc" id="L75">            labels.put(LabelNames.CAPABILITY_PROVISION_SCOPE.getName(), spec.getResolutionScopePreference().get(0).getCamelCaseName());</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">        if (!(labels.containsKey(LabelNames.CAPABILITY_PROVISION_SCOPE.getName()) || spec.getResolutionScopePreference().isEmpty())) {</span>
+<span class="fc" id="L77">            changed = true;</span>
+<span class="fc" id="L78">            labels.put(LabelNames.CAPABILITY_PROVISION_SCOPE.getName(), spec.getResolutionScopePreference().get(0).getCamelCaseName());</span>
         }
-<span class="fc" id="L77">    }</span>
+<span class="fc" id="L80">        return changed;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
