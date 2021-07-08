@@ -22,8 +22,11 @@ import io.fabric8.kubernetes.api.model.HasMetadata;
 import io.fabric8.kubernetes.api.model.OwnerReference;
 import io.fabric8.kubernetes.api.model.OwnerReferenceBuilder;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.entando.kubernetes.model.capability.CapabilityRequirement;
+import org.entando.kubernetes.model.capability.ProvidedCapability;
 import org.entando.kubernetes.model.common.EntandoCustomResource;
 
 public class ResourceUtils {
@@ -33,28 +36,44 @@ public class ResourceUtils {
     }
 
     public static OwnerReference buildOwnerReference(HasMetadata entandoCustomResource) {
-<span class="fc" id="L36">        return new OwnerReferenceBuilder()</span>
-<span class="fc" id="L37">                .withApiVersion(entandoCustomResource.getApiVersion())</span>
-<span class="fc" id="L38">                .withBlockOwnerDeletion(true)</span>
-<span class="fc" id="L39">                .withController(true)</span>
-<span class="fc" id="L40">                .withKind(entandoCustomResource.getKind())</span>
-<span class="fc" id="L41">                .withName(entandoCustomResource.getMetadata().getName())</span>
-<span class="fc" id="L42">                .withUid(entandoCustomResource.getMetadata().getUid()).build();</span>
+<span class="fc" id="L39">        return new OwnerReferenceBuilder()</span>
+<span class="fc" id="L40">                .withApiVersion(entandoCustomResource.getApiVersion())</span>
+<span class="fc" id="L41">                .withBlockOwnerDeletion(true)</span>
+<span class="fc" id="L42">                .withController(true)</span>
+<span class="fc" id="L43">                .withKind(entandoCustomResource.getKind())</span>
+<span class="fc" id="L44">                .withName(entandoCustomResource.getMetadata().getName())</span>
+<span class="fc" id="L45">                .withUid(entandoCustomResource.getMetadata().getUid()).build();</span>
     }
 
     public static boolean customResourceOwns(EntandoCustomResource owner, HasMetadata owned) {
-<span class="fc" id="L46">        return owned.getMetadata().getOwnerReferences().stream()</span>
-<span class="fc bfc" id="L47" title="All 2 branches covered.">                .anyMatch(ownerReference -&gt; owner.getMetadata().getName().equals(ownerReference.getName())</span>
-<span class="pc bpc" id="L48" title="1 of 2 branches missed.">                        &amp;&amp; owner.getKind().equals(ownerReference.getKind()));</span>
+<span class="fc" id="L49">        return owned.getMetadata().getOwnerReferences().stream()</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">                .anyMatch(ownerReference -&gt; owner.getMetadata().getName().equals(ownerReference.getName())</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">                        &amp;&amp; owner.getKind().equals(ownerReference.getKind()));</span>
     }
 
     public static Map&lt;String, String&gt; labelsFromResource(EntandoCustomResource entandoCustomResource) {
-<span class="fc" id="L52">        Map&lt;String, String&gt; labels = new ConcurrentHashMap&lt;&gt;();</span>
-<span class="fc" id="L53">        labels.put(entandoCustomResource.getKind(), entandoCustomResource.getMetadata().getName());</span>
-<span class="fc" id="L54">        labels.put(LabelNames.RESOURCE_KIND.getName(), entandoCustomResource.getKind());</span>
-<span class="fc" id="L55">        labels.put(LabelNames.RESOURCE_NAMESPACE.getName(), entandoCustomResource.getMetadata().getNamespace());</span>
-<span class="fc" id="L56">        labels.putAll(ofNullable(entandoCustomResource.getMetadata().getLabels()).orElse(Collections.emptyMap()));</span>
-<span class="fc" id="L57">        return labels;</span>
+<span class="fc" id="L55">        Map&lt;String, String&gt; labels = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L56">        labels.put(entandoCustomResource.getKind(), entandoCustomResource.getMetadata().getName());</span>
+<span class="fc" id="L57">        labels.put(LabelNames.RESOURCE_KIND.getName(), entandoCustomResource.getKind());</span>
+<span class="fc" id="L58">        labels.put(LabelNames.RESOURCE_NAMESPACE.getName(), entandoCustomResource.getMetadata().getNamespace());</span>
+<span class="fc" id="L59">        labels.putAll(ofNullable(entandoCustomResource.getMetadata().getLabels()).orElse(Collections.emptyMap()));</span>
+<span class="fc" id="L60">        return labels;</span>
     }
+
+    public static void addCapabilityLabels(ProvidedCapability providedCapability) {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (providedCapability.getMetadata().getLabels() == null) {</span>
+<span class="fc" id="L65">            providedCapability.getMetadata().setLabels(new HashMap&lt;&gt;());</span>
+        }
+<span class="fc" id="L67">        Map&lt;String, String&gt; labels = providedCapability.getMetadata().getLabels();</span>
+<span class="fc" id="L68">        CapabilityRequirement spec = providedCapability.getSpec();</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">        if (!labels.containsKey(LabelNames.CAPABILITY.getName())) {</span>
+<span class="fc" id="L70">            labels.put(LabelNames.CAPABILITY.getName(), spec.getCapability().getCamelCaseName());</span>
+<span class="fc" id="L71">            spec.getImplementation().ifPresent(standardCapabilityImplementation -&gt; labels</span>
+<span class="fc" id="L72">                    .put(LabelNames.CAPABILITY_IMPLEMENTATION.getName(), standardCapabilityImplementation.getCamelCaseName()));</span>
+        }
+<span class="pc bpc" id="L74" title="2 of 4 branches missed.">        if (!(labels.containsKey(LabelNames.CAPABILITY_PROVISION_SCOPE.getName()) || spec.getResolutionScopePreference().isEmpty())) {</span>
+<span class="fc" id="L75">            labels.put(LabelNames.CAPABILITY_PROVISION_SCOPE.getName(), spec.getResolutionScopePreference().get(0).getCamelCaseName());</span>
+        }
+<span class="fc" id="L77">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
