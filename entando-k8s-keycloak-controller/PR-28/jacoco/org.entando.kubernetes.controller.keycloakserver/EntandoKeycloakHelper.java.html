@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntandoKeycloakHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando K8S Controller for Keycloak</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.controller.keycloakserver</a> &gt; <span class="el_source">EntandoKeycloakHelper.java</span></div><h1>EntandoKeycloakHelper.java</h1><pre class="source lang-java linenums">/*
+ *
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ *  This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ */
+
+package org.entando.kubernetes.controller.keycloakserver;
+
+import static java.util.Optional.ofNullable;
+
+import java.util.Collections;
+import java.util.Map;
+import org.entando.kubernetes.controller.spi.common.EntandoOperatorComplianceMode;
+import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfig;
+import org.entando.kubernetes.model.capability.CapabilityProvisioningStrategy;
+import org.entando.kubernetes.model.capability.ExternallyProvidedService;
+import org.entando.kubernetes.model.capability.ProvidedCapability;
+import org.entando.kubernetes.model.common.DbmsVendor;
+import org.entando.kubernetes.model.keycloakserver.EntandoKeycloakServer;
+import org.entando.kubernetes.model.keycloakserver.StandardKeycloakImage;
+
+public class EntandoKeycloakHelper {
+
+    private EntandoKeycloakHelper() {
+
+    }
+
+    public static StandardKeycloakImage determineStandardImage(EntandoKeycloakServer entandoKeycloakServer) {
+        StandardKeycloakImage standardKeycloakImage;
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (EntandoOperatorSpiConfig.getComplianceMode() == EntandoOperatorComplianceMode.REDHAT) {</span>
+<span class="fc" id="L41">            standardKeycloakImage = StandardKeycloakImage.REDHAT_SSO;</span>
+        } else {
+<span class="fc" id="L43">            standardKeycloakImage = entandoKeycloakServer.getSpec().getStandardImage().orElse(StandardKeycloakImage.KEYCLOAK);</span>
+        }
+<span class="fc" id="L45">        return standardKeycloakImage;</span>
+
+    }
+
+    public static DbmsVendor determineDbmsVendor(EntandoKeycloakServer entandoKeycloakServer) {
+        DbmsVendor dbmsVendor;
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        if (EntandoOperatorSpiConfig.getComplianceMode() == EntandoOperatorComplianceMode.REDHAT) {</span>
+<span class="fc" id="L52">            dbmsVendor = entandoKeycloakServer.getSpec().getDbms().orElse(DbmsVendor.POSTGRESQL);</span>
+        } else {
+<span class="fc" id="L54">            dbmsVendor = entandoKeycloakServer.getSpec().getDbms().orElse(DbmsVendor.EMBEDDED);</span>
+        }
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (dbmsVendor == DbmsVendor.NONE) {</span>
+<span class="nc" id="L57">            dbmsVendor = DbmsVendor.EMBEDDED;</span>
+        }
+<span class="fc" id="L59">        return dbmsVendor;</span>
+    }
+
+    public static String deriveFrontEndUrl(ProvidedCapability providedCapability) {
+<span class="fc" id="L63">        ExternallyProvidedService s = providedCapability.getSpec().getExternallyProvisionedService()</span>
+<span class="fc" id="L64">                .orElseThrow(IllegalArgumentException::new);</span>
+<span class="fc" id="L65">        final Map&lt;String, String&gt; capabilityParameters = ofNullable(providedCapability.getSpec().getCapabilityParameters())</span>
+<span class="fc" id="L66">                .orElse(Collections.emptyMap());</span>
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">        final String port = s.getPort().filter(p -&gt; !(p == 80 || p == 443)).map(p -&gt; &quot;:&quot; + p).orElse(&quot;&quot;);</span>
+        String protocol;
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">        if (s.getPort().map(p -&gt; p == 80).orElse(false)) {</span>
+<span class="nc" id="L70">            protocol = &quot;http&quot;;</span>
+        } else {
+<span class="fc" id="L72">            protocol = &quot;https&quot;;</span>
+        }
+<span class="fc" id="L74">        return ofNullable(capabilityParameters.get(&quot;frontEndUrl&quot;)).orElse(protocol + &quot;://&quot; + s.getHost() + port + &quot;/auth&quot;);</span>
+    }
+
+    public static CapabilityProvisioningStrategy provisioningStrategyOf(EntandoKeycloakServer e) {
+<span class="fc" id="L78">        return e.getSpec().getProvisioningStrategy().orElse(CapabilityProvisioningStrategy.DEPLOY_DIRECTLY);</span>
+    }
+
+    public static CapabilityProvisioningStrategy provisioningStrategyOf(ProvidedCapability e) {
+<span class="fc" id="L82">        return e.getSpec().getProvisioningStrategy().orElse(CapabilityProvisioningStrategy.DEPLOY_DIRECTLY);</span>
+    }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
