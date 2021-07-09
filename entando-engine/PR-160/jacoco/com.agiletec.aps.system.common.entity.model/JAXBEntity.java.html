@@ -13,25 +13,8 @@
  */
 package com.agiletec.aps.system.common.entity.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
-
-import org.entando.entando.ent.util.EntLogging.EntLogger;
-import org.entando.entando.ent.util.EntLogging.EntLogFactory;
-
-import com.agiletec.aps.system.common.entity.model.attribute.AttributeInterface;
 import com.agiletec.aps.system.common.entity.model.attribute.AbstractJAXBAttribute;
+import com.agiletec.aps.system.common.entity.model.attribute.AttributeInterface;
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBBooleanAttribute;
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBCompositeAttribute;
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBDateAttribute;
@@ -39,10 +22,20 @@ import com.agiletec.aps.system.common.entity.model.attribute.JAXBHypertextAttrib
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBListAttribute;
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBNumberAttribute;
 import com.agiletec.aps.system.common.entity.model.attribute.JAXBTextAttribute;
-import com.agiletec.aps.system.services.category.Category;
-import com.agiletec.aps.system.services.category.ICategoryManager;
-
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
 import org.entando.entando.aps.system.common.entity.model.attribute.JAXBEnumeratorMapAttribute;
+import org.entando.entando.ent.util.EntLogging.EntLogFactory;
+import org.entando.entando.ent.util.EntLogging.EntLogger;
 
 /**
  * @author E.Santoboni
@@ -52,64 +45,64 @@ import org.entando.entando.aps.system.common.entity.model.attribute.JAXBEnumerat
 @XmlSeeAlso({ArrayList.class, HashMap.class, JAXBBooleanAttribute.class, JAXBEnumeratorMapAttribute.class, JAXBCompositeAttribute.class, JAXBDateAttribute.class, JAXBHypertextAttribute.class, JAXBListAttribute.class, JAXBNumberAttribute.class, JAXBTextAttribute.class})
 public class JAXBEntity implements Serializable {
 
-<span class="fc" id="L55">    private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(JAXBEntity.class);</span>
+<span class="fc" id="L48">    private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(JAXBEntity.class);</span>
 
-<span class="fc" id="L57">    public JAXBEntity() {</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L50">    public JAXBEntity() {</span>
+<span class="fc" id="L51">    }</span>
 
-<span class="fc" id="L60">    public JAXBEntity(IApsEntity mainEntity, String langCode) {</span>
+<span class="fc" id="L53">    public JAXBEntity(IApsEntity mainEntity, String langCode) {</span>
         try {
-<span class="fc" id="L62">            this.setDescription(mainEntity.getDescription());</span>
-<span class="fc" id="L63">            this.setId(mainEntity.getId());</span>
-<span class="fc" id="L64">            this.setMainGroup(mainEntity.getMainGroup());</span>
-<span class="fc" id="L65">            this.setTypeCode(mainEntity.getTypeCode());</span>
-<span class="fc" id="L66">            this.setTypeDescription(mainEntity.getTypeDescription());</span>
-<span class="fc" id="L67">            this.setGroups(mainEntity.getGroups());</span>
-<span class="fc" id="L68">            List&lt;AttributeInterface&gt; attributes = mainEntity.getAttributeList();</span>
-<span class="pc bpc" id="L69" title="2 of 4 branches missed.">            if (null == attributes || attributes.isEmpty()) {</span>
-<span class="nc" id="L70">                return;</span>
+<span class="fc" id="L55">            this.setDescription(mainEntity.getDescription());</span>
+<span class="fc" id="L56">            this.setId(mainEntity.getId());</span>
+<span class="fc" id="L57">            this.setMainGroup(mainEntity.getMainGroup());</span>
+<span class="fc" id="L58">            this.setTypeCode(mainEntity.getTypeCode());</span>
+<span class="fc" id="L59">            this.setTypeDescription(mainEntity.getTypeDescription());</span>
+<span class="fc" id="L60">            this.setGroups(mainEntity.getGroups());</span>
+<span class="fc" id="L61">            List&lt;AttributeInterface&gt; attributes = mainEntity.getAttributeList();</span>
+<span class="pc bpc" id="L62" title="2 of 4 branches missed.">            if (null == attributes || attributes.isEmpty()) {</span>
+<span class="nc" id="L63">                return;</span>
             }
-<span class="fc bfc" id="L72" title="All 2 branches covered.">            for (int i = 0; i &lt; attributes.size(); i++) {</span>
-<span class="fc" id="L73">                AttributeInterface attribute = attributes.get(i);</span>
-<span class="fc" id="L74">                AbstractJAXBAttribute jaxbAttribute = attribute.getJAXBAttribute(langCode);</span>
-<span class="pc bpc" id="L75" title="1 of 2 branches missed.">                if (null != jaxbAttribute) {</span>
-<span class="fc" id="L76">                    this.getAttributes().add(jaxbAttribute);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            for (int i = 0; i &lt; attributes.size(); i++) {</span>
+<span class="fc" id="L66">                AttributeInterface attribute = attributes.get(i);</span>
+<span class="fc" id="L67">                AbstractJAXBAttribute jaxbAttribute = attribute.getJAXBAttribute(langCode);</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">                if (null != jaxbAttribute) {</span>
+<span class="fc" id="L69">                    this.getAttributes().add(jaxbAttribute);</span>
                 }
             }
-<span class="nc" id="L79">        } catch (Throwable t) {</span>
-<span class="nc" id="L80">            _logger.error(&quot;Error creating JAXBEntity&quot;, t);</span>
-<span class="nc" id="L81">            throw new RuntimeException(&quot;Error creating JAXBEntity&quot;, t);</span>
-<span class="fc" id="L82">        }</span>
-<span class="fc" id="L83">    }</span>
+<span class="nc" id="L72">        } catch (Throwable t) {</span>
+<span class="nc" id="L73">            _logger.error(&quot;Error creating JAXBEntity&quot;, t);</span>
+<span class="nc" id="L74">            throw new RuntimeException(&quot;Error creating JAXBEntity&quot;, t);</span>
+<span class="fc" id="L75">        }</span>
+<span class="fc" id="L76">    }</span>
 
     public IApsEntity buildEntity(IApsEntity prototype, String langCode) {
         try {
-<span class="fc" id="L87">            prototype.setDescription(this.getDescription());</span>
-<span class="fc" id="L88">            prototype.setId(this.getId());</span>
-<span class="fc" id="L89">            prototype.setMainGroup(this.getMainGroup());</span>
-<span class="fc" id="L90">            prototype.setTypeCode(this.getTypeCode());</span>
-<span class="fc" id="L91">            prototype.setTypeDescription(this.getTypeDescription());</span>
-<span class="pc bpc" id="L92" title="2 of 4 branches missed.">            if (null != this.getGroups() &amp;&amp; !this.getGroups().isEmpty()) {</span>
-<span class="nc" id="L93">                Iterator&lt;String&gt; iter = this.getGroups().iterator();</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">                while (iter.hasNext()) {</span>
-<span class="nc" id="L95">                    prototype.addGroup(iter.next());</span>
+<span class="fc" id="L80">            prototype.setDescription(this.getDescription());</span>
+<span class="fc" id="L81">            prototype.setId(this.getId());</span>
+<span class="fc" id="L82">            prototype.setMainGroup(this.getMainGroup());</span>
+<span class="fc" id="L83">            prototype.setTypeCode(this.getTypeCode());</span>
+<span class="fc" id="L84">            prototype.setTypeDescription(this.getTypeDescription());</span>
+<span class="pc bpc" id="L85" title="2 of 4 branches missed.">            if (null != this.getGroups() &amp;&amp; !this.getGroups().isEmpty()) {</span>
+<span class="nc" id="L86">                Iterator&lt;String&gt; iter = this.getGroups().iterator();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">                while (iter.hasNext()) {</span>
+<span class="nc" id="L88">                    prototype.addGroup(iter.next());</span>
                 }
             }
-<span class="pc bpc" id="L98" title="1 of 2 branches missed.">            if (null == this.getAttributes()) {</span>
-<span class="nc" id="L99">                return prototype;</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (null == this.getAttributes()) {</span>
+<span class="nc" id="L92">                return prototype;</span>
             }
-<span class="fc bfc" id="L101" title="All 2 branches covered.">            for (int i = 0; i &lt; this.getAttributes().size(); i++) {</span>
-<span class="fc" id="L102">                AbstractJAXBAttribute jaxrAttribute = this.getAttributes().get(i);</span>
-<span class="fc" id="L103">                AttributeInterface attribute = (AttributeInterface) prototype.getAttribute(jaxrAttribute.getName());</span>
-<span class="pc bpc" id="L104" title="2 of 4 branches missed.">                if (null != attribute &amp;&amp; attribute.getType().equals(jaxrAttribute.getType())) {</span>
-<span class="fc" id="L105">                    attribute.valueFrom(jaxrAttribute, langCode);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">            for (int i = 0; i &lt; this.getAttributes().size(); i++) {</span>
+<span class="fc" id="L95">                AbstractJAXBAttribute jaxrAttribute = this.getAttributes().get(i);</span>
+<span class="fc" id="L96">                AttributeInterface attribute = (AttributeInterface) prototype.getAttribute(jaxrAttribute.getName());</span>
+<span class="pc bpc" id="L97" title="2 of 4 branches missed.">                if (null != attribute &amp;&amp; attribute.getType().equals(jaxrAttribute.getType())) {</span>
+<span class="fc" id="L98">                    attribute.valueFrom(jaxrAttribute, langCode);</span>
                 }
             }
-<span class="nc" id="L108">        } catch (Throwable t) {</span>
-<span class="nc" id="L109">            _logger.error(&quot;Error creating Entity&quot;, t);</span>
-<span class="nc" id="L110">            throw new RuntimeException(&quot;Error creating Entity&quot;, t);</span>
-<span class="fc" id="L111">        }</span>
-<span class="fc" id="L112">        return prototype;</span>
+<span class="nc" id="L101">        } catch (Throwable t) {</span>
+<span class="nc" id="L102">            _logger.error(&quot;Error creating Entity&quot;, t);</span>
+<span class="nc" id="L103">            throw new RuntimeException(&quot;Error creating Entity&quot;, t);</span>
+<span class="fc" id="L104">        }</span>
+<span class="fc" id="L105">        return prototype;</span>
     }
 
     /**
@@ -119,7 +112,7 @@ public class JAXBEntity implements Serializable {
      */
     @XmlElement(name = &quot;id&quot;, required = true)
     public String getId() {
-<span class="fc" id="L122">        return this._id;</span>
+<span class="fc" id="L115">        return this._id;</span>
     }
 
     /**
@@ -128,8 +121,8 @@ public class JAXBEntity implements Serializable {
      * @param id The identification string of the Entity.
      */
     public void setId(String id) {
-<span class="fc" id="L131">        this._id = id;</span>
-<span class="fc" id="L132">    }</span>
+<span class="fc" id="L124">        this._id = id;</span>
+<span class="fc" id="L125">    }</span>
 
     /**
      * Return the code of the Entity Type.
@@ -138,7 +131,7 @@ public class JAXBEntity implements Serializable {
      */
     @XmlElement(name = &quot;typeCode&quot;, required = true)
     public String getTypeCode() {
-<span class="fc" id="L141">        return this._typeCode;</span>
+<span class="fc" id="L134">        return this._typeCode;</span>
     }
 
     /**
@@ -147,8 +140,8 @@ public class JAXBEntity implements Serializable {
      * @param typeCode The Entity Type code.
      */
     protected void setTypeCode(String typeCode) {
-<span class="fc" id="L150">        this._typeCode = typeCode;</span>
-<span class="fc" id="L151">    }</span>
+<span class="fc" id="L143">        this._typeCode = typeCode;</span>
+<span class="fc" id="L144">    }</span>
 
     /**
      * Return the description of the Content Type.
@@ -157,7 +150,7 @@ public class JAXBEntity implements Serializable {
      */
     @XmlElement(name = &quot;typeDescription&quot;, required = true)
     public String getTypeDescription() {
-<span class="fc" id="L160">        return this._typeDescription;</span>
+<span class="fc" id="L153">        return this._typeDescription;</span>
     }
 
     /**
@@ -166,8 +159,8 @@ public class JAXBEntity implements Serializable {
      * @param typeDescription The description of the Entity Type.
      */
     protected void setTypeDescription(String typeDescription) {
-<span class="fc" id="L169">        this._typeDescription = typeDescription;</span>
-<span class="fc" id="L170">    }</span>
+<span class="fc" id="L162">        this._typeDescription = typeDescription;</span>
+<span class="fc" id="L163">    }</span>
 
     /**
      * Return the description of the Entity.
@@ -176,7 +169,7 @@ public class JAXBEntity implements Serializable {
      */
     @XmlElement(name = &quot;description&quot;, required = true)
     public String getDescription() {
-<span class="fc" id="L179">        return this._description;</span>
+<span class="fc" id="L172">        return this._description;</span>
     }
 
     /**
@@ -185,8 +178,8 @@ public class JAXBEntity implements Serializable {
      * @param description The description to associate to the Entity.
      */
     protected void setDescription(String description) {
-<span class="fc" id="L188">        this._description = description;</span>
-<span class="fc" id="L189">    }</span>
+<span class="fc" id="L181">        this._description = description;</span>
+<span class="fc" id="L182">    }</span>
 
     /**
      * Return the string that identifies the main group this Entity belongs to.
@@ -195,7 +188,7 @@ public class JAXBEntity implements Serializable {
      */
     @XmlElement(name = &quot;mainGroup&quot;, required = true)
     public String getMainGroup() {
-<span class="fc" id="L198">        return _mainGroup;</span>
+<span class="fc" id="L191">        return _mainGroup;</span>
     }
 
     /**
@@ -204,8 +197,8 @@ public class JAXBEntity implements Serializable {
      * @param mainGroup The main group this Entity belongs to.
      */
     protected void setMainGroup(String mainGroup) {
-<span class="fc" id="L207">        this._mainGroup = mainGroup;</span>
-<span class="fc" id="L208">    }</span>
+<span class="fc" id="L200">        this._mainGroup = mainGroup;</span>
+<span class="fc" id="L201">    }</span>
 
     /**
      * Return the set of codes of the additional groups.
@@ -215,22 +208,22 @@ public class JAXBEntity implements Serializable {
     @XmlElement(name = &quot;group&quot;, required = true)
     @XmlElementWrapper(name = &quot;groups&quot;)
     public Set&lt;String&gt; getGroups() {
-<span class="fc" id="L218">        return _groups;</span>
+<span class="fc" id="L211">        return _groups;</span>
     }
 
     protected void setGroups(Set&lt;String&gt; groups) {
-<span class="fc" id="L222">        this._groups = groups;</span>
-<span class="fc" id="L223">    }</span>
+<span class="fc" id="L215">        this._groups = groups;</span>
+<span class="fc" id="L216">    }</span>
 
     @XmlElement(name = &quot;attribute&quot;, required = true)
     @XmlElementWrapper(name = &quot;attributes&quot;)
     public List&lt;AbstractJAXBAttribute&gt; getAttributes() {
-<span class="fc" id="L228">        return _attributes;</span>
+<span class="fc" id="L221">        return _attributes;</span>
     }
 
     protected void setAttributes(List&lt;AbstractJAXBAttribute&gt; attributes) {
-<span class="nc" id="L232">        this._attributes = attributes;</span>
-<span class="nc" id="L233">    }</span>
+<span class="nc" id="L225">        this._attributes = attributes;</span>
+<span class="nc" id="L226">    }</span>
 
     private String _id;
     private String _typeCode;
@@ -238,7 +231,7 @@ public class JAXBEntity implements Serializable {
     private String _description;
     private String _mainGroup;
     private Set&lt;String&gt; _groups;
-<span class="fc" id="L241">    private List&lt;AbstractJAXBAttribute&gt; _attributes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L234">    private List&lt;AbstractJAXBAttribute&gt; _attributes = new ArrayList&lt;&gt;();</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -13,18 +13,15 @@
  */
 package com.agiletec.aps.system.common.entity.parse;
 
-import org.entando.entando.ent.util.EntLogging.EntLogger;
-import org.entando.entando.ent.util.EntLogging.EntLogFactory;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
-
 import com.agiletec.aps.system.common.entity.ApsEntityManager;
 import com.agiletec.aps.system.common.entity.model.IApsEntity;
 import com.agiletec.aps.system.common.entity.model.attribute.AttributeInterface;
 import com.agiletec.aps.system.common.entity.parse.attribute.AttributeHandlerInterface;
-import com.agiletec.aps.system.services.category.Category;
-import com.agiletec.aps.system.services.category.ICategoryManager;
+import org.entando.entando.ent.util.EntLogging.EntLogFactory;
+import org.entando.entando.ent.util.EntLogging.EntLogger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * This class supports the parsing of the XML string that represents an Entity.
@@ -35,9 +32,9 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
  * interface. 
  * @author M.Diana - E.Santoboni
  */
-<span class="fc" id="L38">public class EntityHandler extends DefaultHandler {</span>
+<span class="fc" id="L35">public class EntityHandler extends DefaultHandler {</span>
 
-<span class="fc" id="L40">	private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(EntityHandler.class);</span>
+<span class="fc" id="L37">	private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(EntityHandler.class);</span>
 	
     /**
      * Handler initialization.
@@ -45,58 +42,58 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * @param xmlAttributeRootElementName The name of the root XML attribute.
      */
     public void initHandler(IApsEntity entity, String xmlAttributeRootElementName) {
-<span class="fc" id="L48">        this.reset();</span>
-<span class="fc" id="L49">        this._currentEntity = entity;</span>
-<span class="fc" id="L50">        this._xmlAttributeRootElementName = xmlAttributeRootElementName;</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L45">        this.reset();</span>
+<span class="fc" id="L46">        this._currentEntity = entity;</span>
+<span class="fc" id="L47">        this._xmlAttributeRootElementName = xmlAttributeRootElementName;</span>
+<span class="fc" id="L48">    }</span>
     
     public EntityHandler getHandlerPrototype() {
-<span class="fc" id="L54">        EntityHandler handler = null;</span>
+<span class="fc" id="L51">        EntityHandler handler = null;</span>
         try {
-<span class="fc" id="L56">            Class handlerClass = Class.forName(this.getClass().getName());</span>
-<span class="fc" id="L57">            handler = (EntityHandler) handlerClass.newInstance();</span>
-<span class="nc" id="L58">        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {</span>
-<span class="nc" id="L59">            throw new RuntimeException(&quot;Error while cloning the entity handler: class &quot; + this.getClass().getName(), e);</span>
-<span class="fc" id="L60">        }</span>
-<span class="fc" id="L61">        return handler;</span>
+<span class="fc" id="L53">            Class handlerClass = Class.forName(this.getClass().getName());</span>
+<span class="fc" id="L54">            handler = (EntityHandler) handlerClass.newInstance();</span>
+<span class="nc" id="L55">        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {</span>
+<span class="nc" id="L56">            throw new RuntimeException(&quot;Error while cloning the entity handler: class &quot; + this.getClass().getName(), e);</span>
+<span class="fc" id="L57">        }</span>
+<span class="fc" id="L58">        return handler;</span>
     }
     
 	@Override
     public void characters(char[] buf, int offset, int length) throws SAXException {
-<span class="fc" id="L66">        String s = new String(buf, offset, length);</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (_textBuffer == null) {</span>
-<span class="fc" id="L68">            _textBuffer = new StringBuffer(s);</span>
+<span class="fc" id="L63">        String s = new String(buf, offset, length);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (_textBuffer == null) {</span>
+<span class="fc" id="L65">            _textBuffer = new StringBuffer(s);</span>
         } else {
-<span class="fc" id="L70">            _textBuffer.append(s);</span>
+<span class="fc" id="L67">            _textBuffer.append(s);</span>
         }
-<span class="fc" id="L72">    }</span>
+<span class="fc" id="L69">    }</span>
     
 	@Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-<span class="fc" id="L76">        this._textBuffer = null;</span>
+<span class="fc" id="L73">        this._textBuffer = null;</span>
         try {
-<span class="fc bfc" id="L78" title="All 2 branches covered.">            if (this.isIntoAttributes()) {</span>
-<span class="fc" id="L79">                this.startAttribute(attributes, qName);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (this.isIntoAttributes()) {</span>
+<span class="fc" id="L76">                this.startAttribute(attributes, qName);</span>
             } else {
-<span class="fc bfc" id="L81" title="All 2 branches covered.">                if (qName.equals(this._xmlAttributeRootElementName)) {</span>
-<span class="fc" id="L82">                    this.startEntity(attributes, qName);</span>
-<span class="fc bfc" id="L83" title="All 2 branches covered.">                } else if (qName.equals(&quot;descr&quot;)) {</span>
-<span class="fc" id="L84">                    this.startDescr(attributes, qName);</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">                } else if (qName.equals(&quot;groups&quot;)) {</span>
-<span class="fc" id="L86">                    this.startGroups(attributes, qName);</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">                } else if (qName.equals(&quot;group&quot;)) {</span>
-<span class="fc" id="L88">                    this.startGroup(attributes, qName);</span>
-<span class="fc bfc" id="L89" title="All 2 branches covered.">                } else if (qName.equals(&quot;attributes&quot;)) {</span>
-<span class="fc" id="L90">                    startAttributes(attributes, qName);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">                if (qName.equals(this._xmlAttributeRootElementName)) {</span>
+<span class="fc" id="L79">                    this.startEntity(attributes, qName);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">                } else if (qName.equals(&quot;descr&quot;)) {</span>
+<span class="fc" id="L81">                    this.startDescr(attributes, qName);</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                } else if (qName.equals(&quot;groups&quot;)) {</span>
+<span class="fc" id="L83">                    this.startGroups(attributes, qName);</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">                } else if (qName.equals(&quot;group&quot;)) {</span>
+<span class="fc" id="L85">                    this.startGroup(attributes, qName);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                } else if (qName.equals(&quot;attributes&quot;)) {</span>
+<span class="fc" id="L87">                    startAttributes(attributes, qName);</span>
                 } else {
-<span class="fc" id="L92">                    this.startEntityElement(uri, localName, qName, attributes);</span>
+<span class="fc" id="L89">                    this.startEntityElement(uri, localName, qName, attributes);</span>
                 }
             }
-<span class="nc" id="L95">        } catch (Throwable t) {</span>
-<span class="nc" id="L96">            _logger.error(&quot;error in startElement&quot;, t);</span>
-<span class="nc" id="L97">            throw new SAXException(t.getMessage(), new Exception(t));</span>
-<span class="fc" id="L98">        }</span>
-<span class="fc" id="L99">    }</span>
+<span class="nc" id="L92">        } catch (Throwable t) {</span>
+<span class="nc" id="L93">            _logger.error(&quot;error in startElement&quot;, t);</span>
+<span class="nc" id="L94">            throw new SAXException(t.getMessage(), new Exception(t));</span>
+<span class="fc" id="L95">        }</span>
+<span class="fc" id="L96">    }</span>
 
     /**
      * Initialize the entity. This method is triggered by the startElement event
@@ -108,11 +105,11 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * @throws SAXException If errors are detected while parsing the XML string.
      */
     protected void startEntity(Attributes attributes, String qName) throws SAXException {
-<span class="fc" id="L111">        String id = this.extractXmlAttribute(attributes, &quot;id&quot;, qName, true);</span>
-<span class="fc" id="L112">        this.getCurrentEntity().setId(id);</span>
-<span class="fc" id="L113">        String typecode = this.extractXmlAttribute(attributes, &quot;typecode&quot;, qName, true);</span>
-<span class="fc" id="L114">        this.getCurrentEntity().setTypeCode(typecode);</span>
-<span class="fc" id="L115">    }</span>
+<span class="fc" id="L108">        String id = this.extractXmlAttribute(attributes, &quot;id&quot;, qName, true);</span>
+<span class="fc" id="L109">        this.getCurrentEntity().setId(id);</span>
+<span class="fc" id="L110">        String typecode = this.extractXmlAttribute(attributes, &quot;typecode&quot;, qName, true);</span>
+<span class="fc" id="L111">        this.getCurrentEntity().setTypeCode(typecode);</span>
+<span class="fc" id="L112">    }</span>
 
     /**
      * This method performs the operations not handled in the base handler.
@@ -130,35 +127,35 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
     protected void startEntityElement(String uri, String localName,
             String qName, Attributes attributes) throws SAXException {
         //default: do nothing
-<span class="fc" id="L133">    }</span>
+<span class="fc" id="L130">    }</span>
     
 	@Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         try {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">            if (this.isIntoAttributes()) {</span>
-<span class="fc bfc" id="L139" title="All 2 branches covered.">                if (qName.equals(&quot;attributes&quot;)) {</span>
-<span class="fc" id="L140">                    this.endAttributes();</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (this.isIntoAttributes()) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">                if (qName.equals(&quot;attributes&quot;)) {</span>
+<span class="fc" id="L137">                    this.endAttributes();</span>
                 } else {
-<span class="fc" id="L142">                    this.endAttribute(qName);</span>
+<span class="fc" id="L139">                    this.endAttribute(qName);</span>
                 }
             } else {
-<span class="fc bfc" id="L145" title="All 2 branches covered.">                if (qName.equals(this._xmlAttributeRootElementName)) {</span>
-<span class="fc" id="L146">                    this.endEntity();</span>
-<span class="fc bfc" id="L147" title="All 2 branches covered.">                } else if (qName.equals(&quot;descr&quot;)) {</span>
-<span class="fc" id="L148">                    this.endDescr();</span>
-<span class="fc bfc" id="L149" title="All 2 branches covered.">                } else if (qName.equals(&quot;groups&quot;)) {</span>
-<span class="fc" id="L150">                    this.endGroups();</span>
-<span class="fc bfc" id="L151" title="All 2 branches covered.">                } else if (qName.equals(&quot;group&quot;)) {</span>
-<span class="fc" id="L152">                    this.endGroup();</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">                if (qName.equals(this._xmlAttributeRootElementName)) {</span>
+<span class="fc" id="L143">                    this.endEntity();</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                } else if (qName.equals(&quot;descr&quot;)) {</span>
+<span class="fc" id="L145">                    this.endDescr();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                } else if (qName.equals(&quot;groups&quot;)) {</span>
+<span class="fc" id="L147">                    this.endGroups();</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">                } else if (qName.equals(&quot;group&quot;)) {</span>
+<span class="fc" id="L149">                    this.endGroup();</span>
                 } else {
-<span class="fc" id="L154">                    this.endEntityElement(uri, localName, qName);</span>
+<span class="fc" id="L151">                    this.endEntityElement(uri, localName, qName);</span>
                 }
             }
-<span class="nc" id="L157">        } catch (Throwable t) {</span>
-<span class="nc" id="L158">        	_logger.error(&quot;error in endElement&quot;, t);</span>
-<span class="nc" id="L159">            throw new SAXException(t.getMessage(), new Exception(t));</span>
-<span class="fc" id="L160">        }</span>
-<span class="fc" id="L161">    }</span>
+<span class="nc" id="L154">        } catch (Throwable t) {</span>
+<span class="nc" id="L155">        	_logger.error(&quot;error in endElement&quot;, t);</span>
+<span class="nc" id="L156">            throw new SAXException(t.getMessage(), new Exception(t));</span>
+<span class="fc" id="L157">        }</span>
+<span class="fc" id="L158">    }</span>
 
     /**
      * This is the last step in the interpretation process of the XML entity.
@@ -170,7 +167,7 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      */
     private void endEntity() {
         // nothing to do
-<span class="fc" id="L173">    }</span>
+<span class="fc" id="L170">    }</span>
 
     /**
      * Perform the operations for those attributes not handled in the base handler.
@@ -186,73 +183,73 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      */
     protected void endEntityElement(String uri, String localName, String qName) throws SAXException {
         // default: nothing to do
-<span class="fc" id="L189">    }</span>
+<span class="fc" id="L186">    }</span>
     
     private void startAttributes(Attributes attributes, String qName) throws SAXException {
-<span class="fc" id="L192">        this.setIntoAttributes(true);</span>
-<span class="fc" id="L193">    }</span>
+<span class="fc" id="L189">        this.setIntoAttributes(true);</span>
+<span class="fc" id="L190">    }</span>
     
     private void endAttributes() {
-<span class="fc" id="L196">        this.setIntoAttributes(false);</span>
-<span class="fc" id="L197">    }</span>
+<span class="fc" id="L193">        this.setIntoAttributes(false);</span>
+<span class="fc" id="L194">    }</span>
     
     private void startDescr(Attributes attributes, String qName) throws SAXException {
         // nothing to do
-<span class="fc" id="L201">    }</span>
+<span class="fc" id="L198">    }</span>
     
     private void endDescr() {
-<span class="fc bfc" id="L204" title="All 2 branches covered.">        if (null != this._textBuffer) {</span>
-<span class="fc" id="L205">            this._currentEntity.setDescription(this._textBuffer.toString());</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">        if (null != this._textBuffer) {</span>
+<span class="fc" id="L202">            this._currentEntity.setDescription(this._textBuffer.toString());</span>
         }
-<span class="fc" id="L207">    }</span>
+<span class="fc" id="L204">    }</span>
     
     private void startGroups(Attributes attributes, String qName) throws SAXException {
-<span class="fc" id="L210">        String mainGroup = extractXmlAttribute(attributes, &quot;mainGroup&quot;, qName, false);</span>
-<span class="fc" id="L211">        this._currentEntity.setMainGroup(mainGroup);</span>
-<span class="fc" id="L212">    }</span>
+<span class="fc" id="L207">        String mainGroup = extractXmlAttribute(attributes, &quot;mainGroup&quot;, qName, false);</span>
+<span class="fc" id="L208">        this._currentEntity.setMainGroup(mainGroup);</span>
+<span class="fc" id="L209">    }</span>
     
     private void endGroups() {
         // nothing to do
-<span class="fc" id="L216">    }</span>
+<span class="fc" id="L213">    }</span>
     
     private void startGroup(Attributes attributes, String qName) throws SAXException {
-<span class="fc" id="L219">        String groupName = extractXmlAttribute(attributes, &quot;name&quot;, qName, false);</span>
-<span class="fc" id="L220">        this._currentEntity.addGroup(groupName);</span>
-<span class="fc" id="L221">    }</span>
+<span class="fc" id="L216">        String groupName = extractXmlAttribute(attributes, &quot;name&quot;, qName, false);</span>
+<span class="fc" id="L217">        this._currentEntity.addGroup(groupName);</span>
+<span class="fc" id="L218">    }</span>
 
     private void endGroup() {
         // nothing to do
-<span class="fc" id="L225">    }</span>
+<span class="fc" id="L222">    }</span>
     
     private void startAttribute(Attributes attributes, String qName) throws SAXException {
-<span class="fc bfc" id="L228" title="All 2 branches covered.">        if (null == this._currentAttr) {</span>
-<span class="fc" id="L229">            String attributeName = this.extractXmlAttribute(attributes, &quot;name&quot;, qName, false);</span>
-<span class="fc bfc" id="L230" title="All 2 branches covered.">            if (null != attributeName) {</span>
-<span class="fc" id="L231">				String attributeType = this.extractXmlAttribute(attributes, &quot;attributetype&quot;, qName, false);</span>
-<span class="fc" id="L232">                this._currentAttr = (AttributeInterface) this._currentEntity.getAttribute(attributeName);</span>
-<span class="pc bpc" id="L233" title="1 of 4 branches missed.">                if (null != this._currentAttr &amp;&amp; this._currentAttr.getType().equals(attributeType)) {</span>
-<span class="fc" id="L234">                    this._parserModule = this._currentAttr.getHandler();</span>
-<span class="fc" id="L235">                    this._parserModule.setCurrentAttr(this._currentAttr);</span>
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        if (null == this._currentAttr) {</span>
+<span class="fc" id="L226">            String attributeName = this.extractXmlAttribute(attributes, &quot;name&quot;, qName, false);</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">            if (null != attributeName) {</span>
+<span class="fc" id="L228">				String attributeType = this.extractXmlAttribute(attributes, &quot;attributetype&quot;, qName, false);</span>
+<span class="fc" id="L229">                this._currentAttr = (AttributeInterface) this._currentEntity.getAttribute(attributeName);</span>
+<span class="pc bpc" id="L230" title="1 of 4 branches missed.">                if (null != this._currentAttr &amp;&amp; this._currentAttr.getType().equals(attributeType)) {</span>
+<span class="fc" id="L231">                    this._parserModule = this._currentAttr.getHandler();</span>
+<span class="fc" id="L232">                    this._parserModule.setCurrentAttr(this._currentAttr);</span>
                 } else {
-<span class="fc" id="L237">					this._parserModule = null;</span>
-<span class="fc" id="L238">					this._currentAttr = null;</span>
+<span class="fc" id="L234">					this._parserModule = null;</span>
+<span class="fc" id="L235">					this._currentAttr = null;</span>
 				}
             }
         }
-<span class="fc bfc" id="L242" title="All 2 branches covered.">        if (null != _parserModule) {</span>
-<span class="fc" id="L243">            this._parserModule.startAttribute(attributes, qName);</span>
+<span class="fc bfc" id="L239" title="All 2 branches covered.">        if (null != _parserModule) {</span>
+<span class="fc" id="L240">            this._parserModule.startAttribute(attributes, qName);</span>
         }
-<span class="fc" id="L245">    }</span>
+<span class="fc" id="L242">    }</span>
 
     private void endAttribute(String qName) {
-<span class="fc bfc" id="L248" title="All 2 branches covered.">        if (null != this._parserModule) {</span>
-<span class="fc" id="L249">            this._parserModule.endAttribute(qName, this._textBuffer);</span>
-<span class="fc bfc" id="L250" title="All 2 branches covered.">            if (this._parserModule.isEndAttribute(qName)) {</span>
-<span class="fc" id="L251">                this._parserModule = null;</span>
-<span class="fc" id="L252">				this._currentAttr = null;</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        if (null != this._parserModule) {</span>
+<span class="fc" id="L246">            this._parserModule.endAttribute(qName, this._textBuffer);</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">            if (this._parserModule.isEndAttribute(qName)) {</span>
+<span class="fc" id="L248">                this._parserModule = null;</span>
+<span class="fc" id="L249">				this._currentAttr = null;</span>
             }
         }
-<span class="fc" id="L255">    }</span>
+<span class="fc" id="L252">    }</span>
 
     /**
      * Recupera in modo controllato un attributo di un tag xml dall'insieme
@@ -267,12 +264,12 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      */
     protected String extractXmlAttribute(Attributes attrs, String attributeName,
             String qName, boolean required) throws SAXException {
-<span class="fc" id="L270">        int index = attrs.getIndex(attributeName);</span>
-<span class="fc" id="L271">        String value = attrs.getValue(index);</span>
-<span class="pc bpc" id="L272" title="1 of 4 branches missed.">        if (required &amp;&amp; value == null) {</span>
-<span class="nc" id="L273">            throw new SAXException(&quot;Xml Attribute '&quot; + attributeName + &quot;' not found in tag &lt;&quot; + qName + &quot;&gt;&quot;);</span>
+<span class="fc" id="L267">        int index = attrs.getIndex(attributeName);</span>
+<span class="fc" id="L268">        String value = attrs.getValue(index);</span>
+<span class="pc bpc" id="L269" title="1 of 4 branches missed.">        if (required &amp;&amp; value == null) {</span>
+<span class="nc" id="L270">            throw new SAXException(&quot;Xml Attribute '&quot; + attributeName + &quot;' not found in tag &lt;&quot; + qName + &quot;&gt;&quot;);</span>
         }
-<span class="fc" id="L275">        return value;</span>
+<span class="fc" id="L272">        return value;</span>
     }
 
     /**
@@ -282,7 +279,7 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * componenti l'entità, false in caso contrario.
      */
     protected boolean isIntoAttributes() {
-<span class="fc" id="L285">        return _intoAttributes;</span>
+<span class="fc" id="L282">        return _intoAttributes;</span>
     }
 
     /**
@@ -292,15 +289,15 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * lista di attributi componenti l'entità, false in caso contrario.
      */
     protected void setIntoAttributes(boolean intoAttributes) {
-<span class="fc" id="L295">        this._intoAttributes = intoAttributes;</span>
-<span class="fc" id="L296">    }</span>
+<span class="fc" id="L292">        this._intoAttributes = intoAttributes;</span>
+<span class="fc" id="L293">    }</span>
 
     /**
      * Resituisce il buffer relativo al testo incluso.
      * @return Il buffer relativo al testo incluso.
      */
     protected StringBuffer getTextBuffer() {
-<span class="nc" id="L303">        return this._textBuffer;</span>
+<span class="nc" id="L300">        return this._textBuffer;</span>
     }
 
     /**
@@ -308,7 +305,7 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * @return L'entità gestita dall'handler.
      */
     protected IApsEntity getCurrentEntity() {
-<span class="fc" id="L311">        return _currentEntity;</span>
+<span class="fc" id="L308">        return _currentEntity;</span>
     }
 
     /**
@@ -317,13 +314,13 @@ import com.agiletec.aps.system.services.category.ICategoryManager;
      * elementi dell'handler, prima di effettuare la scanzìsione del documento.
      */
     protected void reset() {
-<span class="fc" id="L320">        this._currentEntity = null;</span>
-<span class="fc" id="L321">        this._intoAttributes = false;</span>
-<span class="fc" id="L322">        this._parserModule = null;</span>
-<span class="fc" id="L323">        this._textBuffer = null;</span>
-<span class="fc" id="L324">        this._xmlAttributeRootElementName = null;</span>
-<span class="fc" id="L325">        this._currentAttr = null;</span>
-<span class="fc" id="L326">    }</span>
+<span class="fc" id="L317">        this._currentEntity = null;</span>
+<span class="fc" id="L318">        this._intoAttributes = false;</span>
+<span class="fc" id="L319">        this._parserModule = null;</span>
+<span class="fc" id="L320">        this._textBuffer = null;</span>
+<span class="fc" id="L321">        this._xmlAttributeRootElementName = null;</span>
+<span class="fc" id="L322">        this._currentAttr = null;</span>
+<span class="fc" id="L323">    }</span>
     
     private boolean _intoAttributes;
     private IApsEntity _currentEntity;
