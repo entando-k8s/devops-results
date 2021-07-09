@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -57,64 +58,64 @@ import org.entando.entando.aps.system.common.entity.model.attribute.JAXBEnumerat
 public class JAXBContent extends JAXBEntity implements Serializable {
     
     public JAXBContent() {
-<span class="fc" id="L60">        super();</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L61">        super();</span>
+<span class="fc" id="L62">    }</span>
     
     public JAXBContent(Content mainContent, String langCode) {
-<span class="fc" id="L64">        super(mainContent, langCode);</span>
-<span class="fc" id="L65">        this.setCreated(mainContent.getCreated());</span>
-<span class="fc" id="L66">        this.setLastModified(mainContent.getLastModified());</span>
-<span class="fc" id="L67">        this.setVersion(mainContent.getVersion());</span>
-<span class="fc" id="L68">        this.setLastEditor(mainContent.getLastEditor());</span>
-<span class="fc" id="L69">        this.setCategories(mainContent.getCategories());</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L65">        super(mainContent, langCode);</span>
+<span class="fc" id="L66">        this.setCreated(mainContent.getCreated());</span>
+<span class="fc" id="L67">        this.setLastModified(mainContent.getLastModified());</span>
+<span class="fc" id="L68">        this.setVersion(mainContent.getVersion());</span>
+<span class="fc" id="L69">        this.setLastEditor(mainContent.getLastEditor());</span>
+<span class="fc" id="L70">        this.setCategories(mainContent.getCategories());</span>
+<span class="fc" id="L71">    }</span>
 
     public IApsEntity buildEntity(Content prototype, ICategoryManager categoryManager, String langCode) {
-<span class="fc" id="L73">        Content filledEntity = (Content) super.buildEntity(prototype, langCode);</span>
-<span class="pc bpc" id="L74" title="3 of 4 branches missed.">        if (null != this.getCategories() &amp;&amp; !this.getCategories().isEmpty()) {</span>
-<span class="nc" id="L75">            Iterator&lt;String&gt; iter = this.getCategories().iterator();</span>
-<span class="nc bnc" id="L76" title="All 2 branches missed.">            while (iter.hasNext()) {</span>
-<span class="nc" id="L77">                String categoryCode = iter.next();</span>
-<span class="nc" id="L78">                Category category = categoryManager.getCategory(categoryCode);</span>
-<span class="nc bnc" id="L79" title="All 2 branches missed.">                if (null != category) {</span>
-<span class="nc" id="L80">                    filledEntity.addCategory(category);</span>
+<span class="fc" id="L74">        Content filledEntity = (Content) super.buildEntity(prototype, langCode);</span>
+<span class="pc bpc" id="L75" title="3 of 4 branches missed.">        if (null != this.getCategories() &amp;&amp; !this.getCategories().isEmpty()) {</span>
+<span class="nc" id="L76">            Iterator&lt;String&gt; iter = this.getCategories().iterator();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            while (iter.hasNext()) {</span>
+<span class="nc" id="L78">                String categoryCode = iter.next();</span>
+<span class="nc" id="L79">                Category category = categoryManager.getCategory(categoryCode);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                if (null != category) {</span>
+<span class="nc" id="L81">                    filledEntity.addCategory(category);</span>
                 }
-<span class="nc" id="L82">            }</span>
+<span class="nc" id="L83">            }</span>
         }
-<span class="fc" id="L84">        return filledEntity;</span>
+<span class="fc" id="L85">        return filledEntity;</span>
     }
     
     @XmlElement(name = &quot;created&quot;, required = true)
     public Date getCreated() {
-<span class="fc" id="L89">        return _created;</span>
+<span class="fc" id="L90">        return created;</span>
     }
     public void setCreated(Date created) {
-<span class="fc" id="L92">        this._created = created;</span>
-<span class="fc" id="L93">    }</span>
+<span class="fc" id="L93">        this.created = created;</span>
+<span class="fc" id="L94">    }</span>
 
     @XmlElement(name = &quot;lastModified&quot;, required = true)
     public Date getLastModified() {
-<span class="fc" id="L97">        return _lastModified;</span>
+<span class="fc" id="L98">        return lastModified;</span>
     }
     public void setLastModified(Date lastModified) {
-<span class="fc" id="L100">        this._lastModified = lastModified;</span>
-<span class="fc" id="L101">    }</span>
+<span class="fc" id="L101">        this.lastModified = lastModified;</span>
+<span class="fc" id="L102">    }</span>
 
     @XmlElement(name = &quot;version&quot;, required = true)
     public String getVersion() {
-<span class="fc" id="L105">        return _version;</span>
+<span class="fc" id="L106">        return version;</span>
     }
     public void setVersion(String version) {
-<span class="fc" id="L108">        this._version = version;</span>
-<span class="fc" id="L109">    }</span>
+<span class="fc" id="L109">        this.version = version;</span>
+<span class="fc" id="L110">    }</span>
 
     @XmlElement(name = &quot;lastEditor&quot;, required = true)
     public String getLastEditor() {
-<span class="fc" id="L113">        return _lastEditor;</span>
+<span class="fc" id="L114">        return lastEditor;</span>
     }
     public void setLastEditor(String lastEditor) {
-<span class="fc" id="L116">        this._lastEditor = lastEditor;</span>
-<span class="fc" id="L117">    }</span>
+<span class="fc" id="L117">        this.lastEditor = lastEditor;</span>
+<span class="fc" id="L118">    }</span>
 
     /*
      * Return the set of codes of the additional categories.
@@ -124,31 +125,26 @@ public class JAXBContent extends JAXBEntity implements Serializable {
     @XmlElement(name = &quot;category&quot;, required = true)
     @XmlElementWrapper(name = &quot;categories&quot;)
     public Set&lt;String&gt; getCategories() {
-<span class="fc" id="L127">        return _categories;</span>
+<span class="fc" id="L128">        return categories;</span>
     }
 
     protected void setCategories(Set&lt;String&gt; categories) {
-<span class="nc" id="L131">        this._categories = categories;</span>
-<span class="nc" id="L132">    }</span>
+<span class="nc" id="L132">        this.categories = categories;</span>
+<span class="nc" id="L133">    }</span>
 
     protected void setCategories(List&lt;Category&gt; categories) {
-<span class="pc bpc" id="L135" title="2 of 4 branches missed.">        if (null != categories &amp;&amp; categories.size() &gt; 0) {</span>
-<span class="nc" id="L136">            this.setCategories(new HashSet&lt;&gt;());</span>
-<span class="nc bnc" id="L137" title="All 2 branches missed.">            for (int i = 0; i &lt; categories.size(); i++) {</span>
-<span class="nc" id="L138">                Category category = categories.get(i);</span>
-<span class="nc bnc" id="L139" title="All 2 branches missed.">                if (null != category) {</span>
-<span class="nc" id="L140">                    this.getCategories().add(category.getCode());</span>
-                }
-            }
+<span class="pc bpc" id="L136" title="2 of 4 branches missed.">        if (null != categories &amp;&amp; !categories.isEmpty()) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            Set&lt;String&gt; codes = categories.stream().filter(c -&gt; null != c).map(Category::getCode).collect(Collectors.toSet());</span>
+<span class="nc" id="L138">            this.setCategories(codes);</span>
         }
-<span class="fc" id="L144">    }</span>
+<span class="fc" id="L140">    }</span>
     
-    private Date _created;
-    private Date _lastModified;
-    private String _version;
-    private String _lastEditor;
+    private Date created;
+    private Date lastModified;
+    private String version;
+    private String lastEditor;
 
-    private Set&lt;String&gt; _categories;
+    private Set&lt;String&gt; categories;
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
