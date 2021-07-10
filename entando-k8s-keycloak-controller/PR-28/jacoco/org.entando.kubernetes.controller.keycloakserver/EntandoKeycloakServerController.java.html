@@ -117,234 +117,236 @@ public class EntandoKeycloakServerController implements Runnable {
             }
 <span class="fc" id="L118">            KeycloakDeployable deployable = new KeycloakDeployable(keycloakServer, provideDatabaseIfRequired(), resolveCaSecret());</span>
 <span class="fc" id="L119">            KeycloakDeploymentResult result = deploymentProcessor.processDeployable(deployable, KEYCLOAK_DEPLOYMENT_TIME);</span>
-<span class="fc" id="L120">            providedCapability = k8sClient.updateStatus(providedCapability,</span>
-<span class="fc" id="L121">                    result.getStatus().withOriginatingCustomResource(providedCapability));</span>
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">            if (!result.getStatus().hasFailed()) {</span>
-<span class="fc bfc" id="L123" title="All 2 branches covered.">                if (EntandoKeycloakHelper.provisioningStrategyOf(keycloakServer)</span>
+<span class="fc" id="L120">            providedCapability = k8sClient.updateStatus(providedCapability, result.getStatus()</span>
+<span class="fc" id="L121">                    .withOriginatingCustomResource(providedCapability));</span>
+<span class="fc" id="L122">            keycloakServer = k8sClient.updateStatus(keycloakServer, result.getStatus()</span>
+<span class="fc" id="L123">                    .withOriginatingCustomResource(providedCapability));</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">            if (!result.getStatus().hasFailed()) {</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">                if (EntandoKeycloakHelper.provisioningStrategyOf(keycloakServer)</span>
                         != CapabilityProvisioningStrategy.USE_EXTERNAL) {
-<span class="fc" id="L125">                    ensureHttpAccess(result);</span>
+<span class="fc" id="L127">                    ensureHttpAccess(result);</span>
                 }
-<span class="fc" id="L127">                final ServerStatus mainServerStatus = providedCapability.getStatus().getServerStatus(NameUtils.MAIN_QUALIFIER)</span>
-<span class="fc" id="L128">                        .orElseThrow(IllegalStateException::new);</span>
-<span class="fc" id="L129">                ensureKeycloakRealm(new ProvidedSsoCapability(k8sClient.loadCapabilityProvisioningResult(mainServerStatus)));</span>
+<span class="fc" id="L129">                final ServerStatus mainServerStatus = providedCapability.getStatus().getServerStatus(NameUtils.MAIN_QUALIFIER)</span>
+<span class="fc" id="L130">                        .orElseThrow(IllegalStateException::new);</span>
+<span class="fc" id="L131">                ensureKeycloakRealm(new ProvidedSsoCapability(k8sClient.loadCapabilityProvisioningResult(mainServerStatus)));</span>
             }
-<span class="fc" id="L131">            keycloakServer = k8sClient.deploymentEnded(keycloakServer);</span>
-<span class="fc" id="L132">            providedCapability = k8sClient.deploymentEnded(providedCapability);</span>
-<span class="fc" id="L133">        } catch (Exception e) {</span>
-<span class="fc" id="L134">            logger.log(Level.SEVERE, e.getMessage(), e);</span>
-<span class="fc" id="L135">            keycloakServer = k8sClient.deploymentFailed(keycloakServer, e, NameUtils.MAIN_QUALIFIER);</span>
-<span class="fc" id="L136">            providedCapability = k8sClient.deploymentFailed(providedCapability, e, NameUtils.MAIN_QUALIFIER);</span>
-<span class="fc" id="L137">        }</span>
-<span class="fc" id="L138">        keycloakServer.getStatus().findFailedServerStatus().flatMap(ServerStatus::getEntandoControllerFailure).ifPresent(ss -&gt; {</span>
-<span class="fc" id="L139">            throw new CommandLine.ExecutionException(new CommandLine(this), ss.getDetailMessage());</span>
+<span class="fc" id="L133">            keycloakServer = k8sClient.deploymentEnded(keycloakServer);</span>
+<span class="fc" id="L134">            providedCapability = k8sClient.deploymentEnded(providedCapability);</span>
+<span class="fc" id="L135">        } catch (Exception e) {</span>
+<span class="fc" id="L136">            logger.log(Level.SEVERE, e.getMessage(), e);</span>
+<span class="fc" id="L137">            keycloakServer = k8sClient.deploymentFailed(keycloakServer, e, NameUtils.MAIN_QUALIFIER);</span>
+<span class="fc" id="L138">            providedCapability = k8sClient.deploymentFailed(providedCapability, e, NameUtils.MAIN_QUALIFIER);</span>
+<span class="fc" id="L139">        }</span>
+<span class="fc" id="L140">        keycloakServer.getStatus().findFailedServerStatus().flatMap(ServerStatus::getEntandoControllerFailure).ifPresent(ss -&gt; {</span>
+<span class="fc" id="L141">            throw new CommandLine.ExecutionException(new CommandLine(this), ss.getDetailMessage());</span>
         });
-<span class="fc" id="L141">    }</span>
+<span class="fc" id="L143">    }</span>
 
     private EntandoCustomResource startProcessingResource() {
-<span class="fc" id="L144">        return k8sClient.updatePhase(k8sClient.resolveCustomResourceToProcess(SUPPORTED_RESOURCE_KINDS), EntandoDeploymentPhase.STARTED);</span>
+<span class="fc" id="L146">        return k8sClient.updatePhase(k8sClient.resolveCustomResourceToProcess(SUPPORTED_RESOURCE_KINDS), EntandoDeploymentPhase.STARTED);</span>
     }
 
     private void validateExternalServiceRequirements(ProvidedCapability providedCapability) {
-<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (providedCapability.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals)</span>
-<span class="fc" id="L149">                .orElse(false)) {</span>
-<span class="fc" id="L150">            final ExternallyProvidedService externallyProvidedService = providedCapability.getSpec().getExternallyProvisionedService()</span>
-<span class="pc" id="L151">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (providedCapability.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals)</span>
+<span class="fc" id="L151">                .orElse(false)) {</span>
+<span class="fc" id="L152">            final ExternallyProvidedService externallyProvidedService = providedCapability.getSpec().getExternallyProvisionedService()</span>
+<span class="pc" id="L153">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
                             &quot;Please provide the connection information of the SSO service you intend to connect to using the &quot;
                                     + &quot;ProvidedCapability.spec.externallyProvisionedService object.&quot;));
-<span class="fc" id="L154">            String adminSecretName = ofNullable(externallyProvidedService.getAdminSecretName())</span>
-<span class="fc" id="L155">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
+<span class="fc" id="L156">            String adminSecretName = ofNullable(externallyProvidedService.getAdminSecretName())</span>
+<span class="fc" id="L157">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
                             &quot;Please provide the name of the secret containing the admin credentials for the SSO service you intend to &quot;
                                     + &quot;connect to using the &quot;
                                     + &quot;ProvidedCapability.spec.externallyProvisionedService.adminSecretName property.&quot;));
-<span class="fc" id="L159">            if (ofNullable(k8sClient.loadStandardResource(SECRET_KIND, providedCapability.getMetadata().getNamespace(), adminSecretName))</span>
-<span class="fc bfc" id="L160" title="All 2 branches covered.">                    .isEmpty()) {</span>
-<span class="fc" id="L161">                throw new EntandoControllerException(format(</span>
+<span class="fc" id="L161">            if (ofNullable(k8sClient.loadStandardResource(SECRET_KIND, providedCapability.getMetadata().getNamespace(), adminSecretName))</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                    .isEmpty()) {</span>
+<span class="fc" id="L163">                throw new EntandoControllerException(format(</span>
                         &quot;Please ensure that a secret with the name '%s' exists in the requested namespace %s&quot;, adminSecretName,
-<span class="fc" id="L163">                        providedCapability.getMetadata().getName()));</span>
+<span class="fc" id="L165">                        providedCapability.getMetadata().getName()));</span>
             }
-<span class="fc bfc" id="L165" title="All 2 branches covered.">            if (ofNullable(externallyProvidedService.getHost()).isEmpty()) {</span>
-<span class="fc" id="L166">                throw new EntandoControllerException(</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            if (ofNullable(externallyProvidedService.getHost()).isEmpty()) {</span>
+<span class="fc" id="L168">                throw new EntandoControllerException(</span>
                         &quot;Please provide the hostname of the SSO service you intend to connect to using the &quot;
                                 + &quot;ProvidedCapability.spec.externallyProvisionedService.host property.&quot;);
             }
         }
-<span class="fc" id="L171">    }</span>
+<span class="fc" id="L173">    }</span>
 
     private void validateExternalServiceRequirements(EntandoKeycloakServer entandoKeycloakServer) {
-<span class="fc bfc" id="L174" title="All 2 branches covered.">        if (entandoKeycloakServer.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals)</span>
-<span class="fc" id="L175">                .orElse(false)) {</span>
-<span class="fc bfc" id="L176" title="All 2 branches covered.">            if (entandoKeycloakServer.getSpec().getFrontEndUrl().isEmpty()) {</span>
-<span class="fc" id="L177">                throw new EntandoControllerException(</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        if (entandoKeycloakServer.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals)</span>
+<span class="fc" id="L177">                .orElse(false)) {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">            if (entandoKeycloakServer.getSpec().getFrontEndUrl().isEmpty()) {</span>
+<span class="fc" id="L179">                throw new EntandoControllerException(</span>
                         &quot;Please provide the base URL of the SSO service you intend to connect to using the &quot;
                                 + &quot;EntandoKeycloakServer.spec.frontEndUrl property.&quot;);
             }
-<span class="fc" id="L181">            String adminSecretName = entandoKeycloakServer.getSpec().getAdminSecretName()</span>
-<span class="fc" id="L182">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
+<span class="fc" id="L183">            String adminSecretName = entandoKeycloakServer.getSpec().getAdminSecretName()</span>
+<span class="fc" id="L184">                    .orElseThrow(() -&gt; new EntandoControllerException(</span>
                             &quot;Please provide the name of the secret containing the admin credentials for the SSO service you intend to &quot;
                                     + &quot;connect to &quot;
                                     + &quot;using the &quot;
                                     + &quot;EntandoKeycloakServer.spec.adminSecretName property.&quot;));
-<span class="fc" id="L187">            if (ofNullable(k8sClient.loadStandardResource(SECRET_KIND, entandoKeycloakServer.getMetadata().getNamespace(), adminSecretName))</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">                    .isEmpty()) {</span>
-<span class="fc" id="L189">                throw new EntandoControllerException(format(</span>
+<span class="fc" id="L189">            if (ofNullable(k8sClient.loadStandardResource(SECRET_KIND, entandoKeycloakServer.getMetadata().getNamespace(), adminSecretName))</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">                    .isEmpty()) {</span>
+<span class="fc" id="L191">                throw new EntandoControllerException(format(</span>
                         &quot;Please ensure that a secret with the name '%s' exists in the requested namespace %s&quot;, adminSecretName,
-<span class="fc" id="L191">                        entandoKeycloakServer.getMetadata().getName()));</span>
+<span class="fc" id="L193">                        entandoKeycloakServer.getMetadata().getName()));</span>
             }
         }
-<span class="fc" id="L194">    }</span>
+<span class="fc" id="L196">    }</span>
 
     private EntandoKeycloakServer toKeycloakServer(ProvidedCapability providedCapability) {
-<span class="fc" id="L197">        final EntandoKeycloakServer keycloakServerWithoutDefaults = new EntandoKeycloakServerBuilder(</span>
-<span class="fc" id="L198">                Objects.requireNonNullElseGet(k8sClient</span>
-<span class="fc" id="L199">                                .load(EntandoKeycloakServer.class, providedCapability.getMetadata().getNamespace(),</span>
-<span class="fc" id="L200">                                        providedCapability.getMetadata().getName()),</span>
-<span class="fc" id="L201">                        () -&gt; new EntandoKeycloakServer(new EntandoKeycloakServerSpec())))</span>
-<span class="fc" id="L202">                .editMetadata()</span>
-<span class="fc" id="L203">                .withLabels(providedCapability.getMetadata().getLabels())</span>
-<span class="fc" id="L204">                .withNamespace(providedCapability.getMetadata().getNamespace())</span>
-<span class="fc" id="L205">                .withName(providedCapability.getMetadata().getName())</span>
-<span class="fc" id="L206">                .endMetadata()</span>
-<span class="fc" id="L207">                .editSpec()</span>
-<span class="fc" id="L208">                .withProvisioningStrategy(EntandoKeycloakHelper.provisioningStrategyOf(providedCapability))</span>
-<span class="pc bpc" id="L209" title="1 of 2 branches missed.">                .withDefault(providedCapability.getSpec().getResolutionScopePreference().indexOf(CapabilityScope.CLUSTER) == 0)</span>
-<span class="fc" id="L210">                .withDbms(providedCapability.getSpec().getPreferredDbms().orElse(null))</span>
-<span class="fc" id="L211">                .withIngressHostName(providedCapability.getSpec().getPreferredIngressHostName().orElse(null))</span>
-<span class="fc" id="L212">                .withDefaultRealm(providedCapability.getSpec().getCapabilityParameters().get(ProvidedSsoCapability.DEFAULT_REALM_PARAMETER))</span>
-<span class="fc" id="L213">                .withTlsSecretName(providedCapability.getSpec().getPreferredTlsSecretName().orElse(null))</span>
-<span class="fc" id="L214">                .withAdminSecretName(</span>
-<span class="fc" id="L215">                        providedCapability.getSpec().getExternallyProvisionedService().map(ExternallyProvidedService::getAdminSecretName)</span>
-<span class="fc" id="L216">                                .orElse(null))</span>
-<span class="fc" id="L217">                .withFrontEndUrl(providedCapability.getSpec().getExternallyProvisionedService()</span>
-<span class="fc" id="L218">                        .map(s -&gt; EntandoKeycloakHelper.deriveFrontEndUrl(providedCapability)).orElse(null)).endSpec().build();</span>
+<span class="fc" id="L199">        final EntandoKeycloakServer keycloakServerWithoutDefaults = new EntandoKeycloakServerBuilder(</span>
+<span class="fc" id="L200">                Objects.requireNonNullElseGet(k8sClient</span>
+<span class="fc" id="L201">                                .load(EntandoKeycloakServer.class, providedCapability.getMetadata().getNamespace(),</span>
+<span class="fc" id="L202">                                        providedCapability.getMetadata().getName()),</span>
+<span class="fc" id="L203">                        () -&gt; new EntandoKeycloakServer(new EntandoKeycloakServerSpec())))</span>
+<span class="fc" id="L204">                .editMetadata()</span>
+<span class="fc" id="L205">                .withLabels(providedCapability.getMetadata().getLabels())</span>
+<span class="fc" id="L206">                .withNamespace(providedCapability.getMetadata().getNamespace())</span>
+<span class="fc" id="L207">                .withName(providedCapability.getMetadata().getName())</span>
+<span class="fc" id="L208">                .endMetadata()</span>
+<span class="fc" id="L209">                .editSpec()</span>
+<span class="fc" id="L210">                .withProvisioningStrategy(EntandoKeycloakHelper.provisioningStrategyOf(providedCapability))</span>
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">                .withDefault(providedCapability.getSpec().getResolutionScopePreference().indexOf(CapabilityScope.CLUSTER) == 0)</span>
+<span class="fc" id="L212">                .withDbms(providedCapability.getSpec().getPreferredDbms().orElse(null))</span>
+<span class="fc" id="L213">                .withIngressHostName(providedCapability.getSpec().getPreferredIngressHostName().orElse(null))</span>
+<span class="fc" id="L214">                .withDefaultRealm(providedCapability.getSpec().getCapabilityParameters().get(ProvidedSsoCapability.DEFAULT_REALM_PARAMETER))</span>
+<span class="fc" id="L215">                .withTlsSecretName(providedCapability.getSpec().getPreferredTlsSecretName().orElse(null))</span>
+<span class="fc" id="L216">                .withAdminSecretName(</span>
+<span class="fc" id="L217">                        providedCapability.getSpec().getExternallyProvisionedService().map(ExternallyProvidedService::getAdminSecretName)</span>
+<span class="fc" id="L218">                                .orElse(null))</span>
+<span class="fc" id="L219">                .withFrontEndUrl(providedCapability.getSpec().getExternallyProvisionedService()</span>
+<span class="fc" id="L220">                        .map(s -&gt; EntandoKeycloakHelper.deriveFrontEndUrl(providedCapability)).orElse(null)).endSpec().build();</span>
 
-<span class="fc" id="L220">        final EntandoKeycloakServer entandoKeycloakServerWithDefaults = new EntandoKeycloakServerBuilder(keycloakServerWithoutDefaults)</span>
-<span class="fc" id="L221">                .editSpec()</span>
-<span class="fc" id="L222">                .withDbms(EntandoKeycloakHelper.determineDbmsVendor(keycloakServerWithoutDefaults))</span>
-<span class="fc" id="L223">                .withStandardImage(EntandoKeycloakHelper.determineStandardImage(keycloakServerWithoutDefaults))</span>
-<span class="fc" id="L224">                .endSpec()</span>
-<span class="fc" id="L225">                .build();</span>
-<span class="pc bpc" id="L226" title="1 of 2 branches missed.">        if (!ResourceUtils.customResourceOwns(providedCapability, entandoKeycloakServerWithDefaults)) {</span>
-<span class="fc" id="L227">            entandoKeycloakServerWithDefaults.getMetadata().getOwnerReferences().add(ResourceUtils.buildOwnerReference(providedCapability));</span>
+<span class="fc" id="L222">        final EntandoKeycloakServer entandoKeycloakServerWithDefaults = new EntandoKeycloakServerBuilder(keycloakServerWithoutDefaults)</span>
+<span class="fc" id="L223">                .editSpec()</span>
+<span class="fc" id="L224">                .withDbms(EntandoKeycloakHelper.determineDbmsVendor(keycloakServerWithoutDefaults))</span>
+<span class="fc" id="L225">                .withStandardImage(EntandoKeycloakHelper.determineStandardImage(keycloakServerWithoutDefaults))</span>
+<span class="fc" id="L226">                .endSpec()</span>
+<span class="fc" id="L227">                .build();</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">        if (!ResourceUtils.customResourceOwns(providedCapability, entandoKeycloakServerWithDefaults)) {</span>
+<span class="fc" id="L229">            entandoKeycloakServerWithDefaults.getMetadata().getOwnerReferences().add(ResourceUtils.buildOwnerReference(providedCapability));</span>
         }
-<span class="fc" id="L229">        return entandoKeycloakServerWithDefaults;</span>
+<span class="fc" id="L231">        return entandoKeycloakServerWithDefaults;</span>
     }
 
     private ProvidedCapability toCapability(EntandoKeycloakServer resourceToProcess) {
-<span class="fc" id="L233">        ExternallyProvidedService externalService = resourceToProcess.getSpec().getFrontEndUrl()</span>
-<span class="fc" id="L234">                .map(ExternalKeycloakService::new)</span>
-<span class="fc" id="L235">                .map(s -&gt; new ExternallyProvidedServiceFluent&lt;&gt;().withPort(s.getPort()).withHost(s.getHost())</span>
-<span class="fc" id="L236">                        .withPath(s.getPath())</span>
-<span class="fc" id="L237">                        .withAdminSecretName(resourceToProcess.getSpec().getAdminSecretName().orElse(null))</span>
-<span class="fc" id="L238">                        .build()).orElse(null);</span>
+<span class="fc" id="L235">        ExternallyProvidedService externalService = resourceToProcess.getSpec().getFrontEndUrl()</span>
+<span class="fc" id="L236">                .map(ExternalKeycloakService::new)</span>
+<span class="fc" id="L237">                .map(s -&gt; new ExternallyProvidedServiceFluent&lt;&gt;().withPort(s.getPort()).withHost(s.getHost())</span>
+<span class="fc" id="L238">                        .withPath(s.getPath())</span>
+<span class="fc" id="L239">                        .withAdminSecretName(resourceToProcess.getSpec().getAdminSecretName().orElse(null))</span>
+<span class="fc" id="L240">                        .build()).orElse(null);</span>
 
-<span class="fc" id="L240">        final ProvidedCapability capabilityToSyncTo = new ProvidedCapabilityBuilder(</span>
-<span class="fc" id="L241">                Objects.requireNonNullElseGet(k8sClient.load(ProvidedCapability.class, resourceToProcess.getMetadata().getNamespace(),</span>
-<span class="fc" id="L242">                        resourceToProcess.getMetadata().getName()),</span>
-<span class="fc" id="L243">                        () -&gt; new ProvidedCapability(new ObjectMeta(), new CapabilityRequirement())))</span>
-<span class="fc" id="L244">                .editMetadata()</span>
-<span class="fc" id="L245">                .withNamespace(resourceToProcess.getMetadata().getNamespace())</span>
-<span class="fc" id="L246">                .withLabels(resourceToProcess.getMetadata().getLabels())</span>
-<span class="fc" id="L247">                .withName(resourceToProcess.getMetadata().getName())</span>
-<span class="fc" id="L248">                .endMetadata()</span>
-<span class="fc" id="L249">                .editSpec()</span>
-<span class="fc" id="L250">                .withCapability(StandardCapability.SSO)</span>
-<span class="fc" id="L251">                .withImplementation(determineImplementation(resourceToProcess))</span>
-<span class="fc" id="L252">                .withProvisioningStrategy(EntandoKeycloakHelper.provisioningStrategyOf(resourceToProcess))</span>
-<span class="fc" id="L253">                .withResolutionScopePreference(</span>
-<span class="pc bpc" id="L254" title="1 of 2 branches missed.">                        resourceToProcess.getSpec().isDefault() ? CapabilityScope.CLUSTER : CapabilityScope.NAMESPACE)</span>
-<span class="fc" id="L255">                .withExternallyProvidedService(externalService)</span>
-<span class="fc" id="L256">                .withPreferredIngressHostName(resourceToProcess.getSpec().getIngressHostName().orElse(null))</span>
-<span class="fc" id="L257">                .withPreferredTlsSecretName(resourceToProcess.getSpec().getTlsSecretName().orElse(null))</span>
-<span class="fc" id="L258">                .addAllToCapabilityParameters(resourceToProcess.getSpec().getDefaultRealm()</span>
-<span class="pc" id="L259">                        .map(r -&gt; Collections.singletonMap(ProvidedSsoCapability.DEFAULT_REALM_PARAMETER, r))</span>
-<span class="fc" id="L260">                        .orElse(Collections.emptyMap()))</span>
-<span class="fc" id="L261">                .endSpec().build();</span>
-<span class="pc bpc" id="L262" title="1 of 2 branches missed.">        if (!ResourceUtils.customResourceOwns(resourceToProcess, capabilityToSyncTo)) {</span>
+<span class="fc" id="L242">        final ProvidedCapability capabilityToSyncTo = new ProvidedCapabilityBuilder(</span>
+<span class="fc" id="L243">                Objects.requireNonNullElseGet(k8sClient.load(ProvidedCapability.class, resourceToProcess.getMetadata().getNamespace(),</span>
+<span class="fc" id="L244">                        resourceToProcess.getMetadata().getName()),</span>
+<span class="fc" id="L245">                        () -&gt; new ProvidedCapability(new ObjectMeta(), new CapabilityRequirement())))</span>
+<span class="fc" id="L246">                .editMetadata()</span>
+<span class="fc" id="L247">                .withNamespace(resourceToProcess.getMetadata().getNamespace())</span>
+<span class="fc" id="L248">                .withLabels(resourceToProcess.getMetadata().getLabels())</span>
+<span class="fc" id="L249">                .withName(resourceToProcess.getMetadata().getName())</span>
+<span class="fc" id="L250">                .endMetadata()</span>
+<span class="fc" id="L251">                .editSpec()</span>
+<span class="fc" id="L252">                .withCapability(StandardCapability.SSO)</span>
+<span class="fc" id="L253">                .withImplementation(determineImplementation(resourceToProcess))</span>
+<span class="fc" id="L254">                .withProvisioningStrategy(EntandoKeycloakHelper.provisioningStrategyOf(resourceToProcess))</span>
+<span class="fc" id="L255">                .withResolutionScopePreference(</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">                        resourceToProcess.getSpec().isDefault() ? CapabilityScope.CLUSTER : CapabilityScope.NAMESPACE)</span>
+<span class="fc" id="L257">                .withExternallyProvidedService(externalService)</span>
+<span class="fc" id="L258">                .withPreferredIngressHostName(resourceToProcess.getSpec().getIngressHostName().orElse(null))</span>
+<span class="fc" id="L259">                .withPreferredTlsSecretName(resourceToProcess.getSpec().getTlsSecretName().orElse(null))</span>
+<span class="fc" id="L260">                .addAllToCapabilityParameters(resourceToProcess.getSpec().getDefaultRealm()</span>
+<span class="pc" id="L261">                        .map(r -&gt; Collections.singletonMap(ProvidedSsoCapability.DEFAULT_REALM_PARAMETER, r))</span>
+<span class="fc" id="L262">                        .orElse(Collections.emptyMap()))</span>
+<span class="fc" id="L263">                .endSpec().build();</span>
+<span class="pc bpc" id="L264" title="1 of 2 branches missed.">        if (!ResourceUtils.customResourceOwns(resourceToProcess, capabilityToSyncTo)) {</span>
             //If we are here, it means one of two things:
             // 1. This is a new EntandoDatabaseService and we need to create a ProvidedCapability owned by it so that the
             // ControllerCoordinator won't process changes against the ProvidedCapability.
             // 2. the user has removed the ownerReference from the original EntandoDatabaseService, thus indicating
             //that he is taking control of it.  Now we change control over to the original EntandoDatabaseService, make it own the
             // ProvidedCapability so that only its events will be listened to.
-<span class="fc" id="L269">            capabilityToSyncTo.getMetadata().getOwnerReferences().add(ResourceUtils.buildOwnerReference(resourceToProcess));</span>
-<span class="fc" id="L270">            ofNullable(capabilityToSyncTo.getMetadata().getAnnotations())</span>
-<span class="pc" id="L271">                    .ifPresent(m -&gt; m.remove(CapabilityProvider.ORIGIN_UUID_ANNOTATION_NAME));</span>
+<span class="fc" id="L271">            capabilityToSyncTo.getMetadata().getOwnerReferences().add(ResourceUtils.buildOwnerReference(resourceToProcess));</span>
+<span class="fc" id="L272">            ofNullable(capabilityToSyncTo.getMetadata().getAnnotations())</span>
+<span class="pc" id="L273">                    .ifPresent(m -&gt; m.remove(CapabilityProvider.ORIGIN_UUID_ANNOTATION_NAME));</span>
         }
-<span class="fc" id="L273">        ResourceUtils.addCapabilityLabels(capabilityToSyncTo);</span>
-<span class="fc" id="L274">        return capabilityToSyncTo;</span>
+<span class="fc" id="L275">        ResourceUtils.addCapabilityLabels(capabilityToSyncTo);</span>
+<span class="fc" id="L276">        return capabilityToSyncTo;</span>
     }
 
     private StandardCapabilityImplementation determineImplementation(EntandoKeycloakServer resourceToProcess) {
-<span class="fc" id="L278">        StandardKeycloakImage keycloakImage = EntandoKeycloakHelper.determineStandardImage(resourceToProcess);</span>
-<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (resourceToProcess.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals).orElse(false)) {</span>
+<span class="fc" id="L280">        StandardKeycloakImage keycloakImage = EntandoKeycloakHelper.determineStandardImage(resourceToProcess);</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">        if (resourceToProcess.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.USE_EXTERNAL::equals).orElse(false)) {</span>
             //Allow it to be overridden if it is an existing external SSO
-<span class="fc" id="L281">            keycloakImage = resourceToProcess.getSpec().getStandardImage().orElse(keycloakImage);</span>
+<span class="fc" id="L283">            keycloakImage = resourceToProcess.getSpec().getStandardImage().orElse(keycloakImage);</span>
         }
-<span class="fc" id="L283">        return StandardCapabilityImplementation.valueOf(keycloakImage.name());</span>
+<span class="fc" id="L285">        return StandardCapabilityImplementation.valueOf(keycloakImage.name());</span>
     }
 
     private Secret resolveCaSecret() {
-<span class="fc" id="L287">        return EntandoOperatorSpiConfig.getCertificateAuthoritySecretName()</span>
-<span class="fc" id="L288">                .map(n -&gt; (Secret) k8sClient.loadStandardResource(SECRET_KIND, k8sClient.getNamespace(), n)).orElse(null);</span>
+<span class="fc" id="L289">        return EntandoOperatorSpiConfig.getCertificateAuthoritySecretName()</span>
+<span class="fc" id="L290">                .map(n -&gt; (Secret) k8sClient.loadStandardResource(SECRET_KIND, k8sClient.getNamespace(), n)).orElse(null);</span>
     }
 
     private void ensureHttpAccess(KeycloakDeploymentResult serviceDeploymentResult) throws TimeoutException {
         //Give the operator access over http for cluster.local calls
-<span class="fc" id="L293">        final ExecutionResult result = k8sClient.executeOnPod(serviceDeploymentResult.getPod(), &quot;server-container&quot;, 30,</span>
+<span class="fc" id="L295">        final ExecutionResult result = k8sClient.executeOnPod(serviceDeploymentResult.getPod(), &quot;server-container&quot;, 30,</span>
                 &quot;cd \&quot;${KEYCLOAK_HOME}/bin\&quot;&quot;,
                 &quot;./kcadm.sh config credentials --server http://localhost:8080/auth --realm master &quot;
                         + &quot;--user  \&quot;${KEYCLOAK_USER:-${SSO_ADMIN_USERNAME}}\&quot; &quot;
                         + &quot;--password \&quot;${KEYCLOAK_PASSWORD:-${SSO_ADMIN_PASSWORD}}\&quot;&quot;,
                 &quot;./kcadm.sh update realms/master -s sslRequired=NONE&quot;
         );
-<span class="fc bfc" id="L300" title="All 2 branches covered.">        if (result.hasFailed()) {</span>
-<span class="fc" id="L301">            throw new EntandoControllerException(&quot;Could not disable Keycloak HTTPS requirement:&quot; + String</span>
-<span class="fc" id="L302">                    .join(&quot;\n&quot;, result.getOutputLines()));</span>
+<span class="fc bfc" id="L302" title="All 2 branches covered.">        if (result.hasFailed()) {</span>
+<span class="fc" id="L303">            throw new EntandoControllerException(&quot;Could not disable Keycloak HTTPS requirement:&quot; + String</span>
+<span class="fc" id="L304">                    .join(&quot;\n&quot;, result.getOutputLines()));</span>
         }
-<span class="fc" id="L304">    }</span>
+<span class="fc" id="L306">    }</span>
 
     private DatabaseConnectionInfo provideDatabaseIfRequired() throws TimeoutException {
         // Create database for Keycloak
-<span class="fc" id="L308">        final DbmsVendor dbmsVendor = EntandoKeycloakHelper.determineDbmsVendor(keycloakServer);</span>
-<span class="fc bfc" id="L309" title="All 4 branches covered.">        if (dbmsVendor == DbmsVendor.EMBEDDED || EntandoKeycloakHelper.provisioningStrategyOf(keycloakServer)</span>
+<span class="fc" id="L310">        final DbmsVendor dbmsVendor = EntandoKeycloakHelper.determineDbmsVendor(keycloakServer);</span>
+<span class="fc bfc" id="L311" title="All 4 branches covered.">        if (dbmsVendor == DbmsVendor.EMBEDDED || EntandoKeycloakHelper.provisioningStrategyOf(keycloakServer)</span>
                 != CapabilityProvisioningStrategy.DEPLOY_DIRECTLY) {
-<span class="fc" id="L311">            return null;</span>
+<span class="fc" id="L313">            return null;</span>
         } else {
-<span class="fc" id="L313">            final CapabilityProvisioningResult databaseCapability = this.capabilityProvider</span>
-<span class="fc" id="L314">                    .provideCapability(keycloakServer, new CapabilityRequirementBuilder()</span>
-<span class="fc" id="L315">                            .withCapability(StandardCapability.DBMS)</span>
-<span class="fc" id="L316">                            .withImplementation(StandardCapabilityImplementation</span>
-<span class="fc" id="L317">                                    .valueOf(dbmsVendor.name()))</span>
-<span class="fc" id="L318">                            .withResolutionScopePreference(CapabilityScope.NAMESPACE, CapabilityScope.DEDICATED, CapabilityScope.CLUSTER)</span>
-<span class="fc" id="L319">                            .withProvisioningStrategy(CapabilityProvisioningStrategy.DEPLOY_DIRECTLY)</span>
-<span class="fc" id="L320">                            .build(), DATABASE_DEPLOYMENT_TIME);</span>
-<span class="fc" id="L321">            final ProvidedCapability dbmsCapability = databaseCapability.getProvidedCapability();</span>
-<span class="fc" id="L322">            final EntandoCustomResourceStatus dbStatus = dbmsCapability.getStatus();</span>
-<span class="fc" id="L323">            dbStatus.getServerStatus(NameUtils.MAIN_QUALIFIER).ifPresent(s -&gt;</span>
-<span class="fc" id="L324">                    this.keycloakServer = k8sClient.updateStatus(keycloakServer, new ServerStatus(NameUtils.DB_QUALIFIER, s)));</span>
-<span class="fc" id="L325">            databaseCapability.getControllerFailure().ifPresent(f -&gt; {</span>
-<span class="fc" id="L326">                throw new EntandoControllerException(dbmsCapability,</span>
-<span class="fc" id="L327">                        format(&quot;Could not prepare a DBMS capability for SSO %s/%s. Please inspect the ProvidedCapability&quot;</span>
+<span class="fc" id="L315">            final CapabilityProvisioningResult databaseCapability = this.capabilityProvider</span>
+<span class="fc" id="L316">                    .provideCapability(keycloakServer, new CapabilityRequirementBuilder()</span>
+<span class="fc" id="L317">                            .withCapability(StandardCapability.DBMS)</span>
+<span class="fc" id="L318">                            .withImplementation(StandardCapabilityImplementation</span>
+<span class="fc" id="L319">                                    .valueOf(dbmsVendor.name()))</span>
+<span class="fc" id="L320">                            .withResolutionScopePreference(CapabilityScope.NAMESPACE, CapabilityScope.DEDICATED, CapabilityScope.CLUSTER)</span>
+<span class="fc" id="L321">                            .withProvisioningStrategy(CapabilityProvisioningStrategy.DEPLOY_DIRECTLY)</span>
+<span class="fc" id="L322">                            .build(), DATABASE_DEPLOYMENT_TIME);</span>
+<span class="fc" id="L323">            final ProvidedCapability dbmsCapability = databaseCapability.getProvidedCapability();</span>
+<span class="fc" id="L324">            final EntandoCustomResourceStatus dbStatus = dbmsCapability.getStatus();</span>
+<span class="fc" id="L325">            dbStatus.getServerStatus(NameUtils.MAIN_QUALIFIER).ifPresent(s -&gt;</span>
+<span class="fc" id="L326">                    this.keycloakServer = k8sClient.updateStatus(keycloakServer, new ServerStatus(NameUtils.DB_QUALIFIER, s)));</span>
+<span class="fc" id="L327">            databaseCapability.getControllerFailure().ifPresent(f -&gt; {</span>
+<span class="fc" id="L328">                throw new EntandoControllerException(dbmsCapability,</span>
+<span class="fc" id="L329">                        format(&quot;Could not prepare a DBMS capability for SSO %s/%s. Please inspect the ProvidedCapability&quot;</span>
                                         + &quot; %s/%s, &quot;
                                         + &quot;address the &quot;
                                         + &quot;deployment failure and force a redeployment using the annotation value 'entando&quot;
                                         + &quot;.org/processing-instruction: force. The following message was received:%n %s&quot;,
-<span class="fc" id="L332">                                keycloakServer.getMetadata().getNamespace(),</span>
-<span class="fc" id="L333">                                keycloakServer.getMetadata().getName(),</span>
-<span class="fc" id="L334">                                dbmsCapability.getMetadata().getNamespace(),</span>
-<span class="fc" id="L335">                                dbmsCapability.getMetadata().getName(),</span>
-<span class="fc" id="L336">                                f.getDetailMessage()));</span>
+<span class="fc" id="L334">                                keycloakServer.getMetadata().getNamespace(),</span>
+<span class="fc" id="L335">                                keycloakServer.getMetadata().getName(),</span>
+<span class="fc" id="L336">                                dbmsCapability.getMetadata().getNamespace(),</span>
+<span class="fc" id="L337">                                dbmsCapability.getMetadata().getName(),</span>
+<span class="fc" id="L338">                                f.getDetailMessage()));</span>
             });
-<span class="fc" id="L338">            return new ProvidedDatabaseCapability(databaseCapability);</span>
+<span class="fc" id="L340">            return new ProvidedDatabaseCapability(databaseCapability);</span>
         }
     }
 
     private void ensureKeycloakRealm(SsoConnectionInfo ssoConnectionInfo) {
-<span class="fc" id="L343">        logger.severe(() -&gt; format(&quot;Attempting to log into Keycloak at %s&quot;, ssoConnectionInfo.getBaseUrlToUse()));</span>
-<span class="fc" id="L344">        keycloakClient.login(ssoConnectionInfo.getBaseUrlToUse(), ssoConnectionInfo.getUsername(),</span>
-<span class="fc" id="L345">                ssoConnectionInfo.getPassword());</span>
-<span class="fc" id="L346">        keycloakClient.ensureRealm(KeycloakName.ENTANDO_DEFAULT_KEYCLOAK_REALM);</span>
-<span class="fc" id="L347">    }</span>
+<span class="fc" id="L345">        logger.severe(() -&gt; format(&quot;Attempting to log into Keycloak at %s&quot;, ssoConnectionInfo.getBaseUrlToUse()));</span>
+<span class="fc" id="L346">        keycloakClient.login(ssoConnectionInfo.getBaseUrlToUse(), ssoConnectionInfo.getUsername(),</span>
+<span class="fc" id="L347">                ssoConnectionInfo.getPassword());</span>
+<span class="fc" id="L348">        keycloakClient.ensureRealm(KeycloakName.ENTANDO_DEFAULT_KEYCLOAK_REALM);</span>
+<span class="fc" id="L349">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

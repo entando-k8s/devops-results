@@ -1,0 +1,38 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    ProvidedCapability: "my-app-sso"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Dedicated"
+  name: "my-app-sso-16222459"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app-sso"
+    uid: "17ea6b4d-93ff-4254-a126-a9e81a9529fc"
+action: "PHASE_CHANGE"
+count: 1
+firstTimestamp: "2021-07-10T10:06:29Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-app-sso"
+  namespace: "my-namespace"
+  resourceVersion: "1226445"
+  uid: "17ea6b4d-93ff-4254-a126-a9e81a9529fc"
+lastTimestamp: "2021-07-10T10:06:29Z"
+message: "The deployment of ProvidedCapability  my-namespace/my-app-sso was updated\
+  \  to STARTED"
+reason: "PhaseUpdated"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Normal"
