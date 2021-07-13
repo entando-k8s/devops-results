@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContentHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando Plugin: CMS</a> &gt; <a href="index.source.html" class="el_package">com.agiletec.plugins.jacms.aps.system.services.content.parse</a> &gt; <span class="el_source">ContentHandler.java</span></div><h1>ContentHandler.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+package com.agiletec.plugins.jacms.aps.system.services.content.parse;
+
+import com.agiletec.aps.system.common.entity.parse.EntityHandler;
+import com.agiletec.aps.system.services.category.Category;
+import com.agiletec.aps.system.services.category.ICategoryManager;
+import com.agiletec.aps.util.DateConverter;
+import com.agiletec.plugins.jacms.aps.system.JacmsSystemConstants;
+import com.agiletec.plugins.jacms.aps.system.services.content.model.Content;
+import java.util.Date;
+import org.entando.entando.ent.util.EntLogging.EntLogFactory;
+import org.entando.entando.ent.util.EntLogging.EntLogger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
+/**
+ * Classe &quot;handler&quot; di supporto all'interpretazione
+ * dell'XML che rappresenta un contenuto.
+ * @author M.Diana - E.Santoboni
+ */
+<span class="fc" id="L34">public class ContentHandler extends EntityHandler {</span>
+
+<span class="fc" id="L36">	private static final EntLogger _logger = EntLogFactory.getSanitizedLogger(ContentHandler.class);</span>
+
+	private ICategoryManager categoryManager;
+
+	@Override
+	public EntityHandler getHandlerPrototype() {
+<span class="fc" id="L42">		ContentHandler handler = (ContentHandler) super.getHandlerPrototype();</span>
+<span class="fc" id="L43">		handler.setCategoryManager(this.getCategoryManager());</span>
+<span class="fc" id="L44">		return handler;</span>
+	}
+
+	@Override
+	protected void startEntityElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		try {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">			if (qName.equals(&quot;categories&quot;)) {</span>
+<span class="fc" id="L51">				this.startCategories(attributes, qName);</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">			} else if (qName.equals(&quot;category&quot;)) {</span>
+<span class="fc" id="L53">				this.startCategory(attributes, qName);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">			} else if (qName.equals(&quot;status&quot;)) {</span>
+<span class="fc" id="L55">				this.startStatus(attributes, qName);</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">			} else if (qName.equals(&quot;version&quot;)) {</span>
+<span class="fc" id="L57">				this.startVersion(attributes, qName);</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">			} else if (qName.equals(&quot;firstEditor&quot;)) {</span>
+<span class="fc" id="L59">				this.startFirstEditor(attributes, qName);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">			} else if (qName.equals(&quot;lastEditor&quot;)) {</span>
+<span class="fc" id="L61">				this.startLastEditor(attributes, qName);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">			} else if (qName.equals(&quot;created&quot;)) {</span>
+<span class="fc" id="L63">				this.startCreated(attributes, qName);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">			} else if (qName.equals(&quot;lastModified&quot;)) {</span>
+<span class="fc" id="L65">				this.startLastModified(attributes, qName);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">			} else if (qName.equals(&quot;restriction&quot;)) {</span>
+<span class="fc" id="L67">				this.startRestriction(attributes, qName);</span>
+			}
+<span class="nc" id="L69">		} catch (SAXException e) {</span>
+<span class="nc" id="L70">			_logger.error(&quot;error in start element&quot;, e);</span>
+<span class="nc" id="L71">			throw e;</span>
+<span class="nc" id="L72">		} catch (Throwable t) {</span>
+<span class="nc" id="L73">			_logger.error(&quot;error in start element&quot;, t);</span>
+<span class="nc" id="L74">			throw new SAXException(new Exception(t));</span>
+<span class="fc" id="L75">		}</span>
+<span class="fc" id="L76">	}</span>
+
+	@Override
+	protected void endEntityElement(String uri, String localName, String qName) throws SAXException {
+		try {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			if (qName.equals(&quot;categories&quot;)) {</span>
+<span class="fc" id="L82">				this.endCategories();</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">			} else if (qName.equals(&quot;category&quot;)) {</span>
+<span class="fc" id="L84">				this.endCategory();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">			} else if (qName.equals(&quot;status&quot;)) {</span>
+<span class="fc" id="L86">				this.endStatus();</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			} else if (qName.equals(&quot;version&quot;)) {</span>
+<span class="fc" id="L88">				this.endVersion();</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			} else if (qName.equals(&quot;firstEditor&quot;)) {</span>
+<span class="fc" id="L90">				this.endFirstEditor();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			} else if (qName.equals(&quot;lastEditor&quot;)) {</span>
+<span class="fc" id="L92">				this.endLastEditor();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">			} else if (qName.equals(&quot;created&quot;)) {</span>
+<span class="fc" id="L94">				this.endCreated();</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">			} else if (qName.equals(&quot;lastModified&quot;)) {</span>
+<span class="fc" id="L96">				this.endLastModified();</span>
+<span class="pc bpc" id="L97" title="1 of 2 branches missed.">			} else if (qName.equals(&quot;restriction&quot;)) {</span>
+<span class="fc" id="L98">				this.endRestriction();</span>
+			}
+<span class="nc" id="L100">		} catch (Throwable t) {</span>
+<span class="nc" id="L101">			_logger.error(&quot;error in end element&quot;, t);</span>
+<span class="nc" id="L102">			throw new SAXException(new Exception(t));</span>
+<span class="fc" id="L103">		}</span>
+<span class="fc" id="L104">	}</span>
+
+	private void startCategories(Attributes attributes, String qName) {
+		// nothing to do
+<span class="fc" id="L108">	}</span>
+
+	private void endCategories() {
+		// nothing to do
+<span class="fc" id="L112">	}</span>
+
+	private void startCategory(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L115">		String categoryCode = extractXmlAttribute(attributes, &quot;id&quot;, qName, true);</span>
+<span class="fc" id="L116">		Category category = this.getCategoryManager().getCategory(categoryCode);</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">		if (null != category) {</span>
+<span class="fc" id="L118">			((Content) this.getCurrentEntity()).addCategory(category);</span>
+		}
+<span class="fc" id="L120">	}</span>
+
+	private void endCategory() {
+		// nothing to do
+<span class="fc" id="L124">	}</span>
+
+	private void startStatus(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L127">		return; // nothing to do</span>
+	}
+
+	private void startVersion(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L131">		return; // nothing to do</span>
+	}
+
+	private void startLastEditor(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L135">		return; // nothing to do</span>
+	}
+
+	private void startFirstEditor(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L139">		return; // nothing to do</span>
+	}
+
+	private void startCreated(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L143">		return; // nothing to do</span>
+	}
+
+	private void startLastModified(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L147">		return; // nothing to do</span>
+	}
+
+	private void startRestriction(Attributes attributes, String qName) throws SAXException {
+<span class="fc" id="L151">		return; // nothing to do</span>
+	}
+
+	private void endStatus() {
+<span class="fc" id="L155">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L157">			((Content) this.getCurrentEntity()).setStatus(textBuffer.toString());</span>
+		}
+<span class="fc" id="L159">	}</span>
+
+	private void endVersion() {
+<span class="fc" id="L162">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L163" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L164">			((Content) this.getCurrentEntity()).setVersion(textBuffer.toString());</span>
+		}
+<span class="fc" id="L166">	}</span>
+
+	private void endFirstEditor() {
+<span class="fc" id="L169">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L171">			((Content) this.getCurrentEntity()).setFirstEditor(textBuffer.toString());</span>
+		}
+<span class="fc" id="L173">	}</span>
+
+	private void endLastEditor() {
+<span class="fc" id="L176">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L178">			((Content) this.getCurrentEntity()).setLastEditor(textBuffer.toString());</span>
+		}
+<span class="fc" id="L180">	}</span>
+
+	private void endCreated() {
+<span class="fc" id="L183">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L185">			Date date = DateConverter.parseDate(textBuffer.toString(), JacmsSystemConstants.CONTENT_METADATA_DATE_FORMAT);</span>
+<span class="fc" id="L186">			((Content) this.getCurrentEntity()).setCreated(date);</span>
+		}
+<span class="fc" id="L188">	}</span>
+
+	private void endLastModified() {
+<span class="fc" id="L191">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L193">			Date date = DateConverter.parseDate(textBuffer.toString(), JacmsSystemConstants.CONTENT_METADATA_DATE_FORMAT);</span>
+<span class="fc" id="L194">			((Content) this.getCurrentEntity()).setLastModified(date);</span>
+		}
+<span class="fc" id="L196">	}</span>
+
+	private void endRestriction() {
+<span class="fc" id="L199">		StringBuffer textBuffer = this.getTextBuffer();</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">		if (null != textBuffer) {</span>
+<span class="fc" id="L201">			((Content) this.getCurrentEntity()).setRestriction(textBuffer.toString());</span>
+		}
+<span class="fc" id="L203">	}</span>
+
+	protected ICategoryManager getCategoryManager() {
+<span class="fc" id="L206">		return categoryManager;</span>
+	}
+	@Autowired
+	public void setCategoryManager(ICategoryManager categoryManager) {
+<span class="fc" id="L210">		this.categoryManager = categoryManager;</span>
+<span class="fc" id="L211">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
