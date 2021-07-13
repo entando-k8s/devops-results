@@ -1,0 +1,60 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    openshift.io/scc: "anyuid"
+  creationTimestamp: "2021-07-13T15:29:51Z"
+  labels:
+    pod-label: "123"
+  name: "my-pod"
+  namespace: "entando-k8s-operator-common-cmpr61-test1"
+  resourceVersion: "209181981"
+  selfLink: "/api/v1/namespaces/entando-k8s-operator-common-cmpr61-test1/pods/my-pod"
+  uid: "2ad1922b-e3ef-11eb-ad14-fa163ea775ae"
+spec:
+  containers:
+  - command:
+    - "/usr/libexec/s2i/run"
+    image: "centos/nginx-116-centos7"
+    imagePullPolicy: "Always"
+    name: "nginx"
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - "MKNOD"
+    terminationMessagePath: "/dev/termination-log"
+    terminationMessagePolicy: "File"
+    volumeMounts:
+    - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+      name: "default-token-2kzxw"
+      readOnly: true
+  dnsPolicy: "ClusterFirst"
+  imagePullSecrets:
+  - name: "default-dockercfg-8n8zk"
+  - name: "redhat-registry"
+  nodeName: "openshift"
+  nodeSelector:
+    node-role.kubernetes.io/compute: "true"
+  priority: 0
+  restartPolicy: "Always"
+  schedulerName: "default-scheduler"
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c182,c124"
+  serviceAccount: "default"
+  serviceAccountName: "default"
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: "default-token-2kzxw"
+    secret:
+      defaultMode: 420
+      secretName: "default-token-2kzxw"
+status:
+  conditions:
+  - lastTransitionTime: "2021-07-13T15:29:52Z"
+    status: "True"
+    type: "PodScheduled"
+  phase: "Pending"
+  qosClass: "BestEffort"

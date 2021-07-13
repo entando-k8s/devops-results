@@ -1,0 +1,41 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    TestResource: "my-app"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "my-app-33861291"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "2338154f-7047-4b6b-9229-ed5962d5aaad"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-07-13T15:22:48Z"
+involvedObject:
+  apiVersion: "test.org/v1"
+  kind: "TestResource"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "6460624"
+  uid: "2338154f-7047-4b6b-9229-ed5962d5aaad"
+lastTimestamp: "2021-07-13T15:22:48Z"
+message: "The deployment of TestResource my-namespace/my-app failed due to null. Fix\
+  \ the root cause and then trigger a redeployment by adding the annotation 'entando.org/processing-instruction:\
+  \ force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-ource-controller"
+type: "Error"
