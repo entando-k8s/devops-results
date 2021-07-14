@@ -16,9 +16,8 @@
 
 package org.entando.kubernetes.controller.coordinator;
 
+import io.fabric8.kubernetes.api.model.Event;
 import io.fabric8.kubernetes.api.model.EventBuilder;
-import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.Watcher;
 import io.fabric8.kubernetes.client.WatcherException;
 import java.io.PrintWriter;
@@ -28,23 +27,40 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfig;
 import org.entando.kubernetes.controller.spi.common.FormatUtils;
+import org.entando.kubernetes.controller.spi.common.NameUtils;
 
 public interface RestartingWatcher&lt;T&gt; extends Watcher&lt;T&gt; {
 
     Runnable getRestartingAction();
 
+    void issueOperatorDeathEvent(Event event);
+
     @Override
     default void onClose(WatcherException cause) {
-<span class="pc bpc" id="L38" title="3 of 4 branches missed.">        if (cause.getMessage().contains(&quot;resourceVersion&quot;) &amp;&amp; cause.getMessage().contains(&quot;too old&quot;)) {</span>
-<span class="nc" id="L39">            Logger.getLogger(getClass().getName())</span>
-<span class="nc" id="L40">                    .log(Level.WARNING, () -&gt; &quot;EntandoResourceObserver closed due to out of date resourceVersion. Reconnecting ... &quot;);</span>
-<span class="nc" id="L41">            getRestartingAction().run();</span>
+<span class="fc" id="L40">        final StringWriter stringWriter = new StringWriter();</span>
+<span class="fc" id="L41">        cause.printStackTrace(new PrintWriter(stringWriter));</span>
+<span class="fc" id="L42">        String message = stringWriter.toString();</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (message.contains(&quot;too old&quot;)) {</span>
+<span class="nc" id="L44">            Logger.getLogger(getClass().getName())</span>
+<span class="nc" id="L45">                    .log(Level.WARNING, () -&gt; &quot;EntandoResourceObserver closed due to out of date resourceVersion. Reconnecting ... &quot;);</span>
+<span class="nc" id="L46">            getRestartingAction().run();</span>
         } else {
-<span class="fc" id="L43">            Logger.getLogger(getClass().getName())</span>
-<span class="fc" id="L44">                    .log(Level.SEVERE, cause, () -&gt; &quot;EntandoResourceObserver closed. Can't reconnect. The container should restart now.&quot;);</span>
-<span class="fc" id="L45">            Liveness.dead();</span>
+<span class="fc" id="L48">            Logger.getLogger(getClass().getName())</span>
+<span class="fc" id="L49">                    .log(Level.SEVERE, cause, () -&gt; &quot;EntandoResourceObserver closed. Can't reconnect. The container should restart now.&quot;);</span>
+<span class="fc" id="L50">            Event event = new EventBuilder()</span>
+<span class="fc" id="L51">                    .withNewMetadata()</span>
+<span class="fc" id="L52">                    .withName(EntandoOperatorSpiConfig.getControllerPodName() + &quot;-restart-&quot; + NameUtils.randomNumeric(4))</span>
+<span class="fc" id="L53">                    .addToLabels(&quot;entando-operator-restarted&quot;, &quot;true&quot;)</span>
+<span class="fc" id="L54">                    .endMetadata()</span>
+<span class="fc" id="L55">                    .withCount(1)</span>
+<span class="fc" id="L56">                    .withFirstTimestamp(FormatUtils.format(LocalDateTime.now()))</span>
+<span class="fc" id="L57">                    .withLastTimestamp(FormatUtils.format(LocalDateTime.now()))</span>
+<span class="fc" id="L58">                    .withMessage(message)</span>
+<span class="fc" id="L59">                    .build();</span>
+<span class="fc" id="L60">            issueOperatorDeathEvent(event);</span>
+<span class="fc" id="L61">            Liveness.dead();</span>
         }
 
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

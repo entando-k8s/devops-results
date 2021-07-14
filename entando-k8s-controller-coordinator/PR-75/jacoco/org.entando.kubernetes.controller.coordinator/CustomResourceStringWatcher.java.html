@@ -19,6 +19,7 @@ package org.entando.kubernetes.controller.coordinator;
 import static org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.fabric8.kubernetes.api.model.Event;
 import io.fabric8.kubernetes.client.Watch;
 import io.fabric8.kubernetes.client.dsl.base.CustomResourceDefinitionContext;
 import java.util.function.Function;
@@ -29,40 +30,48 @@ public class CustomResourceStringWatcher implements RestartingWatcher&lt;String&
     private final SerializedResourceWatcher observer;
     private final CustomResourceDefinitionContext definitionContext;
     private final Function&lt;CustomResourceStringWatcher, Watch&gt; restartingFunction;
+    private DeathEventIssuer deathEventIssuer;
     private Watch watch;
 
     public Watch getWatch() {
-<span class="fc" id="L35">        return watch;</span>
+<span class="fc" id="L37">        return watch;</span>
     }
 
     public CustomResourceStringWatcher(SerializedResourceWatcher observer,
             CustomResourceDefinitionContext definitionContext,
-<span class="fc" id="L40">            Function&lt;CustomResourceStringWatcher, Watch&gt; restartingFunction) {</span>
-<span class="fc" id="L41">        this.observer = observer;</span>
-<span class="fc" id="L42">        this.definitionContext = definitionContext;</span>
-<span class="fc" id="L43">        this.restartingFunction = restartingFunction;</span>
-<span class="fc" id="L44">        getRestartingAction().run();</span>
-<span class="fc" id="L45">    }</span>
+            Function&lt;CustomResourceStringWatcher, Watch&gt; restartingFunction,
+<span class="fc" id="L43">            DeathEventIssuer deathEventIssuer) {</span>
+<span class="fc" id="L44">        this.observer = observer;</span>
+<span class="fc" id="L45">        this.definitionContext = definitionContext;</span>
+<span class="fc" id="L46">        this.restartingFunction = restartingFunction;</span>
+<span class="fc" id="L47">        this.deathEventIssuer = deathEventIssuer;</span>
+<span class="fc" id="L48">        getRestartingAction().run();</span>
+<span class="fc" id="L49">    }</span>
 
     @Override
     public Runnable getRestartingAction() {
-<span class="fc" id="L49">        return () -&gt; this.watch = restartingFunction.apply(this);</span>
+<span class="fc" id="L53">        return () -&gt; this.watch = restartingFunction.apply(this);</span>
     }
 
     @Override
+    public void issueOperatorDeathEvent(Event event) {
+<span class="fc" id="L58">        deathEventIssuer.issueOperatorDeathEvent(event);</span>
+<span class="fc" id="L59">    }</span>
+
+    @Override
     public void eventReceived(Action action, String s) {
-<span class="fc" id="L54">        ioSafe(() -&gt; {</span>
-<span class="fc" id="L55">            final SerializedEntandoResource r = new ObjectMapper().readValue(s, SerializedEntandoResource.class);</span>
-<span class="fc" id="L56">            r.setDefinition(definitionContext);</span>
-<span class="fc" id="L57">            observer.eventReceived(action, r);</span>
-<span class="fc" id="L58">            return null;</span>
+<span class="fc" id="L63">        ioSafe(() -&gt; {</span>
+<span class="fc" id="L64">            final SerializedEntandoResource r = new ObjectMapper().readValue(s, SerializedEntandoResource.class);</span>
+<span class="fc" id="L65">            r.setDefinition(definitionContext);</span>
+<span class="fc" id="L66">            observer.eventReceived(action, r);</span>
+<span class="fc" id="L67">            return null;</span>
         });
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L69">    }</span>
 
     @Override
     public void close() {
-<span class="fc" id="L64">        getWatch().close();</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L73">        getWatch().close();</span>
+<span class="fc" id="L74">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

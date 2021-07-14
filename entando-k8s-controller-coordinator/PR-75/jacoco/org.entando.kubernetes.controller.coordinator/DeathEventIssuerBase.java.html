@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeathEventIssuerBase.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando K8S Controller Coordinator</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.controller.coordinator</a> &gt; <span class="el_source">DeathEventIssuerBase.java</span></div><h1>DeathEventIssuerBase.java</h1><pre class="source lang-java linenums">/*
+ *
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ *  This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ */
+
+package org.entando.kubernetes.controller.coordinator;
+
+import io.fabric8.kubernetes.api.model.Event;
+import io.fabric8.kubernetes.api.model.ObjectReference;
+import io.fabric8.kubernetes.api.model.ObjectReferenceBuilder;
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfig;
+
+public class DeathEventIssuerBase implements DeathEventIssuer {
+
+    protected final KubernetesClient client;
+
+<span class="fc" id="L30">    public DeathEventIssuerBase(KubernetesClient client) {</span>
+<span class="fc" id="L31">        this.client = client;</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public void issueOperatorDeathEvent(Event event) {
+<span class="fc" id="L36">        event.getMetadata().setNamespace(client.getNamespace());</span>
+<span class="fc" id="L37">        Pod pod = client.pods().inNamespace(client.getNamespace()).withName(EntandoOperatorSpiConfig.getControllerPodName()).get();</span>
+<span class="fc" id="L38">        event.setInvolvedObject(new ObjectReferenceBuilder()</span>
+<span class="fc" id="L39">                .withName(pod.getMetadata().getName())</span>
+<span class="fc" id="L40">                .withNamespace(pod.getMetadata().getNamespace())</span>
+<span class="fc" id="L41">                .withKind(pod.getKind())</span>
+<span class="fc" id="L42">                .withApiVersion(pod.getApiVersion())</span>
+<span class="fc" id="L43">                .withUid(pod.getMetadata().getUid())</span>
+<span class="fc" id="L44">                .withResourceVersion(pod.getMetadata().getResourceVersion())</span>
+<span class="fc" id="L45">                .build());</span>
+<span class="fc" id="L46">        event.getInvolvedObject().setNamespace(client.getNamespace());</span>
+<span class="fc" id="L47">        client.v1().events().inNamespace(client.getNamespace()).createOrReplace(event);</span>
+<span class="fc" id="L48">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
