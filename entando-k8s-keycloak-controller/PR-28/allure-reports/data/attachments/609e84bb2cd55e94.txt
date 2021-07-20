@@ -1,0 +1,38 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    ProvidedCapability: "my-keycloak"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "my-keycloak-44389786"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "bab803c1-93fb-4902-a301-a5136993a3cb"
+action: "PHASE_CHANGE"
+count: 1
+firstTimestamp: "2021-07-20T09:04:35Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-keycloak"
+  namespace: "my-namespace"
+  resourceVersion: "9223793"
+  uid: "bab803c1-93fb-4902-a301-a5136993a3cb"
+lastTimestamp: "2021-07-20T09:04:35Z"
+message: "The deployment of ProvidedCapability  my-namespace/my-keycloak was updated\
+  \  to SUCCESSFUL"
+reason: "PhaseUpdated"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Normal"

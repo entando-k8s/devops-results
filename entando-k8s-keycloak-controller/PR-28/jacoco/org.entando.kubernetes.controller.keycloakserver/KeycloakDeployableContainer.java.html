@@ -175,7 +175,7 @@ public class KeycloakDeployableContainer implements IngressingContainer, DbAware
 <span class="fc" id="L175">                    vars.add(new EnvVar(&quot;DB_USER&quot;, null, databaseSchemaConnectionInfo.getUsernameRef()));</span>
                 }
 <span class="fc" id="L177">                vars.add(new EnvVar(&quot;DB_VENDOR&quot;, determineKeycloaksNonStandardDbVendorName(databaseSchemaConnectionInfo), null));</span>
-<span class="fc" id="L178">                vars.add(new EnvVar(&quot;DB_DATABASE&quot;, databaseSchemaConnectionInfo.getDatabaseServiceResult().getDatabaseName(), null));</span>
+<span class="fc" id="L178">                vars.add(new EnvVar(&quot;DB_DATABASE&quot;, databaseSchemaConnectionInfo.getDatabaseNameToUse(), null));</span>
 <span class="fc" id="L179">                vars.add(new EnvVar(&quot;DB_PASSWORD&quot;, null, databaseSchemaConnectionInfo.getPasswordRef()));</span>
 <span class="fc" id="L180">                vars.add(new EnvVar(&quot;JDBC_PARAMS&quot;,</span>
 <span class="pc" id="L181">                        databaseServiceResult.getJdbcParameters().entrySet().stream().map(entry -&gt; entry.getKey() + &quot;=&quot; + entry.getValue())</span>
