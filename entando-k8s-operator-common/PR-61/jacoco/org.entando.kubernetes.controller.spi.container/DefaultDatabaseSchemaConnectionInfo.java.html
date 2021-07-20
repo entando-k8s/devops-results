@@ -49,35 +49,36 @@ public class DefaultDatabaseSchemaConnectionInfo implements DatabaseSchemaConnec
 <span class="fc" id="L49">                .buildJdbcConnectionString();</span>
     }
 
-    public String getDatabase() {
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (getDatabaseServiceResult().getVendor().schemaIsDatabase()) {</span>
-<span class="nc" id="L54">            return getSchemaName();</span>
+    @Override
+    public String getDatabaseNameToUse() {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        if (getDatabaseServiceResult().getVendor().schemaIsDatabase()) {</span>
+<span class="nc" id="L55">            return getSchemaName();</span>
         } else {
-<span class="fc" id="L56">            return this.databaseConnectionInfo.getDatabaseName();</span>
+<span class="fc" id="L57">            return this.databaseConnectionInfo.getDatabaseName();</span>
         }
     }
 
     public DatabaseConnectionInfo getDatabaseServiceResult() {
-<span class="fc" id="L61">        return databaseConnectionInfo;</span>
+<span class="fc" id="L62">        return databaseConnectionInfo;</span>
     }
 
     @Override
     public String getSchemaName() {
-<span class="fc" id="L66">        return schemaName;</span>
+<span class="fc" id="L67">        return schemaName;</span>
     }
 
     @Override
     public EnvVarSource getPasswordRef() {
-<span class="fc" id="L71">        return SecretUtils.secretKeyRef(getSchemaSecretName(), SecretUtils.PASSSWORD_KEY);</span>
+<span class="fc" id="L72">        return SecretUtils.secretKeyRef(getSchemaSecretName(), SecretUtils.PASSSWORD_KEY);</span>
     }
 
     @Override
     public EnvVarSource getUsernameRef() {
-<span class="fc" id="L76">        return SecretUtils.secretKeyRef(getSchemaSecretName(), SecretUtils.USERNAME_KEY);</span>
+<span class="fc" id="L77">        return SecretUtils.secretKeyRef(getSchemaSecretName(), SecretUtils.USERNAME_KEY);</span>
     }
 
     public Secret getSchemaSecret() {
-<span class="fc" id="L80">        return this.schemaSecret;</span>
+<span class="fc" id="L81">        return this.schemaSecret;</span>
     }
 
 }
