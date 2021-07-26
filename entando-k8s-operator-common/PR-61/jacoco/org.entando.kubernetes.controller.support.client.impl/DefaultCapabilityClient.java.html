@@ -49,11 +49,11 @@ public class DefaultCapabilityClient extends EntandoResourceClientBase implement
 
     @Override
     public Optional&lt;ProvidedCapability&gt; providedCapabilityByLabels(Map&lt;String, String&gt; labels) {
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (EntandoOperatorConfig.isClusterScopedDeployment()) {</span>
-<span class="fc" id="L53">            return client.customResources(ProvidedCapability.class).inAnyNamespace().withLabels(labels).list().getItems().stream()</span>
-<span class="fc" id="L54">                    .findFirst();</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if (EntandoOperatorConfig.isClusterScopedDeployment()) {</span>
+<span class="nc" id="L53">            return client.customResources(ProvidedCapability.class).inAnyNamespace().withLabels(labels).list().getItems().stream()</span>
+<span class="nc" id="L54">                    .findFirst();</span>
         } else {
-<span class="fc bfc" id="L56" title="All 2 branches covered.">            for (String namespace : EntandoOperatorConfig.getAllAccessibleNamespaces()) {</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">            for (String namespace : EntandoOperatorConfig.getAllAccessibleNamespaces()) {</span>
                 try {
 <span class="fc" id="L58">                    final Optional&lt;ProvidedCapability&gt; providedCapability = client.customResources(ProvidedCapability.class)</span>
 <span class="fc" id="L59">                            .inNamespace(namespace)</span>
@@ -62,15 +62,15 @@ public class DefaultCapabilityClient extends EntandoResourceClientBase implement
 <span class="fc bfc" id="L62" title="All 2 branches covered.">                    if (providedCapability.isPresent()) {</span>
 <span class="fc" id="L63">                        return providedCapability;</span>
                     }
-<span class="fc" id="L65">                } catch (KubernetesClientException e) {</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                    if (e.getCode() != HttpURLConnection.HTTP_FORBIDDEN) {</span>
+<span class="nc" id="L65">                } catch (KubernetesClientException e) {</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                    if (e.getCode() != HttpURLConnection.HTTP_FORBIDDEN) {</span>
 <span class="nc" id="L67">                        throw e;</span>
                     }
 <span class="fc" id="L69">                }</span>
 <span class="fc" id="L70">            }</span>
 
         }
-<span class="fc" id="L73">        return Optional.empty();</span>
+<span class="nc" id="L73">        return Optional.empty();</span>
     }
 
     @Override
@@ -90,7 +90,7 @@ public class DefaultCapabilityClient extends EntandoResourceClientBase implement
 
     @Override
     public ProvidedCapability waitForCapabilityCompletion(ProvidedCapability capability, int timeoutSeconds) throws TimeoutException {
-<span class="fc" id="L93">        return waitForCompletion(capability, timeoutSeconds);</span>
+<span class="nc" id="L93">        return waitForCompletion(capability, timeoutSeconds);</span>
     }
 
     @Override
