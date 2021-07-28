@@ -22,8 +22,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.fabric8.kubernetes.api.model.Quantity;
+import io.fabric8.kubernetes.api.model.ResourceRequirements;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Optional;
 
 @JsonInclude(Include.NON_NULL)
@@ -31,7 +34,7 @@ import java.util.Optional;
         setterVisibility = Visibility.NONE)
 @RegisterForReflection
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EntandoResourceRequirements implements Serializable {
+public class EntandoResourceRequirements extends ResourceRequirements implements Serializable {
 
     private String storageRequest;
     private String storageLimit;
@@ -41,8 +44,8 @@ public class EntandoResourceRequirements implements Serializable {
     private String cpuLimit;
     private String fileUploadLimit;
 
-<span class="nc" id="L44">    public EntandoResourceRequirements() {</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L47">    public EntandoResourceRequirements() {</span>
+<span class="nc" id="L48">    }</span>
 
     public EntandoResourceRequirements(@JsonProperty(&quot;storageRequest&quot;) String storageRequest,
             @JsonProperty(&quot;storageLimit&quot;) String storageLimit,
@@ -50,42 +53,53 @@ public class EntandoResourceRequirements implements Serializable {
             @JsonProperty(&quot;memoryLimit&quot;) String memoryLimit,
             @JsonProperty(&quot;cpuRequest&quot;) String cpuRequest,
             @JsonProperty(&quot;cpuLimit&quot;) String cpuLimit,
-<span class="fc" id="L53">            @JsonProperty(&quot;fileUploadLimit&quot;) String fileUploadLimit) {</span>
-<span class="fc" id="L54">        this.storageRequest = storageRequest;</span>
-<span class="fc" id="L55">        this.storageLimit = storageLimit;</span>
-<span class="fc" id="L56">        this.memoryRequest = memoryRequest;</span>
-<span class="fc" id="L57">        this.memoryLimit = memoryLimit;</span>
-<span class="fc" id="L58">        this.cpuRequest = cpuRequest;</span>
-<span class="fc" id="L59">        this.cpuLimit = cpuLimit;</span>
-<span class="fc" id="L60">        this.fileUploadLimit = fileUploadLimit;</span>
-<span class="fc" id="L61">    }</span>
+            @JsonProperty(&quot;fileUploadLimit&quot;) String fileUploadLimit,
+            @JsonProperty(&quot;limits&quot;) Map&lt;String, Quantity&gt; limits,
+            @JsonProperty(&quot;requests&quot;) Map&lt;String, Quantity&gt; requests) {
+<span class="fc" id="L59">        super(limits, requests);</span>
+<span class="fc" id="L60">        this.storageRequest = storageRequest;</span>
+<span class="fc" id="L61">        this.storageLimit = storageLimit;</span>
+<span class="fc" id="L62">        this.memoryRequest = memoryRequest;</span>
+<span class="fc" id="L63">        this.memoryLimit = memoryLimit;</span>
+<span class="fc" id="L64">        this.cpuRequest = cpuRequest;</span>
+<span class="fc" id="L65">        this.cpuLimit = cpuLimit;</span>
+<span class="fc" id="L66">        this.fileUploadLimit = fileUploadLimit;</span>
+<span class="fc" id="L67">    }</span>
 
     public Optional&lt;String&gt; getStorageRequest() {
-<span class="fc" id="L64">        return Optional.ofNullable(storageRequest);</span>
+<span class="fc" id="L70">        return Optional.ofNullable(storageRequest).or(() -&gt; getRequest(&quot;storage&quot;));</span>
     }
 
     public Optional&lt;String&gt; getStorageLimit() {
-<span class="fc" id="L68">        return Optional.ofNullable(storageLimit);</span>
+<span class="fc" id="L74">        return Optional.ofNullable(storageLimit).or(() -&gt; getLimit(&quot;storage&quot;));</span>
     }
 
     public Optional&lt;String&gt; getMemoryRequest() {
-<span class="fc" id="L72">        return Optional.ofNullable(memoryRequest);</span>
+<span class="fc" id="L78">        return Optional.ofNullable(memoryRequest).or(() -&gt; getRequest(&quot;memory&quot;));</span>
     }
 
     public Optional&lt;String&gt; getMemoryLimit() {
-<span class="fc" id="L76">        return Optional.ofNullable(memoryLimit);</span>
+<span class="fc" id="L82">        return Optional.ofNullable(memoryLimit).or(() -&gt; getLimit(&quot;memory&quot;));</span>
     }
 
     public Optional&lt;String&gt; getCpuRequest() {
-<span class="fc" id="L80">        return Optional.ofNullable(cpuRequest);</span>
+<span class="fc" id="L86">        return Optional.ofNullable(cpuRequest).or(() -&gt; getRequest(&quot;cpu&quot;));</span>
     }
 
     public Optional&lt;String&gt; getCpuLimit() {
-<span class="fc" id="L84">        return Optional.ofNullable(cpuLimit);</span>
+<span class="fc" id="L90">        return Optional.ofNullable(cpuLimit).or(() -&gt; getLimit(&quot;cpu&quot;));</span>
     }
 
     public Optional&lt;String&gt; getFileUploadLimit() {
-<span class="fc" id="L88">        return Optional.ofNullable(fileUploadLimit);</span>
+<span class="pc" id="L94">        return Optional.ofNullable(fileUploadLimit).or(() -&gt; getLimit(&quot;fileUpload&quot;));</span>
+    }
+
+    private Optional&lt;String&gt; getRequest(String name) {
+<span class="fc" id="L98">        return Optional.ofNullable(getRequests().get(name)).map(Quantity::toString);</span>
+    }
+
+    private Optional&lt;String&gt; getLimit(String name) {
+<span class="fc" id="L102">        return Optional.ofNullable(getLimits().get(name)).map(Quantity::toString);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

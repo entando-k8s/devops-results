@@ -50,10 +50,11 @@ public class EntandoAppSpec extends KeycloakAwareSpec {
     private String customServerImage;
     private String ingressPath;
     private String ecrGitSshSecretName;
+    private String entandoRuntimeVersion;
 
     public EntandoAppSpec() {
-<span class="nc" id="L55">        super();</span>
-<span class="nc" id="L56">    }</span>
+<span class="nc" id="L56">        super();</span>
+<span class="nc" id="L57">    }</span>
 
     /**
      * Only for use from the builder.
@@ -71,29 +72,35 @@ public class EntandoAppSpec extends KeycloakAwareSpec {
             @JsonProperty(&quot;environmentVariables&quot;) List&lt;EnvVar&gt; environmentVariables,
             @JsonProperty(&quot;resourceRequirements&quot;) EntandoResourceRequirements resourceRequirements,
             @JsonProperty(&quot;ecrGitSshSecretName&quot;) String ecrGitSshSecretName,
-            @JsonProperty(&quot;storageClass&quot;) String storageClass) {
-<span class="fc" id="L75">        super(ingressHostName, tlsSecretName, replicas, dbms, serviceAccountToUse, environmentVariables, resourceRequirements,</span>
+            @JsonProperty(&quot;storageClass&quot;) String storageClass,
+            @JsonProperty(&quot;entandoRuntimeVersion&quot;) String entandoRuntimeVersion) {
+<span class="fc" id="L77">        super(ingressHostName, tlsSecretName, replicas, dbms, serviceAccountToUse, environmentVariables, resourceRequirements,</span>
                 keycloakToUse, storageClass);
-<span class="fc" id="L77">        this.standardServerImage = standardServerImage;</span>
-<span class="fc" id="L78">        this.customServerImage = customServerImage;</span>
-<span class="fc" id="L79">        this.ingressPath = ingressPath;</span>
-<span class="fc" id="L80">        this.ecrGitSshSecretName = ecrGitSshSecretName;</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L79">        this.standardServerImage = standardServerImage;</span>
+<span class="fc" id="L80">        this.customServerImage = customServerImage;</span>
+<span class="fc" id="L81">        this.ingressPath = ingressPath;</span>
+<span class="fc" id="L82">        this.ecrGitSshSecretName = ecrGitSshSecretName;</span>
+<span class="fc" id="L83">        this.entandoRuntimeVersion = entandoRuntimeVersion;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Optional&lt;String&gt; getEntandoRuntimeVersion() {
+<span class="fc" id="L87">        return Optional.ofNullable(entandoRuntimeVersion);</span>
+    }
 
     public Optional&lt;String&gt; getEcrGitSshSecretName() {
-<span class="fc" id="L84">        return ofNullable(ecrGitSshSecretName);</span>
+<span class="fc" id="L91">        return ofNullable(ecrGitSshSecretName);</span>
     }
 
     public Optional&lt;String&gt; getIngressPath() {
-<span class="fc" id="L88">        return ofNullable(ingressPath);</span>
+<span class="fc" id="L95">        return ofNullable(ingressPath);</span>
     }
 
     public Optional&lt;JeeServer&gt; getStandardServerImage() {
-<span class="fc" id="L92">        return ofNullable(standardServerImage);</span>
+<span class="fc" id="L99">        return ofNullable(standardServerImage);</span>
     }
 
     public Optional&lt;String&gt; getCustomServerImage() {
-<span class="fc" id="L96">        return ofNullable(customServerImage);</span>
+<span class="fc" id="L103">        return ofNullable(customServerImage);</span>
     }
 
 }

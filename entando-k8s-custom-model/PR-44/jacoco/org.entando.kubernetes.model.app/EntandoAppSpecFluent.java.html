@@ -25,46 +25,53 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
     protected String customServerImage;
     protected String ingressPath;
     private String ecrGitSshSecretName;
+    private String entandoRuntimeVersion;
 
     public EntandoAppSpecFluent(EntandoAppSpec spec) {
-<span class="fc" id="L30">        super(spec);</span>
-<span class="fc" id="L31">        this.standardServerImage = spec.getStandardServerImage().orElse(null);</span>
-<span class="fc" id="L32">        this.customServerImage = spec.getCustomServerImage().orElse(null);</span>
-<span class="fc" id="L33">        this.ingressPath = spec.getIngressPath().orElse(null);</span>
-<span class="fc" id="L34">        this.ecrGitSshSecretName = spec.getEcrGitSshSecretName().orElse(null);</span>
-<span class="fc" id="L35">    }</span>
+<span class="fc" id="L31">        super(spec);</span>
+<span class="fc" id="L32">        this.standardServerImage = spec.getStandardServerImage().orElse(null);</span>
+<span class="fc" id="L33">        this.customServerImage = spec.getCustomServerImage().orElse(null);</span>
+<span class="fc" id="L34">        this.ingressPath = spec.getIngressPath().orElse(null);</span>
+<span class="fc" id="L35">        this.ecrGitSshSecretName = spec.getEcrGitSshSecretName().orElse(null);</span>
+<span class="fc" id="L36">        this.entandoRuntimeVersion = spec.getEntandoRuntimeVersion().orElse(null);</span>
+<span class="fc" id="L37">    }</span>
 
-<span class="fc" id="L37">    public EntandoAppSpecFluent() {</span>
+<span class="fc" id="L39">    public EntandoAppSpecFluent() {</span>
 
-<span class="fc" id="L39">    }</span>
+<span class="fc" id="L41">    }</span>
+
+    public N withEntandoRuntimeVersion(String entandoRuntimeVersion) {
+<span class="fc" id="L44">        this.entandoRuntimeVersion = entandoRuntimeVersion;</span>
+<span class="fc" id="L45">        return thisAsF();</span>
+    }
 
     public N withStandardServerImage(JeeServer jeeServer) {
-<span class="fc" id="L42">        this.standardServerImage = jeeServer;</span>
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        this.customServerImage = jeeServer == null ? this.customServerImage : null;</span>
-<span class="fc" id="L44">        return thisAsF();</span>
+<span class="fc" id="L49">        this.standardServerImage = jeeServer;</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        this.customServerImage = jeeServer == null ? this.customServerImage : null;</span>
+<span class="fc" id="L51">        return thisAsF();</span>
     }
 
     public N withIngressPath(String ingressPath) {
-<span class="fc" id="L48">        this.ingressPath = ingressPath;</span>
-<span class="fc" id="L49">        return thisAsF();</span>
+<span class="fc" id="L55">        this.ingressPath = ingressPath;</span>
+<span class="fc" id="L56">        return thisAsF();</span>
     }
 
     public N withCustomServerImage(String customServerImage) {
-<span class="fc" id="L53">        this.customServerImage = customServerImage;</span>
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">        this.standardServerImage = customServerImage == null ? standardServerImage : null;</span>
-<span class="fc" id="L55">        return thisAsF();</span>
+<span class="fc" id="L60">        this.customServerImage = customServerImage;</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        this.standardServerImage = customServerImage == null ? standardServerImage : null;</span>
+<span class="fc" id="L62">        return thisAsF();</span>
     }
 
     public N withEcrGitSshSecretname(String ecrGitSshSecretName) {
-<span class="fc" id="L59">        this.ecrGitSshSecretName = ecrGitSshSecretName;</span>
-<span class="fc" id="L60">        return thisAsF();</span>
+<span class="fc" id="L66">        this.ecrGitSshSecretName = ecrGitSshSecretName;</span>
+<span class="fc" id="L67">        return thisAsF();</span>
     }
 
     public EntandoAppSpec build() {
-<span class="fc" id="L64">        return new EntandoAppSpec(this.standardServerImage, this.customServerImage, this.dbms, this.ingressHostName, this.ingressPath,</span>
+<span class="fc" id="L71">        return new EntandoAppSpec(this.standardServerImage, this.customServerImage, this.dbms, this.ingressHostName, this.ingressPath,</span>
                 this.replicas, this.tlsSecretName, this.keycloakToUse,
                 this.serviceAccountToUse, this.environmentVariables, this.resourceRequirements,
-                this.ecrGitSshSecretName, storageClass);
+                this.ecrGitSshSecretName, this.storageClass, this.entandoRuntimeVersion);
     }
 
 }
