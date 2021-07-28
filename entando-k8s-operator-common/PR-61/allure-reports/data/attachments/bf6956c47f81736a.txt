@@ -1,0 +1,34 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    TestResource: "my-app"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "my-app-70602011"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "5efc53a2-bb14-490b-8736-f40077775746"
+action: "PHASE_CHANGE"
+count: 1
+firstTimestamp: "2021-07-28T13:58:43Z"
+involvedObject:
+  apiVersion: "test.org/v1"
+  kind: "TestResource"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "9762357"
+  uid: "5efc53a2-bb14-490b-8736-f40077775746"
+lastTimestamp: "2021-07-28T13:58:43Z"
+message: "The deployment of TestResource  my-namespace/my-app was updated  to STARTED"
+reason: "PhaseUpdated"
+source:
+  component: "entando-k8s-ource-controller"
+type: "Normal"
