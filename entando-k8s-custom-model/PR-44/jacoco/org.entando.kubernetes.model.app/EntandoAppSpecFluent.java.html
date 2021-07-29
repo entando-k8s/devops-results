@@ -25,7 +25,7 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
     protected String customServerImage;
     protected String ingressPath;
     private String ecrGitSshSecretName;
-    private String entandoRuntimeVersion;
+    private String entandoAppVersion;
 
     public EntandoAppSpecFluent(EntandoAppSpec spec) {
 <span class="fc" id="L31">        super(spec);</span>
@@ -33,15 +33,15 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
 <span class="fc" id="L33">        this.customServerImage = spec.getCustomServerImage().orElse(null);</span>
 <span class="fc" id="L34">        this.ingressPath = spec.getIngressPath().orElse(null);</span>
 <span class="fc" id="L35">        this.ecrGitSshSecretName = spec.getEcrGitSshSecretName().orElse(null);</span>
-<span class="fc" id="L36">        this.entandoRuntimeVersion = spec.getEntandoRuntimeVersion().orElse(null);</span>
+<span class="fc" id="L36">        this.entandoAppVersion = spec.getEntandoAppVersion().orElse(null);</span>
 <span class="fc" id="L37">    }</span>
 
 <span class="fc" id="L39">    public EntandoAppSpecFluent() {</span>
 
 <span class="fc" id="L41">    }</span>
 
-    public N withEntandoRuntimeVersion(String entandoRuntimeVersion) {
-<span class="fc" id="L44">        this.entandoRuntimeVersion = entandoRuntimeVersion;</span>
+    public N withEntandoAppVersion(String entandoAppVersion) {
+<span class="fc" id="L44">        this.entandoAppVersion = entandoAppVersion;</span>
 <span class="fc" id="L45">        return thisAsF();</span>
     }
 
@@ -71,7 +71,7 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
 <span class="fc" id="L71">        return new EntandoAppSpec(this.standardServerImage, this.customServerImage, this.dbms, this.ingressHostName, this.ingressPath,</span>
                 this.replicas, this.tlsSecretName, this.keycloakToUse,
                 this.serviceAccountToUse, this.environmentVariables, this.resourceRequirements,
-                this.ecrGitSshSecretName, this.storageClass, this.entandoRuntimeVersion);
+                this.ecrGitSshSecretName, this.storageClass, this.entandoAppVersion);
     }
 
 }
