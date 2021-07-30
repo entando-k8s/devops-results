@@ -1,0 +1,417 @@
+{
+  "uid" : "96799eb23ce5b571",
+  "name" : "shouldPointComponentManagerToGlobalRepositoryNamespaces()",
+  "fullName" : "org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.shouldPointComponentManagerToGlobalRepositoryNamespaces",
+  "historyId" : "e482b7d10d271c8b7c5fa9a0b300ea3a",
+  "time" : {
+    "start" : 1627650287246,
+    "stop" : 1627650288131,
+    "duration" : 885
+  },
+  "description" : "Should point ComponentManager to the globally configured Component Repository Namespaces",
+  "descriptionHtml" : "<p>Should point ComponentManager to the globally configured Component Repository Namespaces</p>\n",
+  "status" : "broken",
+  "statusMessage" : "java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n",
+  "statusTrace" : "picocli.CommandLine$ExecutionException: java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n\n\tat org.entando.kubernetes.controller.app.EntandoAppController.lambda$run$0(EntandoAppController.java:98)\n\tat java.base/java.util.Optional.ifPresent(Optional.java:183)\n\tat org.entando.kubernetes.controller.app.EntandoAppController.run(EntandoAppController.java:97)\n\tat org.entando.kubernetes.test.common.ControllerTestHelper.runControllerAgainstCustomResource(ControllerTestHelper.java:121)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.lambda$shouldPointComponentManagerToGlobalRepositoryNamespaces$54(DeployedEntandoAppServerTest.java:444)\n\tat io.qameta.allure.Allure.lambda$step$0(Allure.java:113)\n\tat io.qameta.allure.Allure.lambda$step$1(Allure.java:127)\n\tat io.qameta.allure.Allure.step(Allure.java:181)\n\tat io.qameta.allure.Allure.step(Allure.java:125)\n\tat io.qameta.allure.Allure.step(Allure.java:112)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.shouldPointComponentManagerToGlobalRepositoryNamespaces(DeployedEntandoAppServerTest.java:439)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:688)\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)\n\tat org.junit.jupiter.api.extension.InvocationInterceptor.interceptTestMethod(InvocationInterceptor.java:117)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:210)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:206)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:131)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:65)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)\n\tat java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n\tat java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n\tat java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n\tat java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n\tat java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "registerCrds",
+    "time" : {
+      "start" : 1627650287248,
+      "stop" : 1627650287308,
+      "duration" : 60
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Should point ComponentManager to the globally configured Component Repository Namespaces",
+    "status" : "broken",
+    "statusMessage" : "java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n",
+    "statusTrace" : "picocli.CommandLine$ExecutionException: java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n\n\tat org.entando.kubernetes.controller.app.EntandoAppController.lambda$run$0(EntandoAppController.java:98)\n\tat java.base/java.util.Optional.ifPresent(Optional.java:183)\n\tat org.entando.kubernetes.controller.app.EntandoAppController.run(EntandoAppController.java:97)\n\tat org.entando.kubernetes.test.common.ControllerTestHelper.runControllerAgainstCustomResource(ControllerTestHelper.java:121)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.lambda$shouldPointComponentManagerToGlobalRepositoryNamespaces$54(DeployedEntandoAppServerTest.java:444)\n\tat io.qameta.allure.Allure.lambda$step$0(Allure.java:113)\n\tat io.qameta.allure.Allure.lambda$step$1(Allure.java:127)\n\tat io.qameta.allure.Allure.step(Allure.java:181)\n\tat io.qameta.allure.Allure.step(Allure.java:125)\n\tat io.qameta.allure.Allure.step(Allure.java:112)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.shouldPointComponentManagerToGlobalRepositoryNamespaces(DeployedEntandoAppServerTest.java:439)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:688)\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)\n\tat org.junit.jupiter.api.extension.InvocationInterceptor.interceptTestMethod(InvocationInterceptor.java:117)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:210)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:206)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:131)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:65)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)\n\tat java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n\tat java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n\tat java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n\tat java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n\tat java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n",
+    "steps" : [ {
+      "name" : "Given that I have configured the Component Repository namespaces 'ecr1' and 'ecr2'",
+      "time" : {
+        "start" : 1627650287310,
+        "stop" : 1627650287312,
+        "duration" : 2
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a41f6b89ef5a546b",
+        "name" : "Environment Variable",
+        "source" : "a41f6b89ef5a546b.txt",
+        "type" : "text/plain",
+        "size" : 46
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And the routing suffix has been configured globally ",
+      "time" : {
+        "start" : 1627650287312,
+        "stop" : 1627650287313,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "cfafc86cdc34a2eb",
+        "name" : "Environment Variable",
+        "source" : "cfafc86cdc34a2eb.txt",
+        "type" : "text/plain",
+        "size" : 42
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And a TLS Secret was created and configured as default",
+      "time" : {
+        "start" : 1627650287313,
+        "stop" : 1627650287313,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "faec2e8d72c7ed98",
+        "name" : "Environment Variable",
+        "source" : "faec2e8d72c7ed98.txt",
+        "type" : "text/plain",
+        "size" : 42
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And there is a controller to process requests for the DBMS capability",
+      "time" : {
+        "start" : 1627650287313,
+        "stop" : 1627650287314,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And there is a controller to process requests for the SSO capability",
+      "time" : {
+        "start" : 1627650287314,
+        "stop" : 1627650287314,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "When I create an EntandoApp ",
+      "time" : {
+        "start" : 1627650287314,
+        "stop" : 1627650288127,
+        "duration" : 813
+      },
+      "status" : "broken",
+      "statusMessage" : "java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n",
+      "statusTrace" : "picocli.CommandLine$ExecutionException: java.lang.IllegalStateException: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:142)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.lambda$resolveByReference$8(DeserializationHelper.java:154)\n\tat org.entando.kubernetes.controller.spi.common.ExceptionUtils.ioSafe(ExceptionUtils.java:135)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveByReference(DeserializationHelper.java:146)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.resolveRawObjectOrMap(DeserializationHelper.java:115)\n\tat org.entando.kubernetes.controller.spi.command.DeserializationHelper.invoke(DeserializationHelper.java:106)\n\tat com.sun.proxy.$Proxy61.getCustomResource(Unknown Source)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.deployServiceInternally(DeployCommand.java:129)\n\tat org.entando.kubernetes.controller.support.command.DeployCommand.lambda$execute$0(DeployCommand.java:108)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:834)\nCaused by: com.fasterxml.jackson.databind.JsonMappingException: (was java.util.ConcurrentModificationException) (through reference chain: org.entando.kubernetes.model.app.EntandoApp[\"status\"]->org.entando.kubernetes.model.common.EntandoCustomResourceStatus[\"serverStatuses\"]->java.util.LinkedHashMap[\"sso\"])\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:390)\n\tat com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:349)\n\tat com.fasterxml.jackson.databind.ser.std.StdSerializer.wrapAndThrow(StdSerializer.java:316)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:811)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeWithoutTypeInfo(MapSerializer.java:764)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:720)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serialize(MapSerializer.java:35)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.BeanSerializer.serialize(BeanSerializer.java:178)\n\tat com.fasterxml.jackson.databind.ser.BeanPropertyWriter.serializeAsField(BeanPropertyWriter.java:728)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeFields(BeanSerializerBase.java:770)\n\tat com.fasterxml.jackson.databind.ser.std.BeanSerializerBase.serializeWithType(BeanSerializerBase.java:655)\n\tat com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer.serialize(TypeWrappedSerializer.java:32)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider._serialize(DefaultSerializerProvider.java:480)\n\tat com.fasterxml.jackson.databind.ser.DefaultSerializerProvider.serializeValue(DefaultSerializerProvider.java:319)\n\tat com.fasterxml.jackson.databind.ObjectMapper._writeValueAndClose(ObjectMapper.java:4485)\n\tat com.fasterxml.jackson.databind.ObjectMapper.writeValueAsString(ObjectMapper.java:3740)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble.loadCustomResource(EntandoResourceClientDouble.java:135)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource$accessor$nyJCb0mp(Unknown Source)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661$auxiliary$QshMhrrx.call(Unknown Source)\n\tat org.mockito.internal.invocation.RealMethod$FromCallable$1.call(RealMethod.java:40)\n\tat org.mockito.internal.invocation.RealMethod$FromBehavior.invoke(RealMethod.java:62)\n\tat org.mockito.internal.invocation.InterceptedInvocation.callRealMethod(InterceptedInvocation.java:141)\n\tat org.mockito.internal.stubbing.answers.CallsRealMethods.answer(CallsRealMethods.java:44)\n\tat org.mockito.Answers.answer(Answers.java:98)\n\tat org.mockito.internal.handler.MockHandlerImpl.handle(MockHandlerImpl.java:106)\n\tat org.mockito.internal.handler.NullResultGuardian.handle(NullResultGuardian.java:29)\n\tat org.mockito.internal.handler.InvocationNotifierHandler.handle(InvocationNotifierHandler.java:33)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:82)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor.doIntercept(MockMethodInterceptor.java:56)\n\tat org.mockito.internal.creation.bytebuddy.MockMethodInterceptor$DispatcherDefaultingToRealMethod.interceptSuperCallable(MockMethodInterceptor.java:141)\n\tat org.entando.kubernetes.controller.support.client.doubles.EntandoResourceClientDouble$MockitoMock$1890355661.loadCustomResource(Unknown Source)\n\t... 12 more\nCaused by: java.util.ConcurrentModificationException\n\tat java.base/java.util.LinkedHashMap$LinkedHashIterator.nextNode(LinkedHashMap.java:719)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:751)\n\tat java.base/java.util.LinkedHashMap$LinkedEntryIterator.next(LinkedHashMap.java:749)\n\tat com.fasterxml.jackson.databind.ser.std.MapSerializer.serializeFields(MapSerializer.java:786)\n\t... 41 more\n\n\tat org.entando.kubernetes.controller.app.EntandoAppController.lambda$run$0(EntandoAppController.java:98)\n\tat java.base/java.util.Optional.ifPresent(Optional.java:183)\n\tat org.entando.kubernetes.controller.app.EntandoAppController.run(EntandoAppController.java:97)\n\tat org.entando.kubernetes.test.common.ControllerTestHelper.runControllerAgainstCustomResource(ControllerTestHelper.java:121)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.lambda$shouldPointComponentManagerToGlobalRepositoryNamespaces$54(DeployedEntandoAppServerTest.java:444)\n\tat io.qameta.allure.Allure.lambda$step$0(Allure.java:113)\n\tat io.qameta.allure.Allure.lambda$step$1(Allure.java:127)\n\tat io.qameta.allure.Allure.step(Allure.java:181)\n\tat io.qameta.allure.Allure.step(Allure.java:125)\n\tat io.qameta.allure.Allure.step(Allure.java:112)\n\tat org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest.shouldPointComponentManagerToGlobalRepositoryNamespaces(DeployedEntandoAppServerTest.java:439)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:688)\n\tat org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)\n\tat org.junit.jupiter.api.extension.InvocationInterceptor.interceptTestMethod(InvocationInterceptor.java:117)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)\n\tat org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)\n\tat org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)\n\tat org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$6(TestMethodTestDescriptor.java:210)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:206)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:131)\n\tat org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:65)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:139)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$5(NodeTestTask.java:143)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$7(NodeTestTask.java:129)\n\tat org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:127)\n\tat org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:126)\n\tat org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:84)\n\tat org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)\n\tat java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)\n\tat java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)\n\tat java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)\n\tat java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)\n\tat java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)\n\tat java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:177)\n",
+      "steps" : [ {
+        "name" : "Executing command PROVIDE_CAPABILITY",
+        "time" : {
+          "start" : 1627650287341,
+          "stop" : 1627650287596,
+          "duration" : 255
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "with the SSO service 'default-sso-in-namespace-service'",
+          "time" : {
+            "start" : 1627650287562,
+            "stop" : 1627650287567,
+            "duration" : 5
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "139f79e1cacabf5f",
+            "name" : "SSO Service",
+            "source" : "139f79e1cacabf5f.txt",
+            "type" : "text/plain",
+            "size" : 174
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "and the admin secret 'default-sso-in-namespace-admin-secret'",
+          "time" : {
+            "start" : 1627650287568,
+            "stop" : 1627650287570,
+            "duration" : 2
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "35018999e78e12a1",
+            "name" : "Admin Secret",
+            "source" : "35018999e78e12a1.txt",
+            "type" : "text/plain",
+            "size" : 178
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "and the Ingress 'default-sso-in-namespace-ingress'",
+          "time" : {
+            "start" : 1627650287592,
+            "stop" : 1627650287595,
+            "duration" : 3
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "8ee2c76fc9fbb6bc",
+            "name" : "SSO Ingress",
+            "source" : "8ee2c76fc9fbb6bc.txt",
+            "type" : "text/plain",
+            "size" : 385
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        } ],
+        "attachments" : [ {
+          "uid" : "6effac804a782a9e",
+          "name" : "Required Capability",
+          "source" : "6effac804a782a9e.txt",
+          "type" : "text/plain",
+          "size" : 348
+        }, {
+          "uid" : "d53397dc2e9a4b80",
+          "name" : "Provided Capability",
+          "source" : "d53397dc2e9a4b80.txt",
+          "type" : "text/plain",
+          "size" : 730
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 3,
+        "attachmentsCount" : 5,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "Executing command PROCESS_DEPLOYABLE",
+        "time" : {
+          "start" : 1627650287621,
+          "stop" : 1627650287801,
+          "duration" : 180
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "2adad354958b8b94",
+          "name" : "Input Deployable",
+          "source" : "2adad354958b8b94.txt",
+          "type" : "text/plain",
+          "size" : 1110
+        }, {
+          "uid" : "f0f8961ff62429dd",
+          "name" : "Ouput DeploymentResult",
+          "source" : "f0f8961ff62429dd.txt",
+          "type" : "text/plain",
+          "size" : 1457
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 2,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "Executing command PROCESS_DEPLOYABLE",
+        "time" : {
+          "start" : 1627650287645,
+          "stop" : 1627650287731,
+          "duration" : 86
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "ddf3eb40654304cd",
+          "name" : "Input Deployable",
+          "source" : "ddf3eb40654304cd.txt",
+          "type" : "text/plain",
+          "size" : 4479
+        }, {
+          "uid" : "4715968636120f3a",
+          "name" : "Ouput DeploymentResult",
+          "source" : "4715968636120f3a.txt",
+          "type" : "text/plain",
+          "size" : 7496
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 2,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "Executing command PROCESS_DEPLOYABLE",
+        "time" : {
+          "start" : 1627650287653,
+          "stop" : 1627650287862,
+          "duration" : 209
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "6b9f854242e19816",
+          "name" : "Input Deployable",
+          "source" : "6b9f854242e19816.txt",
+          "type" : "text/plain",
+          "size" : 4575
+        }, {
+          "uid" : "831a8defbfa44922",
+          "name" : "Ouput DeploymentResult",
+          "source" : "831a8defbfa44922.txt",
+          "type" : "text/plain",
+          "size" : 1551
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 2,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ {
+        "uid" : "48f178d6836e5ae",
+        "name" : "EntandoApp",
+        "source" : "48f178d6836e5ae.txt",
+        "type" : "text/plain",
+        "size" : 203
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 7,
+      "attachmentsCount" : 12,
+      "shouldDisplayMessage" : true,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 13,
+    "attachmentsCount" : 15,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "resetSystemProps",
+    "time" : {
+      "start" : 1627650288130,
+      "stop" : 1627650288130,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "component"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "inner-hexagon"
+  }, {
+    "name" : "feature",
+    "value" : "As a deployer, I would like to deploy an EntandoApp directly so that I have more granular control over the configuration settings"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-app-con-sjz9b-50-from-build-pack--lfwhw"
+  }, {
+    "name" : "thread",
+    "value" : "107@entando-k8s-entando-k8s-app-con-sjz9b-50-from-build-pack--lfwhw.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "shouldPointComponentManagerToGlobalRepositoryNamespaces"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.app.DeployedEntandoAppServerTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "DeployedEntandoAppServerTest.java",
+    "url" : "https://github.com/entando-k8s/entando-k8s-app-controller/tree/ENG-ENG-2284_use_predeployed_k8s_svc/src/test/java/org/entando/kubernetes/controller/app/DeployedEntandoAppServerTest.java",
+    "type" : "source"
+  }, {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ {
+      "name" : "Test defects",
+      "matchedStatuses" : [ ],
+      "flaky" : false
+    } ],
+    "tags" : [ "inner-hexagon", "component", "allure", "in-process" ]
+  },
+  "source" : "96799eb23ce5b571.json",
+  "parameterValues" : [ ]
+}

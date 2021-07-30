@@ -1,0 +1,48 @@
+---
+apiVersion: "apiextensions.k8s.io/v1beta1"
+kind: "CustomResourceDefinition"
+metadata:
+  generation: 1
+  name: "testresources.test.org"
+  resourceVersion: "9148850"
+  uid: "4bf05a0a-8836-4e6f-a2d1-032a54c6d39d"
+spec:
+  additionalPrinterColumns:
+  - JSONPath: ".status.phase"
+    name: "Phase"
+    type: "string"
+  - JSONPath: ".status.observedGeneration"
+    name: "Observed Generation"
+    type: "number"
+  - JSONPath: ".metadata.creationTimestamp"
+    name: "Age"
+    type: "date"
+  group: "test.org"
+  names:
+    kind: "TestResource"
+    plural: "testresources"
+    shortNames:
+    - "tr"
+  scope: "Namespaced"
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      properties:
+        spec:
+          type: "object"
+          x-kubernetes-preserve-unknown-fields: true
+        status:
+          properties:
+            observedGeneration:
+              type: "number"
+            phase:
+              type: "string"
+            serverStatuses:
+              type: "object"
+              x-kubernetes-preserve-unknown-fields: true
+          type: "object"
+  versions:
+  - name: "v1"
+    served: true
+    storage: true
