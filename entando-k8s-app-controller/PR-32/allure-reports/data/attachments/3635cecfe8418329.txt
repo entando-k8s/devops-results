@@ -1,0 +1,41 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoApp"
+    EntandoApp: "my-app"
+  name: "my-app-88104403"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoApp"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "1e6c2923-3c96-4cb0-be21-f08f6ab1caea"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-07-30T14:53:32Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoApp"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "4535824"
+  uid: "1e6c2923-3c96-4cb0-be21-f08f6ab1caea"
+lastTimestamp: "2021-07-30T14:53:32Z"
+message: "The deployment of EntandoApp my-namespace/my-app failed due to Could not\
+  \ complete deployment of EntandoApp in 3 seconds. Fix the root cause and then trigger\
+  \ a redeployment by adding the annotation 'entando.org/processing-instruction: force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "entando-k8s-entando-k8s-app-con-nh7q7-52-from-build-pack--7w2h7"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-app-controller"
+type: "Error"
