@@ -42,7 +42,7 @@ public class DatabaseServiceDeployable implements Deployable&lt;DatabaseDeployme
 
     @Override
     public Optional&lt;ExternalService&gt; getExternalService() {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (newEntandoDatabaseService.getSpec().getCreateDeployment().orElse(false)) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (EntandoDatabaseServiceHelper.deployDirectly(newEntandoDatabaseService)) {</span>
 <span class="fc" id="L46">            return Optional.empty();</span>
         } else {
 <span class="fc" id="L48">            return Optional.of(new ExternalDatabaseService(newEntandoDatabaseService));</span>

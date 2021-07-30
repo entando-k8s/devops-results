@@ -2,6 +2,7 @@
 
 import org.entando.kubernetes.controller.spi.common.DbmsDockerVendorStrategy;
 import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfig;
+import org.entando.kubernetes.model.capability.CapabilityProvisioningStrategy;
 import org.entando.kubernetes.model.common.DbmsVendor;
 import org.entando.kubernetes.model.externaldatabase.EntandoDatabaseService;
 
@@ -11,8 +12,14 @@ public class EntandoDatabaseServiceHelper {
     }
 
     public static DbmsDockerVendorStrategy strategyFor(EntandoDatabaseService service) {
-<span class="fc" id="L14">        return DbmsDockerVendorStrategy.forVendor(service.getSpec().getDbms().orElse(DbmsVendor.POSTGRESQL),</span>
-<span class="fc" id="L15">                EntandoOperatorSpiConfig.getComplianceMode());</span>
+<span class="fc" id="L15">        return DbmsDockerVendorStrategy.forVendor(service.getSpec().getDbms().orElse(DbmsVendor.POSTGRESQL),</span>
+<span class="fc" id="L16">                EntandoOperatorSpiConfig.getComplianceMode());</span>
+    }
+
+    public static Boolean deployDirectly(EntandoDatabaseService entandoDatabaseService) {
+<span class="fc" id="L20">        return entandoDatabaseService.getSpec().getProvisioningStrategy().map(CapabilityProvisioningStrategy.DEPLOY_DIRECTLY::equals)</span>
+<span class="fc" id="L21">                .or(entandoDatabaseService.getSpec()::getCreateDeployment)</span>
+<span class="fc" id="L22">                .orElse(false);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
