@@ -26,21 +26,27 @@ import org.entando.kubernetes.model.common.KeycloakToUse;
 
 public class EntandoAppHelper {
 
+    public static final String FIRST_DECOUPLED_ENTANDO_VERSION = &quot;6.3&quot;;
+
     private EntandoAppHelper() {
 
     }
 
     public static DbmsVendor determineDbmsVendor(EntandoApp entandoApp) {
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (EntandoOperatorSpiConfig.getComplianceMode() == EntandoOperatorComplianceMode.REDHAT) {</span>
-<span class="fc" id="L35">            return entandoApp.getSpec().getDbms().orElse(DbmsVendor.POSTGRESQL);</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (EntandoOperatorSpiConfig.getComplianceMode() == EntandoOperatorComplianceMode.REDHAT) {</span>
+<span class="fc" id="L37">            return entandoApp.getSpec().getDbms().orElse(DbmsVendor.POSTGRESQL);</span>
         } else {
-<span class="fc" id="L37">            return entandoApp.getSpec().getDbms().orElse(DbmsVendor.EMBEDDED);</span>
+<span class="fc" id="L39">            return entandoApp.getSpec().getDbms().orElse(DbmsVendor.EMBEDDED);</span>
         }
     }
 
     public static String determineRealm(EntandoApp entandoApp, SsoConnectionInfo ssoConnectionInfo) {
-<span class="fc" id="L42">        return entandoApp.getSpec().getKeycloakToUse().flatMap(KeycloakToUse::getRealm).or(ssoConnectionInfo::getDefaultRealm)</span>
-<span class="fc" id="L43">                .orElse(KeycloakName.ENTANDO_DEFAULT_KEYCLOAK_REALM);</span>
+<span class="fc" id="L44">        return entandoApp.getSpec().getKeycloakToUse().flatMap(KeycloakToUse::getRealm).or(ssoConnectionInfo::getDefaultRealm)</span>
+<span class="fc" id="L45">                .orElse(KeycloakName.ENTANDO_DEFAULT_KEYCLOAK_REALM);</span>
+    }
+
+    public static String appendImageVersion(EntandoApp entandoApp, String imageName) {
+<span class="fc" id="L49">        return imageName + &quot;-&quot; + entandoApp.getSpec().getEntandoAppVersion().orElse(FIRST_DECOUPLED_ENTANDO_VERSION).replace('.', '-');</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
