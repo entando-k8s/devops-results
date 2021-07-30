@@ -31,7 +31,7 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
     protected String ingressPath;
     private String ecrGitSshSecretName;
     private String entandoAppVersion;
-    private List&lt;String&gt; componentRegistryNamespaces;
+    private List&lt;String&gt; componentRepositoryNamespaces;
 
     public EntandoAppSpecFluent(EntandoAppSpec spec) {
 <span class="fc" id="L37">        super(spec);</span>
@@ -40,26 +40,26 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
 <span class="fc" id="L40">        this.ingressPath = spec.getIngressPath().orElse(null);</span>
 <span class="fc" id="L41">        this.ecrGitSshSecretName = spec.getEcrGitSshSecretName().orElse(null);</span>
 <span class="fc" id="L42">        this.entandoAppVersion = spec.getEntandoAppVersion().orElse(null);</span>
-<span class="fc" id="L43">        this.componentRegistryNamespaces = spec.getComponentRegistryNamespaces();</span>
+<span class="fc" id="L43">        this.componentRepositoryNamespaces = spec.getComponentRepositoryNamespaces();</span>
 <span class="fc" id="L44">    }</span>
 
 <span class="fc" id="L46">    public EntandoAppSpecFluent() {</span>
 
 <span class="fc" id="L48">    }</span>
 
-    public N withToComponentRegistryNamespaces(List&lt;String&gt; componentRegistryNamespaces) {
-<span class="fc" id="L51">        this.componentRegistryNamespaces = null;</span>
-<span class="fc" id="L52">        return addToComponentRegistryNamespaces(componentRegistryNamespaces);</span>
+    public N withToComponentRepositoryNamespaces(List&lt;String&gt; componentRepositoryNamespaces) {
+<span class="fc" id="L51">        this.componentRepositoryNamespaces = null;</span>
+<span class="fc" id="L52">        return addToComponentRepositoryNamespaces(componentRepositoryNamespaces);</span>
     }
 
-    public N addToComponentRegistryNamespaces(List&lt;String&gt; componentRegistryNamespaces) {
-<span class="fc" id="L56">        ofNullable(componentRegistryNamespaces).ifPresent(s -&gt; s.forEach(this::addToComponentRegistryNamespaces));</span>
+    public N addToComponentRepositoryNamespaces(List&lt;String&gt; componentRepositoryNamespaces) {
+<span class="fc" id="L56">        ofNullable(componentRepositoryNamespaces).ifPresent(s -&gt; s.forEach(this::addToComponentRepositoryNamespaces));</span>
 <span class="fc" id="L57">        return thisAsF();</span>
     }
 
-    public N addToComponentRegistryNamespaces(String componentRegistryNamespaces) {
-<span class="fc" id="L61">        this.componentRegistryNamespaces = Objects.requireNonNullElseGet(this.componentRegistryNamespaces, ArrayList::new);</span>
-<span class="fc" id="L62">        ofNullable(componentRegistryNamespaces).ifPresent(this.componentRegistryNamespaces::add);</span>
+    public N addToComponentRepositoryNamespaces(String componentRepositoryNamespaces) {
+<span class="fc" id="L61">        this.componentRepositoryNamespaces = Objects.requireNonNullElseGet(this.componentRepositoryNamespaces, ArrayList::new);</span>
+<span class="fc" id="L62">        ofNullable(componentRepositoryNamespaces).ifPresent(this.componentRepositoryNamespaces::add);</span>
 <span class="fc" id="L63">        return thisAsF();</span>
     }
 
@@ -94,7 +94,7 @@ public class EntandoAppSpecFluent&lt;N extends EntandoAppSpecFluent&lt;N&gt;&gt;
 <span class="fc" id="L94">        return new EntandoAppSpec(this.standardServerImage, this.customServerImage, this.dbms, this.ingressHostName, this.ingressPath,</span>
                 this.replicas, this.tlsSecretName, this.keycloakToUse,
                 this.serviceAccountToUse, this.environmentVariables, this.resourceRequirements,
-                this.ecrGitSshSecretName, this.storageClass, this.entandoAppVersion, this.componentRegistryNamespaces);
+                this.ecrGitSshSecretName, this.storageClass, this.entandoAppVersion, this.componentRepositoryNamespaces);
     }
 
 }
