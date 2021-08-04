@@ -301,59 +301,61 @@ import org.springframework.web.util.UriComponentsBuilder;
     public Optional&lt;EntandoDeBundle&gt; getBundleWithNameAndNamespace(String name, String namespace) {
 <span class="fc" id="L302">        EntandoDeBundle bundle = null;</span>
         try {
-<span class="fc" id="L304">            bundle = traverson.follow(BUNDLES_ENDPOINT)</span>
+<span class="fc" id="L304">            final EntityModel&lt;EntandoDeBundle&gt; entityModel = traverson.follow(BUNDLES_ENDPOINT)</span>
 <span class="fc" id="L305">                    .follow(Hop.rel(&quot;bundle&quot;)</span>
 <span class="fc" id="L306">                            .withParameter(&quot;name&quot;, name)</span>
 <span class="fc" id="L307">                            .withParameter(&quot;namespace&quot;, namespace))</span>
 <span class="fc" id="L308">                    .toObject(new ParameterizedTypeReference&lt;EntityModel&lt;EntandoDeBundle&gt;&gt;() {</span>
-                    })
-<span class="fc" id="L310">                    .getContent();</span>
-
-<span class="nc" id="L312">        } catch (RestClientResponseException ex) {</span>
-<span class="nc bnc" id="L313" title="All 2 branches missed.">            if (ex.getRawStatusCode() != 404) {</span>
-<span class="nc" id="L314">                throw new KubernetesClientException(&quot;An error occurred while retrieving bundle with name &quot; + name, ex);</span>
+                    });
+<span class="pc bpc" id="L310" title="1 of 2 branches missed.">            if (entityModel != null) {</span>
+<span class="fc" id="L311">                bundle = entityModel.getContent();</span>
             }
-<span class="nc" id="L316">        } catch (Exception ex) {</span>
-<span class="nc" id="L317">            throw new KubernetesClientException(&quot;An error occurred while retrieving bundle with name &quot; + name, ex);</span>
-<span class="pc" id="L318">        }</span>
 
-<span class="fc" id="L320">        return Optional.ofNullable(bundle);</span>
+<span class="nc" id="L314">        } catch (RestClientResponseException ex) {</span>
+<span class="nc bnc" id="L315" title="All 2 branches missed.">            if (ex.getRawStatusCode() != 404) {</span>
+<span class="nc" id="L316">                throw new KubernetesClientException(&quot;An error occurred while retrieving bundle with name &quot; + name, ex);</span>
+            }
+<span class="nc" id="L318">        } catch (Exception ex) {</span>
+<span class="nc" id="L319">            throw new KubernetesClientException(&quot;An error occurred while retrieving bundle with name &quot; + name, ex);</span>
+<span class="pc" id="L320">        }</span>
+
+<span class="fc" id="L322">        return Optional.ofNullable(bundle);</span>
     }
 
     @Override
     public boolean isPluginReadyToServeApp(EntandoPlugin plugin, String appName) {
-<span class="fc bfc" id="L325" title="All 2 branches covered.">        if (plugin.getSpec().getIngressPath() == null) {</span>
-<span class="fc" id="L326">            return false;</span>
+<span class="fc bfc" id="L327" title="All 2 branches covered.">        if (plugin.getSpec().getIngressPath() == null) {</span>
+<span class="fc" id="L328">            return false;</span>
         }
-<span class="fc" id="L328">        Ingress appIngress = getAppIngress(appName);</span>
-<span class="fc" id="L329">        IngressRule ingressRule = appIngress.getSpec().getRules().stream().findFirst().&lt;RuntimeException&gt;orElseThrow(</span>
+<span class="fc" id="L330">        Ingress appIngress = getAppIngress(appName);</span>
+<span class="fc" id="L331">        IngressRule ingressRule = appIngress.getSpec().getRules().stream().findFirst().&lt;RuntimeException&gt;orElseThrow(</span>
                 () -&gt; {
-<span class="nc" id="L331">                    throw new K8SServiceClientException(</span>
-<span class="nc" id="L332">                            &quot;EntandoApp ingress &quot; + appIngress.getMetadata().getName() + &quot; does not have an host&quot;);</span>
+<span class="nc" id="L333">                    throw new K8SServiceClientException(</span>
+<span class="nc" id="L334">                            &quot;EntandoApp ingress &quot; + appIngress.getMetadata().getName() + &quot; does not have an host&quot;);</span>
                 });
 
-<span class="fc" id="L335">        String appHost = ingressRule.getHost();</span>
-<span class="fc" id="L336">        UriComponents pluginHealthCheck = UriComponentsBuilder.newInstance()</span>
-<span class="pc bpc" id="L337" title="1 of 2 branches missed.">                .scheme(appIngress.getSpec().getTls().isEmpty() ? &quot;http&quot; : &quot;https&quot;)</span>
-<span class="fc" id="L338">                .host(appHost)</span>
-<span class="fc" id="L339">                .path(plugin.getSpec().getIngressPath())</span>
-<span class="fc" id="L340">                .path(plugin.getSpec().getHealthCheckPath())</span>
-<span class="fc" id="L341">                .build();</span>
-<span class="fc" id="L342">        RequestEntity&lt;?&gt; request = RequestEntity</span>
-<span class="fc" id="L343">                .get(URI.create(pluginHealthCheck.toUriString()))</span>
-<span class="fc" id="L344">                .accept(MediaType.APPLICATION_JSON)</span>
-<span class="fc" id="L345">                .build();</span>
+<span class="fc" id="L337">        String appHost = ingressRule.getHost();</span>
+<span class="fc" id="L338">        UriComponents pluginHealthCheck = UriComponentsBuilder.newInstance()</span>
+<span class="pc bpc" id="L339" title="1 of 2 branches missed.">                .scheme(appIngress.getSpec().getTls().isEmpty() ? &quot;http&quot; : &quot;https&quot;)</span>
+<span class="fc" id="L340">                .host(appHost)</span>
+<span class="fc" id="L341">                .path(plugin.getSpec().getIngressPath())</span>
+<span class="fc" id="L342">                .path(plugin.getSpec().getHealthCheckPath())</span>
+<span class="fc" id="L343">                .build();</span>
+<span class="fc" id="L344">        RequestEntity&lt;?&gt; request = RequestEntity</span>
+<span class="fc" id="L345">                .get(URI.create(pluginHealthCheck.toUriString()))</span>
+<span class="fc" id="L346">                .accept(MediaType.APPLICATION_JSON)</span>
+<span class="fc" id="L347">                .build();</span>
         try {
-<span class="fc" id="L347">            ResponseEntity&lt;Object&gt; response = this.noAuthRestTemplate.exchange(request, Object.class);</span>
-<span class="fc" id="L348">            return response.getStatusCode().is2xxSuccessful();</span>
-<span class="nc" id="L349">        } catch (RestClientResponseException e) {</span>
-<span class="nc" id="L350">            HttpStatus status = HttpStatus.valueOf(e.getRawStatusCode());</span>
-<span class="nc bnc" id="L351" title="All 4 branches missed.">            if (status.equals(HttpStatus.NOT_FOUND) || status.equals(HttpStatus.SERVICE_UNAVAILABLE)) {</span>
-<span class="nc" id="L352">                return false;</span>
+<span class="fc" id="L349">            ResponseEntity&lt;Object&gt; response = this.noAuthRestTemplate.exchange(request, Object.class);</span>
+<span class="fc" id="L350">            return response.getStatusCode().is2xxSuccessful();</span>
+<span class="nc" id="L351">        } catch (RestClientResponseException e) {</span>
+<span class="nc" id="L352">            HttpStatus status = HttpStatus.valueOf(e.getRawStatusCode());</span>
+<span class="nc bnc" id="L353" title="All 4 branches missed.">            if (status.equals(HttpStatus.NOT_FOUND) || status.equals(HttpStatus.SERVICE_UNAVAILABLE)) {</span>
+<span class="nc" id="L354">                return false;</span>
             }
-<span class="nc" id="L354">            throw e;</span>
-<span class="nc" id="L355">        } catch (RestClientException e) {</span>
 <span class="nc" id="L356">            throw e;</span>
+<span class="nc" id="L357">        } catch (RestClientException e) {</span>
+<span class="nc" id="L358">            throw e;</span>
         }
 
     }
@@ -361,132 +363,132 @@ import org.springframework.web.util.UriComponentsBuilder;
     @Override
     public AnalysisReport getAnalysisReport(List&lt;Reportable&gt; reportableList) {
 
-<span class="fc" id="L364">        Map&lt;String, Status&gt; pluginStatusMap = reportableList.stream()</span>
-<span class="fc bfc" id="L365" title="All 2 branches covered.">                .filter(reportable -&gt; reportable.getComponentType() == ComponentType.PLUGIN)</span>
-<span class="fc" id="L366">                .flatMap(reportable -&gt; reportable.getCodes().stream())</span>
-<span class="fc" id="L367">                .map(name -&gt;</span>
-<span class="fc" id="L368">                        getPluginByName(name)</span>
-<span class="pc" id="L369">                                .map(plugin -&gt; new SimpleEntry&lt;&gt;(name, Status.DIFF))</span>
-<span class="fc" id="L370">                                .orElseGet(() -&gt; new SimpleEntry&lt;&gt;(name, Status.NEW)))</span>
-<span class="fc" id="L371">                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));</span>
+<span class="fc" id="L366">        Map&lt;String, Status&gt; pluginStatusMap = reportableList.stream()</span>
+<span class="fc bfc" id="L367" title="All 2 branches covered.">                .filter(reportable -&gt; reportable.getComponentType() == ComponentType.PLUGIN)</span>
+<span class="fc" id="L368">                .flatMap(reportable -&gt; reportable.getCodes().stream())</span>
+<span class="fc" id="L369">                .map(name -&gt;</span>
+<span class="fc" id="L370">                        getPluginByName(name)</span>
+<span class="pc" id="L371">                                .map(plugin -&gt; new SimpleEntry&lt;&gt;(name, Status.DIFF))</span>
+<span class="fc" id="L372">                                .orElseGet(() -&gt; new SimpleEntry&lt;&gt;(name, Status.NEW)))</span>
+<span class="fc" id="L373">                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));</span>
 
-<span class="fc" id="L373">        return new AnalysisReport().setPlugins(pluginStatusMap);</span>
+<span class="fc" id="L375">        return new AnalysisReport().setPlugins(pluginStatusMap);</span>
     }
 
     private Ingress getAppIngress(String appName) {
-<span class="fc" id="L377">        return tryOrThrow(() -&gt; traverson.follow(APPS_ENDPOINT)</span>
-<span class="fc" id="L378">                .follow(Hop.rel(&quot;app&quot;).withParameter(&quot;name&quot;, appName))</span>
-<span class="fc" id="L379">                .follow(&quot;app-ingress&quot;)</span>
-<span class="fc" id="L380">                .toObject(new ParameterizedTypeReference&lt;EntityModel&lt;Ingress&gt;&gt;() {</span>
+<span class="fc" id="L379">        return tryOrThrow(() -&gt; traverson.follow(APPS_ENDPOINT)</span>
+<span class="fc" id="L380">                .follow(Hop.rel(&quot;app&quot;).withParameter(&quot;name&quot;, appName))</span>
+<span class="fc" id="L381">                .follow(&quot;app-ingress&quot;)</span>
+<span class="fc" id="L382">                .toObject(new ParameterizedTypeReference&lt;EntityModel&lt;Ingress&gt;&gt;() {</span>
                 })
-<span class="fc" id="L382">                .getContent());</span>
+<span class="fc" id="L384">                .getContent());</span>
     }
 
 
     private RestTemplate newRestTemplate() {
-<span class="fc" id="L387">        OAuth2ProtectedResourceDetails resourceDetails = getResourceDetails();</span>
-<span class="pc bpc" id="L388" title="1 of 2 branches missed.">        if (resourceDetails == null) {</span>
-<span class="nc" id="L389">            return null;</span>
+<span class="fc" id="L389">        OAuth2ProtectedResourceDetails resourceDetails = getResourceDetails();</span>
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">        if (resourceDetails == null) {</span>
+<span class="nc" id="L391">            return null;</span>
         }
-<span class="fc" id="L391">        final OAuth2RestTemplate template = new OAuth2RestTemplate(resourceDetails);</span>
-<span class="fc" id="L392">        template.setRequestFactory(getRequestFactory());</span>
-<span class="fc" id="L393">        template.setAccessTokenProvider(new ClientCredentialsAccessTokenProvider());</span>
+<span class="fc" id="L393">        final OAuth2RestTemplate template = new OAuth2RestTemplate(resourceDetails);</span>
+<span class="fc" id="L394">        template.setRequestFactory(getRequestFactory());</span>
+<span class="fc" id="L395">        template.setAccessTokenProvider(new ClientCredentialsAccessTokenProvider());</span>
 
-<span class="fc" id="L395">        return setMessageConverters(template);</span>
+<span class="fc" id="L397">        return setMessageConverters(template);</span>
     }
 
     private RestTemplate newNoAuthRestTemplate() {
 
-<span class="fc" id="L400">        final RestTemplate template = new RestTemplate();</span>
-<span class="fc" id="L401">        template.setRequestFactory(getRequestFactory());</span>
+<span class="fc" id="L402">        final RestTemplate template = new RestTemplate();</span>
+<span class="fc" id="L403">        template.setRequestFactory(getRequestFactory());</span>
 
-<span class="fc" id="L403">        return setMessageConverters(template);</span>
+<span class="fc" id="L405">        return setMessageConverters(template);</span>
     }
 
     private RestTemplate setMessageConverters(RestTemplate restTemplate) {
-<span class="fc" id="L407">        List&lt;HttpMessageConverter&lt;?&gt;&gt; messageConverters = Traverson</span>
-<span class="fc" id="L408">                .getDefaultMessageConverters(MediaType.APPLICATION_JSON, MediaTypes.HAL_JSON);</span>
-<span class="fc" id="L409">        if (messageConverters.stream()</span>
-<span class="pc bpc" id="L410" title="1 of 2 branches missed.">                .noneMatch(mc -&gt; mc.getSupportedMediaTypes().contains(MediaType.APPLICATION_JSON))) {</span>
-<span class="fc" id="L411">            messageConverters.add(0, getJsonConverter());</span>
+<span class="fc" id="L409">        List&lt;HttpMessageConverter&lt;?&gt;&gt; messageConverters = Traverson</span>
+<span class="fc" id="L410">                .getDefaultMessageConverters(MediaType.APPLICATION_JSON, MediaTypes.HAL_JSON);</span>
+<span class="fc" id="L411">        if (messageConverters.stream()</span>
+<span class="pc bpc" id="L412" title="1 of 2 branches missed.">                .noneMatch(mc -&gt; mc.getSupportedMediaTypes().contains(MediaType.APPLICATION_JSON))) {</span>
+<span class="fc" id="L413">            messageConverters.add(0, getJsonConverter());</span>
         }
-<span class="fc" id="L413">        restTemplate.setMessageConverters(messageConverters);</span>
+<span class="fc" id="L415">        restTemplate.setMessageConverters(messageConverters);</span>
 
-<span class="fc" id="L415">        return restTemplate;</span>
+<span class="fc" id="L417">        return restTemplate;</span>
     }
 
     private HttpMessageConverter&lt;?&gt; getJsonConverter() {
-<span class="fc" id="L419">        final List&lt;MediaType&gt; supportedMediatypes = Arrays.asList(MediaType.APPLICATION_JSON);</span>
-<span class="fc" id="L420">        ObjectMapper mapper = new ObjectMapper();</span>
-<span class="fc" id="L421">        mapper.registerModule(new Jackson2HalModule());</span>
-<span class="fc" id="L422">        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);</span>
+<span class="fc" id="L421">        final List&lt;MediaType&gt; supportedMediatypes = Arrays.asList(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L422">        ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L423">        mapper.registerModule(new Jackson2HalModule());</span>
+<span class="fc" id="L424">        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);</span>
 
-<span class="fc" id="L424">        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();</span>
+<span class="fc" id="L426">        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();</span>
 
-<span class="fc" id="L426">        converter.setObjectMapper(mapper);</span>
-<span class="fc" id="L427">        converter.setSupportedMediaTypes(supportedMediatypes);</span>
+<span class="fc" id="L428">        converter.setObjectMapper(mapper);</span>
+<span class="fc" id="L429">        converter.setSupportedMediaTypes(supportedMediatypes);</span>
 
-<span class="fc" id="L429">        return converter;</span>
+<span class="fc" id="L431">        return converter;</span>
     }
 
 
     private OAuth2ProtectedResourceDetails getResourceDetails() {
-<span class="fc" id="L434">        final ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();</span>
-<span class="fc" id="L435">        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);</span>
-<span class="fc" id="L436">        resourceDetails.setClientId(clientId);</span>
-<span class="fc" id="L437">        resourceDetails.setClientSecret(clientSecret);</span>
-<span class="fc" id="L438">        resourceDetails.setClientAuthenticationScheme(AuthenticationScheme.form);</span>
+<span class="fc" id="L436">        final ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();</span>
+<span class="fc" id="L437">        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);</span>
+<span class="fc" id="L438">        resourceDetails.setClientId(clientId);</span>
+<span class="fc" id="L439">        resourceDetails.setClientSecret(clientSecret);</span>
+<span class="fc" id="L440">        resourceDetails.setClientAuthenticationScheme(AuthenticationScheme.form);</span>
         try {
-<span class="fc" id="L440">            resourceDetails.setAccessTokenUri(UriComponentsBuilder.fromUriString(tokenUri).toUriString());</span>
-<span class="nc" id="L441">        } catch (IllegalArgumentException ex) {</span>
-<span class="nc" id="L442">            LOGGER.log(Level.SEVERE, ex, () -&gt; String.format(&quot;Issues when using %s as token uri&quot;, tokenUri));</span>
-<span class="nc" id="L443">            return null;</span>
-<span class="fc" id="L444">        }</span>
-<span class="fc" id="L445">        return resourceDetails;</span>
+<span class="fc" id="L442">            resourceDetails.setAccessTokenUri(UriComponentsBuilder.fromUriString(tokenUri).toUriString());</span>
+<span class="nc" id="L443">        } catch (IllegalArgumentException ex) {</span>
+<span class="nc" id="L444">            LOGGER.log(Level.SEVERE, ex, () -&gt; String.format(&quot;Issues when using %s as token uri&quot;, tokenUri));</span>
+<span class="nc" id="L445">            return null;</span>
+<span class="fc" id="L446">        }</span>
+<span class="fc" id="L447">        return resourceDetails;</span>
     }
 
     private ClientHttpRequestFactory getRequestFactory() {
-<span class="fc" id="L449">        final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();</span>
-<span class="fc" id="L450">        final int timeout = 10000;</span>
+<span class="fc" id="L451">        final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();</span>
+<span class="fc" id="L452">        final int timeout = 10000;</span>
 
-<span class="fc" id="L452">        requestFactory.setConnectionRequestTimeout(timeout);</span>
-<span class="fc" id="L453">        requestFactory.setConnectTimeout(timeout);</span>
-<span class="fc" id="L454">        requestFactory.setReadTimeout(timeout);</span>
-<span class="fc" id="L455">        return requestFactory;</span>
+<span class="fc" id="L454">        requestFactory.setConnectionRequestTimeout(timeout);</span>
+<span class="fc" id="L455">        requestFactory.setConnectTimeout(timeout);</span>
+<span class="fc" id="L456">        requestFactory.setReadTimeout(timeout);</span>
+<span class="fc" id="L457">        return requestFactory;</span>
     }
 
     public void tryOrThrow(Runnable runnable, String actionDescription) {
         try {
-<span class="fc" id="L460">            runnable.run();</span>
-<span class="fc" id="L461">        } catch (RestClientResponseException ex) {</span>
-<span class="fc" id="L462">            throw new KubernetesClientException(</span>
-<span class="fc" id="L463">                    String.format(&quot;An error occurred while %s: %d - %s&quot;,</span>
+<span class="fc" id="L462">            runnable.run();</span>
+<span class="fc" id="L463">        } catch (RestClientResponseException ex) {</span>
+<span class="fc" id="L464">            throw new KubernetesClientException(</span>
+<span class="fc" id="L465">                    String.format(&quot;An error occurred while %s: %d - %s&quot;,</span>
                             actionDescription,
-<span class="fc" id="L465">                            ex.getRawStatusCode(),</span>
-<span class="fc" id="L466">                            ex.getResponseBodyAsString()),</span>
+<span class="fc" id="L467">                            ex.getRawStatusCode(),</span>
+<span class="fc" id="L468">                            ex.getResponseBodyAsString()),</span>
                     ex);
-<span class="nc" id="L468">        } catch (Exception ex) {</span>
-<span class="nc" id="L469">            throw new KubernetesClientException(&quot;A generic error occurred while &quot; + actionDescription, ex);</span>
-<span class="fc" id="L470">        }</span>
-<span class="fc" id="L471">    }</span>
+<span class="nc" id="L470">        } catch (Exception ex) {</span>
+<span class="nc" id="L471">            throw new KubernetesClientException(&quot;A generic error occurred while &quot; + actionDescription, ex);</span>
+<span class="fc" id="L472">        }</span>
+<span class="fc" id="L473">    }</span>
 
     public &lt;T&gt; T tryOrThrow(Supplier&lt;T&gt; supplier) {
-<span class="fc" id="L474">        return tryOrThrow(supplier, &quot;talking with k8s-service&quot;);</span>
+<span class="fc" id="L476">        return tryOrThrow(supplier, &quot;talking with k8s-service&quot;);</span>
     }
 
 
     public &lt;T&gt; T tryOrThrow(Supplier&lt;T&gt; supplier, String action) {
         try {
-<span class="fc" id="L480">            return supplier.get();</span>
-<span class="fc" id="L481">        } catch (RestClientResponseException ex) {</span>
-<span class="fc" id="L482">            throw new KubernetesClientException(</span>
-<span class="fc" id="L483">                    String.format(&quot;An error occurred while %s: %d - %s&quot;,</span>
+<span class="fc" id="L482">            return supplier.get();</span>
+<span class="fc" id="L483">        } catch (RestClientResponseException ex) {</span>
+<span class="fc" id="L484">            throw new KubernetesClientException(</span>
+<span class="fc" id="L485">                    String.format(&quot;An error occurred while %s: %d - %s&quot;,</span>
                             action,
-<span class="fc" id="L485">                            ex.getRawStatusCode(),</span>
-<span class="fc" id="L486">                            ex.getResponseBodyAsString()),</span>
+<span class="fc" id="L487">                            ex.getRawStatusCode(),</span>
+<span class="fc" id="L488">                            ex.getResponseBodyAsString()),</span>
                     ex);
-<span class="nc" id="L488">        } catch (Exception ex) {</span>
-<span class="nc" id="L489">            throw new KubernetesClientException(&quot;A generic error occurred while &quot; + action, ex);</span>
+<span class="nc" id="L490">        } catch (Exception ex) {</span>
+<span class="nc" id="L491">            throw new KubernetesClientException(&quot;A generic error occurred while &quot; + action, ex);</span>
         }
     }
 
