@@ -1,0 +1,55 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    openshift.io/scc: "anyuid"
+  creationTimestamp: "2021-08-05T09:21:46Z"
+  labels:
+    pod-label: "123"
+  name: "my-pod"
+  namespace: "entando-k8s-controller-coordinator-carcpr75-test1"
+  resourceVersion: "213499086"
+  selfLink: "/api/v1/namespaces/entando-k8s-controller-coordinator-carcpr75-test1/pods/my-pod"
+  uid: "8e96d5f4-f5ce-11eb-ad14-fa163ea775ae"
+spec:
+  containers:
+  - command:
+    - "/usr/libexec/s2i/run"
+    image: "centos/nginx-116-centos7"
+    imagePullPolicy: "Always"
+    name: "nginx"
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - "MKNOD"
+    terminationMessagePath: "/dev/termination-log"
+    terminationMessagePolicy: "File"
+    volumeMounts:
+    - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+      name: "default-token-5p6ft"
+      readOnly: true
+  dnsPolicy: "ClusterFirst"
+  imagePullSecrets:
+  - name: "default-dockercfg-hps6k"
+  - name: "redhat-registry"
+  nodeSelector:
+    node-role.kubernetes.io/compute: "true"
+  priority: 0
+  restartPolicy: "Always"
+  schedulerName: "default-scheduler"
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c205,c10"
+  serviceAccount: "default"
+  serviceAccountName: "default"
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: "default-token-5p6ft"
+    secret:
+      defaultMode: 420
+      secretName: "default-token-5p6ft"
+status:
+  phase: "Pending"
+  qosClass: "BestEffort"
