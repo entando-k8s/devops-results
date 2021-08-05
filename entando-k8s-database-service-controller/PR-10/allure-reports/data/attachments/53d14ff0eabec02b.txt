@@ -1,0 +1,30 @@
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "mysql-dbms-2670"
+    EntandoDatabaseService: "mysql-dbms-2670"
+    entando.org/capability: "Dbms"
+    my-label: "my-label-value"
+    entando.org/capability-implementation: "Mysql"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+    entando.org/capability-provision-scope: "Labeled"
+  name: "mysql-dbms-2670-db-pvc"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "mysql-dbms-2670"
+    uid: "86cf5c1f-aede-434f-baa8-2543cd8542ff"
+spec:
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    limits:
+      storage: "2048Mi"
+    requests:
+      storage: "512Mi"

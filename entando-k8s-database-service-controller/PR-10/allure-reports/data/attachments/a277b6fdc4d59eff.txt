@@ -1,0 +1,39 @@
+--- !<EntandoDatabaseService>
+apiVersion: "entando.org/v1"
+kind: "EntandoDatabaseService"
+metadata:
+  generation: 1
+  name: "default-dbms-in-namespace"
+  namespace: "my-namespace"
+  resourceVersion: "6233135"
+  uid: "cf90e411-61e3-4188-8669-7a3c1edabaeb"
+spec:
+  createDeployment: true
+  jdbcParameters: {}
+  replicas: 1
+  environmentVariables: []
+  providedCapabilityScope: "Namespace"
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-08-05T06:30:42+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoDatabaseService"
+        namespace: "my-namespace"
+        name: "default-dbms-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      serviceName: "default-dbms-in-namespace-service"
+      deploymentName: "default-dbms-in-namespace-deployment"
+      podPhases:
+        default-dbms-in-namespace-deployment: "Running"
+      persistentVolumeClaimPhases:
+        default-dbms-in-namespace-db-pvc: "Pending"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "entandodatabaseservices.entando.org"

@@ -1,0 +1,40 @@
+---
+internalServiceHostname: "mysql-dbms-6112-service.my-namespace.svc.cluster.local"
+mixins:
+- "SerializableDeploymentResult"
+- "ServiceResult"
+- "ServiceDeploymentResult"
+pod:
+  apiVersion: "v1"
+  kind: "Pod"
+  metadata:
+    name: "mysql-dbms-6112-deployment"
+    namespace: "my-namespace"
+  isCustomResource: false
+port: "3306"
+service:
+  apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    name: "mysql-dbms-6112-service"
+    namespace: "my-namespace"
+  isCustomResource: false
+status:
+  type: "WebServerStatus"
+  qualifier: "main"
+  started: "2021-08-05T06:30:41+0000"
+  originatingCustomResource:
+    apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    namespace: "my-namespace"
+    name: "mysql-dbms-6112"
+  originatingControllerPod:
+    namespace: "controller-namespace"
+    name: "test-controller-pod"
+  finished: "2021-08-05T06:30:42+0000"
+  serviceName: "mysql-dbms-6112-service"
+  deploymentName: "mysql-dbms-6112-deployment"
+  podPhases:
+    mysql-dbms-6112-deployment: "Running"
+  persistentVolumeClaimPhases:
+    mysql-dbms-6112-db-pvc: "Pending"

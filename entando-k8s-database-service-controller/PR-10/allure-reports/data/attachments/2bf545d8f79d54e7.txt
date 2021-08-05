@@ -1,0 +1,22 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    EntandoDatabaseService: "default-dbms-in-namespace"
+    entando.org/capability: "Dbms"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "default-dbms-in-namespace-admin-secret"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "default-dbms-in-namespace"
+    uid: "7b612779-c619-4a5a-b923-59bcfc395016"
+stringData:
+  username: "postgres"
+  password: "361755713d5b4f04"
