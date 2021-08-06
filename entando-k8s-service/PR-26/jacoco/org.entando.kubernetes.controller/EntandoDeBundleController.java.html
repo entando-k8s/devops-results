@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.entando.kubernetes.exception.NotFoundExceptionFactory;
 import org.entando.kubernetes.model.debundle.EntandoDeBundle;
 import org.entando.kubernetes.service.EntandoDeBundleService;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-<span class="fc" id="L27">@Slf4j</span>
+<span class="fc" id="L28">@Slf4j</span>
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(&quot;/bundles&quot;)
@@ -35,44 +36,50 @@ public class EntandoDeBundleController {
 
     @GetMapping(path = &quot;&quot;, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
     public ResponseEntity&lt;CollectionModel&lt;EntityModel&lt;EntandoDeBundle&gt;&gt;&gt; list() {
-<span class="fc" id="L38">        log.info(&quot;Listing available digital-exchange bundles&quot;);</span>
-<span class="fc" id="L39">        List&lt;EntandoDeBundle&gt; deBundles = bundleService.getAll();</span>
-<span class="fc" id="L40">        return ResponseEntity</span>
-<span class="fc" id="L41">                .ok(getCollectionWithLinks(deBundles));</span>
+<span class="fc" id="L39">        log.info(&quot;Listing available digital-exchange bundles&quot;);</span>
+<span class="fc" id="L40">        List&lt;EntandoDeBundle&gt; deBundles = bundleService.getAll();</span>
+<span class="fc" id="L41">        return ResponseEntity</span>
+<span class="fc" id="L42">                .ok(getCollectionWithLinks(deBundles));</span>
     }
 
     @GetMapping(produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE}, params = {
             &quot;namespace&quot;})
     public ResponseEntity&lt;CollectionModel&lt;EntityModel&lt;EntandoDeBundle&gt;&gt;&gt; listInNamespace(
             @RequestParam(&quot;namespace&quot;) String namespace) {
-<span class="fc" id="L48">        log.info(&quot;Listing available entando-de-bundles in namespace {}&quot;, namespace);</span>
-<span class="fc" id="L49">        List&lt;EntandoDeBundle&gt; deBundles = bundleService.getAllInNamespace(namespace);</span>
-<span class="fc" id="L50">        CollectionModel&lt;EntityModel&lt;EntandoDeBundle&gt;&gt; collection = getCollectionWithLinks(deBundles);</span>
-<span class="fc" id="L51">        return ResponseEntity.ok(collection);</span>
+<span class="fc" id="L49">        log.info(&quot;Listing available entando-de-bundles in namespace {}&quot;, namespace);</span>
+<span class="fc" id="L50">        List&lt;EntandoDeBundle&gt; deBundles = bundleService.getAllInNamespace(namespace);</span>
+<span class="fc" id="L51">        CollectionModel&lt;EntityModel&lt;EntandoDeBundle&gt;&gt; collection = getCollectionWithLinks(deBundles);</span>
+<span class="fc" id="L52">        return ResponseEntity.ok(collection);</span>
     }
 
     @GetMapping(path = &quot;/{name}&quot;, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
     public ResponseEntity&lt;EntityModel&lt;EntandoDeBundle&gt;&gt; get(@PathVariable String name,
             @RequestParam(value = &quot;namespace&quot;, required = false) String namespace) {
-<span class="fc" id="L57">        log.info(&quot;Getting entando-de-bundle with name {} in observed namespaces&quot;, name);</span>
-<span class="fc" id="L58">        EntandoDeBundle bundle = ofNullable(namespace)</span>
-<span class="pc" id="L59">                .flatMap(ns -&gt; bundleService.findByNameAndNamespace(name, ns))</span>
-<span class="fc" id="L60">                .or(() -&gt; bundleService.findByName(name))</span>
-<span class="pc" id="L61">                .orElseThrow(() -&gt; NotFoundExceptionFactory.entandoDeBundle(name));</span>
-<span class="fc" id="L62">        return ResponseEntity.ok(resourceAssembler.toModel(bundle));</span>
+
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (StringUtils.isEmpty(namespace)) {</span>
+<span class="fc" id="L60">            log.info(&quot;Getting entando-de-bundle with name {} in observed namespaces&quot;, name);</span>
+        } else {
+<span class="nc" id="L62">            log.info(&quot;Getting entando-de-bundle with name {} in namespace {}&quot;, name, namespace);</span>
+        }
+
+<span class="fc" id="L65">        EntandoDeBundle bundle = ofNullable(namespace)</span>
+<span class="pc" id="L66">                .flatMap(ns -&gt; bundleService.findByNameAndNamespace(name, ns))</span>
+<span class="fc" id="L67">                .or(() -&gt; bundleService.findByName(name))</span>
+<span class="pc" id="L68">                .orElseThrow(() -&gt; NotFoundExceptionFactory.entandoDeBundle(name));</span>
+<span class="fc" id="L69">        return ResponseEntity.ok(resourceAssembler.toModel(bundle));</span>
     }
 
     private CollectionModel&lt;EntityModel&lt;EntandoDeBundle&gt;&gt; getCollectionWithLinks(List&lt;EntandoDeBundle&gt; deBundles) {
-<span class="fc" id="L66">        return CollectionModel.of(</span>
-<span class="fc" id="L67">                deBundles.stream()</span>
-<span class="fc" id="L68">                        .map(resourceAssembler::toModel)</span>
-<span class="fc" id="L69">                        .collect(Collectors.toList()), getCollectionLinks());</span>
+<span class="fc" id="L73">        return CollectionModel.of(</span>
+<span class="fc" id="L74">                deBundles.stream()</span>
+<span class="fc" id="L75">                        .map(resourceAssembler::toModel)</span>
+<span class="fc" id="L76">                        .collect(Collectors.toList()), getCollectionLinks());</span>
     }
 
     private Links getCollectionLinks() {
-<span class="fc" id="L73">        return Links.of(</span>
-<span class="fc" id="L74">                linkTo(methodOn(EntandoDeBundleController.class).get(null, null)).withRel(&quot;bundle&quot;),</span>
-<span class="fc" id="L75">                linkTo(methodOn(EntandoDeBundleController.class).listInNamespace(null)).withRel(&quot;bundles-in-namespace&quot;)</span>
+<span class="fc" id="L80">        return Links.of(</span>
+<span class="fc" id="L81">                linkTo(methodOn(EntandoDeBundleController.class).get(null, null)).withRel(&quot;bundle&quot;),</span>
+<span class="fc" id="L82">                linkTo(methodOn(EntandoDeBundleController.class).listInNamespace(null)).withRel(&quot;bundles-in-namespace&quot;)</span>
         );
     }
 

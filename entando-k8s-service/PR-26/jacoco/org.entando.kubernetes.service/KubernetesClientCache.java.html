@@ -51,7 +51,7 @@ public class KubernetesClientCache extends ConcurrentHashMap&lt;String, Kubernet
 
     private void removeStaleEntries() {
 <span class="fc" id="L53">        Instant cutoffInstant = Instant.now().minusSeconds(maximumAgeSeconds);</span>
-<span class="fc" id="L54">        keySet().stream().filter(s -&gt; accessTimes.get(s).isBefore(cutoffInstant)).forEach(token -&gt; {</span>
+<span class="pc" id="L54">        keySet().stream().filter(s -&gt; accessTimes.get(s).isBefore(cutoffInstant)).forEach(token -&gt; {</span>
             //Synchronization risk here is minimal
 <span class="nc" id="L56">            accessTimes.remove(token);</span>
 <span class="nc" id="L57">            remove(token).close();</span>
