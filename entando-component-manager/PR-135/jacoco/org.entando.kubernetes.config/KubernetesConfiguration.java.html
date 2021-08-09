@@ -31,23 +31,25 @@ import org.springframework.context.annotation.Profile;
     private String tokenUri;
     @Value(&quot;${entando.k8s.plugin-readiness-timeout-in-minutes:5}&quot;)
     private long pluginReadinessTimeoutInMinutes;
+    @Value(&quot;${entando.k8s.service-account.token-filepath}&quot;)
+    private String serviceAccountTokenPath;
 
     @Bean
     public KubernetesClient client() {
-<span class="nc" id="L37">        final Config config = new ConfigBuilder().build();</span>
-<span class="nc" id="L38">        return new DefaultKubernetesClient(config);</span>
+<span class="nc" id="L39">        final Config config = new ConfigBuilder().build();</span>
+<span class="nc" id="L40">        return new DefaultKubernetesClient(config);</span>
     }
 
     @Bean
     public K8SServiceClient k8SServiceClient() {
-<span class="nc" id="L43">        return new DefaultK8SServiceClient(k8sServiceUrl, normalizeK8sServiceUrl, clientId, clientSecret, tokenUri);</span>
+<span class="nc" id="L45">        return new DefaultK8SServiceClient(k8sServiceUrl, serviceAccountTokenPath, normalizeK8sServiceUrl);</span>
     }
 
     @Bean
     public ConditionFactory k8SServiceWaitingConditionFactory() {
-<span class="nc" id="L48">        return await().atMost(Duration.ofMinutes(pluginReadinessTimeoutInMinutes))</span>
-<span class="nc" id="L49">                .pollDelay(Duration.ZERO)</span>
-<span class="nc" id="L50">                .pollInterval(Duration.ofSeconds(10));</span>
+<span class="nc" id="L50">        return await().atMost(Duration.ofMinutes(pluginReadinessTimeoutInMinutes))</span>
+<span class="nc" id="L51">                .pollDelay(Duration.ZERO)</span>
+<span class="nc" id="L52">                .pollInterval(Duration.ofSeconds(10));</span>
     }
 
 }

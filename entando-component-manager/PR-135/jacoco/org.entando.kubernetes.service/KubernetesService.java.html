@@ -89,91 +89,90 @@ public class KubernetesService {
 
 
     public EntandoAppPluginLink linkPlugin(EntandoPlugin plugin) {
-<span class="fc" id="L92">        EntandoPlugin newPlugin = new EntandoPluginBuilder()</span>
-<span class="fc" id="L93">                .withMetadata(plugin.getMetadata())</span>
-<span class="fc" id="L94">                .withSpec(plugin.getSpec())</span>
-<span class="fc" id="L95">                .build();</span>
-
-<span class="fc" id="L97">        newPlugin.getMetadata().setNamespace(null);</span>
-
-<span class="fc" id="L99">        return k8sServiceClient.linkAppWithPlugin(entandoAppName, entandoAppNamespace, newPlugin);</span>
+<span class="fc" id="L92">        EntandoPlugin newPlugin = createNewPlugin(plugin);</span>
+<span class="fc" id="L93">        return k8sServiceClient.linkAppWithPlugin(entandoAppName, entandoAppNamespace, newPlugin);</span>
     }
 
     public void linkPluginAndWaitForSuccess(EntandoPlugin plugin) {
-<span class="fc" id="L103">        EntandoAppPluginLink createdLink = this.linkPlugin(plugin);</span>
+<span class="fc" id="L97">        EntandoAppPluginLink createdLink = this.linkPlugin(plugin);</span>
         try {
-<span class="fc" id="L105">            this.waitingConditionFactory.until(() -&gt; this.hasLinkingProcessCompletedSuccessfully(createdLink, plugin));</span>
-<span class="nc" id="L106">        } catch (ConditionTimeoutException e) {</span>
-<span class="nc" id="L107">            throw new PluginNotReadyException(plugin.getMetadata().getName());</span>
-<span class="fc" id="L108">        }</span>
+<span class="fc" id="L99">            this.waitingConditionFactory.until(() -&gt; this.hasLinkingProcessCompletedSuccessfully(createdLink, plugin));</span>
+<span class="nc" id="L100">        } catch (ConditionTimeoutException e) {</span>
+<span class="nc" id="L101">            throw new PluginNotReadyException(plugin.getMetadata().getName());</span>
+<span class="fc" id="L102">        }</span>
 
-<span class="fc" id="L110">    }</span>
+<span class="fc" id="L104">    }</span>
 
     public EntandoPlugin updatePlugin(EntandoPlugin plugin) {
-<span class="fc" id="L113">        EntandoPlugin updatedPlugin = new EntandoPluginBuilder()</span>
-<span class="fc" id="L114">                .withMetadata(plugin.getMetadata())</span>
-<span class="fc" id="L115">                .withSpec(plugin.getSpec())</span>
-<span class="fc" id="L116">                .build();</span>
+<span class="fc" id="L107">        EntandoPlugin updatedPlugin = createNewPlugin(plugin);</span>
+<span class="fc" id="L108">        return k8sServiceClient.updatePlugin(updatedPlugin);</span>
+    }
 
-<span class="fc" id="L118">        updatedPlugin.getMetadata().setNamespace(null);</span>
+    private EntandoPlugin createNewPlugin(EntandoPlugin plugin) {
+<span class="fc" id="L112">        EntandoPlugin newPlugin = new EntandoPluginBuilder()</span>
+<span class="fc" id="L113">                .withMetadata(plugin.getMetadata())</span>
+<span class="fc" id="L114">                .withSpec(plugin.getSpec())</span>
+<span class="fc" id="L115">                .build();</span>
 
-<span class="fc" id="L120">        return k8sServiceClient.updatePlugin(updatedPlugin);</span>
+<span class="fc" id="L117">        newPlugin.getMetadata().setNamespace(this.entandoAppNamespace);</span>
+
+<span class="fc" id="L119">        return newPlugin;</span>
     }
 
     public boolean hasLinkingProcessCompletedSuccessfully(EntandoAppPluginLink link, EntandoPlugin plugin) {
-<span class="fc" id="L124">        boolean result = false;</span>
-<span class="fc" id="L125">        Optional&lt;EntandoAppPluginLink&gt; linkByName = k8sServiceClient.getLinkByName(link.getMetadata().getName());</span>
-<span class="fc bfc" id="L126" title="All 2 branches covered.">        if (linkByName.isPresent()) {</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">            if (linkByName.get().getStatus().getEntandoDeploymentPhase().equals(FAILED)) {</span>
-<span class="fc" id="L128">                String msg = String.format(&quot;Linking procedure between app %s and plugin %s failed&quot;, entandoAppName,</span>
-<span class="fc" id="L129">                        plugin.getMetadata().getName());</span>
-<span class="fc" id="L130">                throw new EntandoAppPluginLinkingProcessException(msg);</span>
+<span class="fc" id="L123">        boolean result = false;</span>
+<span class="fc" id="L124">        Optional&lt;EntandoAppPluginLink&gt; linkByName = k8sServiceClient.getLinkByName(link.getMetadata().getName());</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (linkByName.isPresent()) {</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">            if (linkByName.get().getStatus().getEntandoDeploymentPhase().equals(FAILED)) {</span>
+<span class="fc" id="L127">                String msg = String.format(&quot;Linking procedure between app %s and plugin %s failed&quot;, entandoAppName,</span>
+<span class="fc" id="L128">                        plugin.getMetadata().getName());</span>
+<span class="fc" id="L129">                throw new EntandoAppPluginLinkingProcessException(msg);</span>
             }
-<span class="pc bpc" id="L132" title="1 of 2 branches missed.">            result = linkByName.get().getStatus().getEntandoDeploymentPhase().equals(SUCCESSFUL)</span>
-<span class="pc bpc" id="L133" title="1 of 2 branches missed.">                    &amp;&amp; isPluginReady(plugin);</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">            result = linkByName.get().getStatus().getEntandoDeploymentPhase().equals(SUCCESSFUL)</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">                    &amp;&amp; isPluginReady(plugin);</span>
         }
-<span class="fc" id="L135">        return result;</span>
+<span class="fc" id="L134">        return result;</span>
     }
 
     public List&lt;EntandoDeBundle&gt; getBundlesInDefaultNamespace() {
-<span class="nc" id="L139">        return k8sServiceClient.getBundlesInObservedNamespaces();</span>
+<span class="nc" id="L138">        return k8sServiceClient.getBundlesInObservedNamespaces();</span>
     }
 
     public Optional&lt;EntandoDeBundle&gt; fetchBundleByName(String name) {
-<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (CollectionUtils.isEmpty(this.digitalExchangesNames)) {</span>
-<span class="fc" id="L144">            log.info(&quot;Fetching bundle by name {}&quot;, name);</span>
-<span class="fc" id="L145">            return this.getBundleByName(name);</span>
+<span class="fc bfc" id="L142" title="All 2 branches covered.">        if (CollectionUtils.isEmpty(this.digitalExchangesNames)) {</span>
+<span class="fc" id="L143">            log.info(&quot;Fetching bundle by name {}&quot;, name);</span>
+<span class="fc" id="L144">            return this.getBundleByName(name);</span>
         }
 
-<span class="fc" id="L148">        return this.digitalExchangesNames.stream()</span>
-<span class="fc" id="L149">                .map(namespace -&gt; {</span>
-<span class="fc" id="L150">                    log.info(&quot;Fetching bundle by name {} in namespace {}&quot;, name, namespace);</span>
-<span class="fc" id="L151">                    return this.getBundleByNameAndNamespace(name, namespace).orElse(null);</span>
+<span class="fc" id="L147">        return this.digitalExchangesNames.stream()</span>
+<span class="fc" id="L148">                .map(namespace -&gt; {</span>
+<span class="fc" id="L149">                    log.info(&quot;Fetching bundle by name {} in namespace {}&quot;, name, namespace);</span>
+<span class="fc" id="L150">                    return this.getBundleByNameAndNamespace(name, namespace).orElse(null);</span>
                 })
-<span class="fc" id="L153">                .filter(Objects::nonNull)</span>
-<span class="fc" id="L154">                .findFirst();</span>
+<span class="fc" id="L152">                .filter(Objects::nonNull)</span>
+<span class="fc" id="L153">                .findFirst();</span>
     }
 
     protected Optional&lt;EntandoDeBundle&gt; getBundleByName(String name) {
-<span class="fc" id="L158">        return k8sServiceClient.getBundleWithName(name);</span>
+<span class="fc" id="L157">        return k8sServiceClient.getBundleWithName(name);</span>
     }
 
     protected Optional&lt;EntandoDeBundle&gt; getBundleByNameAndNamespace(String name, String namespace) {
-<span class="fc" id="L162">        return k8sServiceClient.getBundleWithNameAndNamespace(name, namespace);</span>
+<span class="fc" id="L161">        return k8sServiceClient.getBundleWithNameAndNamespace(name, namespace);</span>
     }
 
     private Optional&lt;String&gt; getCurrentKubernetesNamespace() {
-<span class="fc" id="L166">        Path namespacePath = Paths.get(KUBERNETES_NAMESPACE_PATH);</span>
-<span class="fc" id="L167">        String namespace = null;</span>
-<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if (namespacePath.toFile().exists()) {</span>
+<span class="fc" id="L165">        Path namespacePath = Paths.get(KUBERNETES_NAMESPACE_PATH);</span>
+<span class="fc" id="L166">        String namespace = null;</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">        if (namespacePath.toFile().exists()) {</span>
             try {
-<span class="fc" id="L170">                namespace = new String(Files.readAllBytes(namespacePath));</span>
-<span class="nc" id="L171">            } catch (IOException e) {</span>
-<span class="nc" id="L172">                log.error(String.format(&quot;An error occurred while reading the namespace from file %s&quot;,</span>
-<span class="nc" id="L173">                        namespacePath.toString()), e);</span>
-<span class="fc" id="L174">            }</span>
+<span class="fc" id="L169">                namespace = new String(Files.readAllBytes(namespacePath));</span>
+<span class="nc" id="L170">            } catch (IOException e) {</span>
+<span class="nc" id="L171">                log.error(String.format(&quot;An error occurred while reading the namespace from file %s&quot;,</span>
+<span class="nc" id="L172">                        namespacePath.toString()), e);</span>
+<span class="fc" id="L173">            }</span>
         }
-<span class="fc" id="L176">        return Optional.ofNullable(namespace);</span>
+<span class="fc" id="L175">        return Optional.ofNullable(namespace);</span>
     }
 
 }
