@@ -18,6 +18,8 @@ package org.entando.kubernetes.model.common;
 
 import io.fabric8.kubernetes.api.model.ResourceRequirementsFluentImpl;
 
+//The equals method is inherited and should never be used
+@SuppressWarnings(&quot;java:S2160&quot;)
 public abstract class EntandoResourceRequirementsFluent&lt;N extends EntandoResourceRequirementsFluent&lt;N&gt;&gt;
         extends ResourceRequirementsFluentImpl&lt;N&gt; {
 
@@ -30,63 +32,63 @@ public abstract class EntandoResourceRequirementsFluent&lt;N extends EntandoReso
     private String fileUploadLimit;
 
     protected EntandoResourceRequirementsFluent(EntandoResourceRequirements resourceRequirements) {
-<span class="fc" id="L33">        super(resourceRequirements);</span>
-<span class="fc" id="L34">        this.storageRequest = resourceRequirements.getStorageRequest().orElse(null);</span>
-<span class="fc" id="L35">        this.storageLimit = resourceRequirements.getStorageLimit().orElse(null);</span>
-<span class="fc" id="L36">        this.memoryRequest = resourceRequirements.getMemoryRequest().orElse(null);</span>
-<span class="fc" id="L37">        this.memoryLimit = resourceRequirements.getMemoryLimit().orElse(null);</span>
-<span class="fc" id="L38">        this.cpuRequest = resourceRequirements.getCpuRequest().orElse(null);</span>
-<span class="fc" id="L39">        this.cpuLimit = resourceRequirements.getCpuLimit().orElse(null);</span>
-<span class="fc" id="L40">        this.fileUploadLimit = resourceRequirements.getFileUploadLimit().orElse(null);</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L35">        super(resourceRequirements);</span>
+<span class="fc" id="L36">        this.storageRequest = resourceRequirements.getStorageRequest().orElse(null);</span>
+<span class="fc" id="L37">        this.storageLimit = resourceRequirements.getStorageLimit().orElse(null);</span>
+<span class="fc" id="L38">        this.memoryRequest = resourceRequirements.getMemoryRequest().orElse(null);</span>
+<span class="fc" id="L39">        this.memoryLimit = resourceRequirements.getMemoryLimit().orElse(null);</span>
+<span class="fc" id="L40">        this.cpuRequest = resourceRequirements.getCpuRequest().orElse(null);</span>
+<span class="fc" id="L41">        this.cpuLimit = resourceRequirements.getCpuLimit().orElse(null);</span>
+<span class="fc" id="L42">        this.fileUploadLimit = resourceRequirements.getFileUploadLimit().orElse(null);</span>
+<span class="fc" id="L43">    }</span>
 
-<span class="fc" id="L43">    protected EntandoResourceRequirementsFluent() {</span>
+<span class="fc" id="L45">    protected EntandoResourceRequirementsFluent() {</span>
 
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L47">    }</span>
 
     public final N withStorageRequest(String storageRequest) {
-<span class="fc" id="L48">        this.storageRequest = storageRequest;</span>
-<span class="fc" id="L49">        return thisAsN();</span>
+<span class="fc" id="L50">        this.storageRequest = storageRequest;</span>
+<span class="fc" id="L51">        return thisAsN();</span>
     }
 
     public final N withStorageLimit(String storageLimit) {
-<span class="fc" id="L53">        this.storageLimit = storageLimit;</span>
-<span class="fc" id="L54">        return thisAsN();</span>
+<span class="fc" id="L55">        this.storageLimit = storageLimit;</span>
+<span class="fc" id="L56">        return thisAsN();</span>
     }
 
     public final N withMemoryRequest(String memoryRequest) {
-<span class="fc" id="L58">        this.memoryRequest = memoryRequest;</span>
-<span class="fc" id="L59">        return thisAsN();</span>
+<span class="fc" id="L60">        this.memoryRequest = memoryRequest;</span>
+<span class="fc" id="L61">        return thisAsN();</span>
     }
 
     public final N withMemoryLimit(String memoryLimit) {
-<span class="fc" id="L63">        this.memoryLimit = memoryLimit;</span>
-<span class="fc" id="L64">        return thisAsN();</span>
+<span class="fc" id="L65">        this.memoryLimit = memoryLimit;</span>
+<span class="fc" id="L66">        return thisAsN();</span>
     }
 
     public final N withCpuRequest(String cpuRequest) {
-<span class="fc" id="L68">        this.cpuRequest = cpuRequest;</span>
-<span class="fc" id="L69">        return thisAsN();</span>
+<span class="fc" id="L70">        this.cpuRequest = cpuRequest;</span>
+<span class="fc" id="L71">        return thisAsN();</span>
     }
 
     public final N withCpuLimit(String cpuLimit) {
-<span class="fc" id="L73">        this.cpuLimit = cpuLimit;</span>
-<span class="fc" id="L74">        return thisAsN();</span>
+<span class="fc" id="L75">        this.cpuLimit = cpuLimit;</span>
+<span class="fc" id="L76">        return thisAsN();</span>
     }
 
     public final N withFileUploadLimit(String fileUploadLimit) {
-<span class="fc" id="L78">        this.fileUploadLimit = fileUploadLimit;</span>
-<span class="fc" id="L79">        return thisAsN();</span>
+<span class="fc" id="L80">        this.fileUploadLimit = fileUploadLimit;</span>
+<span class="fc" id="L81">        return thisAsN();</span>
     }
 
     public EntandoResourceRequirements build() {
-<span class="fc" id="L83">        return new EntandoResourceRequirements(storageRequest, storageLimit, memoryRequest, memoryLimit, cpuRequest, cpuLimit,</span>
-<span class="fc" id="L84">                fileUploadLimit, super.getLimits(), super.getRequests());</span>
+<span class="fc" id="L85">        return new EntandoResourceRequirements(storageRequest, storageLimit, memoryRequest, memoryLimit, cpuRequest, cpuLimit,</span>
+<span class="fc" id="L86">                fileUploadLimit, super.getLimits(), super.getRequests());</span>
     }
 
     @SuppressWarnings(&quot;unchecked&quot;)
     protected N thisAsN() {
-<span class="fc" id="L89">        return (N) this;</span>
+<span class="fc" id="L91">        return (N) this;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

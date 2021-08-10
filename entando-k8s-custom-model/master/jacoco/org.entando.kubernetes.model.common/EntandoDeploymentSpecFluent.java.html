@@ -87,27 +87,29 @@ public abstract class EntandoDeploymentSpecFluent&lt;F extends EntandoDeployment
 <span class="fc" id="L87">        return (F) this;</span>
     }
 
+    //The equals method is inherited and should never be used
+    @SuppressWarnings(&quot;java:S2160&quot;)
     public class EntandoResourceRequirementsNested extends
             EntandoResourceRequirementsFluent&lt;EntandoResourceRequirementsNested&gt; {
 
         private F parent;
 
-<span class="fc" id="L95">        public EntandoResourceRequirementsNested(F parent, EntandoResourceRequirements resourceRequirements) {</span>
-<span class="fc" id="L96">            super(resourceRequirements);</span>
-<span class="fc" id="L97">            this.parent = parent;</span>
-<span class="fc" id="L98">        }</span>
+<span class="fc" id="L97">        public EntandoResourceRequirementsNested(F parent, EntandoResourceRequirements resourceRequirements) {</span>
+<span class="fc" id="L98">            super(resourceRequirements);</span>
+<span class="fc" id="L99">            this.parent = parent;</span>
+<span class="fc" id="L100">        }</span>
 
-<span class="fc" id="L100">        public EntandoResourceRequirementsNested(F parent) {</span>
-<span class="fc" id="L101">            this.parent = parent;</span>
-<span class="fc" id="L102">        }</span>
+<span class="fc" id="L102">        public EntandoResourceRequirementsNested(F parent) {</span>
+<span class="fc" id="L103">            this.parent = parent;</span>
+<span class="fc" id="L104">        }</span>
 
         public F done() {
-<span class="fc" id="L105">            this.parent.withResourceRequirements(build());</span>
-<span class="fc" id="L106">            return this.parent;</span>
+<span class="fc" id="L107">            this.parent.withResourceRequirements(build());</span>
+<span class="fc" id="L108">            return this.parent;</span>
         }
 
         public F endResourceRequirements() {
-<span class="fc" id="L110">            return done();</span>
+<span class="fc" id="L112">            return done();</span>
         }
     }
 }
