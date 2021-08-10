@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntandoResourceRequirements.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando Kubernetes Custom Model</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.model.common</a> &gt; <span class="el_source">EntandoResourceRequirements.java</span></div><h1>EntandoResourceRequirements.java</h1><pre class="source lang-java linenums">/*
+ *
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ *  This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ */
+
+package org.entando.kubernetes.model.common;
+
+import static java.util.Optional.ofNullable;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.fabric8.kubernetes.api.model.Quantity;
+import io.fabric8.kubernetes.api.model.ResourceRequirements;
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Optional;
+
+@JsonInclude(Include.NON_NULL)
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, isGetterVisibility = Visibility.NONE, getterVisibility = Visibility.NONE,
+        setterVisibility = Visibility.NONE)
+@RegisterForReflection
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EntandoResourceRequirements extends ResourceRequirements implements Serializable {
+
+    private String storageRequest;
+    private String storageLimit;
+    private String memoryRequest;
+    private String memoryLimit;
+    private String cpuRequest;
+    private String cpuLimit;
+    private String fileUploadLimit;
+
+<span class="nc" id="L49">    public EntandoResourceRequirements() {</span>
+<span class="nc" id="L50">    }</span>
+
+    public EntandoResourceRequirements(@JsonProperty(&quot;storageRequest&quot;) String storageRequest,
+            @JsonProperty(&quot;storageLimit&quot;) String storageLimit,
+            @JsonProperty(&quot;memoryRequest&quot;) String memoryRequest,
+            @JsonProperty(&quot;memoryLimit&quot;) String memoryLimit,
+            @JsonProperty(&quot;cpuRequest&quot;) String cpuRequest,
+            @JsonProperty(&quot;cpuLimit&quot;) String cpuLimit,
+            @JsonProperty(&quot;fileUploadLimit&quot;) String fileUploadLimit,
+            @JsonProperty(&quot;limits&quot;) Map&lt;String, Quantity&gt; limits,
+            @JsonProperty(&quot;requests&quot;) Map&lt;String, Quantity&gt; requests) {
+<span class="fc" id="L61">        super(limits, requests);</span>
+<span class="fc" id="L62">        this.storageRequest = storageRequest;</span>
+<span class="fc" id="L63">        this.storageLimit = storageLimit;</span>
+<span class="fc" id="L64">        this.memoryRequest = memoryRequest;</span>
+<span class="fc" id="L65">        this.memoryLimit = memoryLimit;</span>
+<span class="fc" id="L66">        this.cpuRequest = cpuRequest;</span>
+<span class="fc" id="L67">        this.cpuLimit = cpuLimit;</span>
+<span class="fc" id="L68">        this.fileUploadLimit = fileUploadLimit;</span>
+<span class="fc" id="L69">    }</span>
+
+    public Optional&lt;String&gt; getStorageRequest() {
+<span class="fc" id="L72">        return getRequest(&quot;storage&quot;).or(() -&gt; ofNullable(storageRequest));</span>
+    }
+
+    public Optional&lt;String&gt; getStorageLimit() {
+<span class="fc" id="L76">        return getLimit(&quot;storage&quot;).or(() -&gt; ofNullable(storageLimit));</span>
+    }
+
+    public Optional&lt;String&gt; getMemoryRequest() {
+<span class="fc" id="L80">        return getRequest(&quot;memory&quot;).or(() -&gt; ofNullable(memoryRequest));</span>
+    }
+
+    public Optional&lt;String&gt; getMemoryLimit() {
+<span class="fc" id="L84">        return getLimit(&quot;memory&quot;).or(() -&gt; ofNullable(memoryLimit));</span>
+    }
+
+    public Optional&lt;String&gt; getCpuRequest() {
+<span class="fc" id="L88">        return getRequest(&quot;cpu&quot;).or(() -&gt; ofNullable(cpuRequest));</span>
+    }
+
+    public Optional&lt;String&gt; getCpuLimit() {
+<span class="fc" id="L92">        return getLimit(&quot;cpu&quot;).or(() -&gt; ofNullable(cpuLimit));</span>
+    }
+
+    public Optional&lt;String&gt; getFileUploadLimit() {
+<span class="fc" id="L96">        return getLimit(&quot;fileUpload&quot;).or(() -&gt; ofNullable(fileUploadLimit));</span>
+    }
+
+    private Optional&lt;String&gt; getRequest(String name) {
+<span class="fc" id="L100">        return ofNullable(getRequests()).flatMap(m -&gt; ofNullable(m.get(name))).map(Quantity::toString);</span>
+    }
+
+    private Optional&lt;String&gt; getLimit(String name) {
+<span class="fc" id="L104">        return ofNullable(getLimits()).flatMap(m -&gt; ofNullable(m.get(name))).map(Quantity::toString);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

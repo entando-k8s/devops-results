@@ -24,10 +24,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.fabric8.kubernetes.api.model.ObjectMeta;
+import io.fabric8.kubernetes.model.annotation.Group;
+import io.fabric8.kubernetes.model.annotation.Version;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.entando.kubernetes.model.EntandoBaseCustomResource;
-import org.entando.kubernetes.model.EntandoCustomResourceStatus;
-import org.entando.kubernetes.model.SpecHasIngress;
+import org.entando.kubernetes.model.common.EntandoBaseCustomResource;
+import org.entando.kubernetes.model.common.EntandoCustomResourceStatus;
+import org.entando.kubernetes.model.common.SpecHasIngress;
 
 @JsonSerialize
 @JsonDeserialize
@@ -36,30 +38,33 @@ import org.entando.kubernetes.model.SpecHasIngress;
         setterVisibility = Visibility.NONE)
 @RegisterForReflection
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EntandoKeycloakServer extends EntandoBaseCustomResource&lt;EntandoKeycloakServerSpec&gt; implements SpecHasIngress {
+@Group(&quot;entando.org&quot;)
+@Version(&quot;v1&quot;)
+public class EntandoKeycloakServer extends EntandoBaseCustomResource&lt;EntandoKeycloakServerSpec, EntandoCustomResourceStatus&gt; implements
+        SpecHasIngress {
 
     public static final String CRD_NAME = &quot;entandokeycloakservers.entando.org&quot;;
 
     public EntandoKeycloakServer() {
-<span class="fc" id="L44">        this(null);</span>
-<span class="fc" id="L45">    }</span>
+<span class="fc" id="L49">        this(null);</span>
+<span class="fc" id="L50">    }</span>
 
     public EntandoKeycloakServer(EntandoKeycloakServerSpec spec) {
-<span class="fc" id="L48">        this(new ObjectMeta(), spec);</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L53">        this(new ObjectMeta(), spec);</span>
+<span class="fc" id="L54">    }</span>
 
     public EntandoKeycloakServer(ObjectMeta metadata, EntandoKeycloakServerSpec spec) {
-<span class="fc" id="L52">        this(metadata, spec, null);</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L57">        this(metadata, spec, null);</span>
+<span class="fc" id="L58">    }</span>
 
     public EntandoKeycloakServer(ObjectMeta metadata, EntandoKeycloakServerSpec spec, EntandoCustomResourceStatus status) {
-<span class="fc" id="L56">        super(metadata, spec, status);</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L61">        super(metadata, spec, status);</span>
+<span class="fc" id="L62">    }</span>
 
     @Override
     public String getDefinitionName() {
-<span class="fc" id="L61">        return CRD_NAME;</span>
+<span class="nc" id="L66">        return CRD_NAME;</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
