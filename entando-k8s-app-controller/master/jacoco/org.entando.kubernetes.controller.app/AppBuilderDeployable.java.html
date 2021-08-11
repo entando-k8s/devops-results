@@ -16,19 +16,19 @@
 
 package org.entando.kubernetes.controller.app;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.entando.kubernetes.controller.spi.container.DeployableContainer;
-import org.entando.kubernetes.controller.spi.container.KeycloakConnectionConfig;
 import org.entando.kubernetes.model.app.EntandoApp;
 
 public class AppBuilderDeployable extends AbstractEntandoAppDeployable {
 
     private final List&lt;DeployableContainer&gt; containers;
 
-    public AppBuilderDeployable(EntandoApp entandoApp, KeycloakConnectionConfig keycloakConnectionConfig) {
-<span class="fc" id="L30">        super(entandoApp, keycloakConnectionConfig);</span>
-<span class="fc" id="L31">        this.containers = Arrays.asList(new AppBuilderDeployableContainer(entandoApp));</span>
+    public AppBuilderDeployable(EntandoApp entandoApp) {
+<span class="fc" id="L30">        super(entandoApp);</span>
+<span class="fc" id="L31">        this.containers = Collections.singletonList(new AppBuilderDeployableContainer(entandoApp));</span>
 <span class="fc" id="L32">    }</span>
 
     @Override
@@ -37,9 +37,9 @@ public class AppBuilderDeployable extends AbstractEntandoAppDeployable {
     }
 
     @Override
-    public String getNameQualifier() {
-<span class="fc" id="L41">        return &quot;ab&quot;;</span>
+    public Optional&lt;String&gt; getQualifier() {
+<span class="fc" id="L41">        return Optional.of(&quot;ab&quot;);</span>
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
