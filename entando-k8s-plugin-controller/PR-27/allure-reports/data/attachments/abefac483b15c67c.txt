@@ -1,0 +1,41 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    EntandoPlugin: "my-plugin"
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoPlugin"
+  name: "my-plugin-15178850"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoPlugin"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-plugin"
+    uid: "efdfbacf-459d-4f51-8ab9-45cb8212b5c2"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-08-11T13:09:24Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoPlugin"
+  fieldPath: "status"
+  name: "my-plugin"
+  namespace: "my-namespace"
+  resourceVersion: "9254265"
+  uid: "efdfbacf-459d-4f51-8ab9-45cb8212b5c2"
+lastTimestamp: "2021-08-11T13:09:24Z"
+message: "The deployment of EntandoPlugin my-namespace/my-plugin failed due to Test\
+  \ Exception. Fix the root cause and then trigger a redeployment by adding the annotation\
+  \ 'entando.org/processing-instruction: force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "entando-k8s-entando-k8s-plugin-vnsmq-25-from-build-pack-d-2bctx"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-plugin-controller"
+type: "Error"

@@ -69,7 +69,7 @@ public class EntandoPluginServerDeployable implements IngressingDeployableBase&l
     }
 
     public static String determineRealm(EntandoPlugin entandoApp, SsoConnectionInfo ssoConnectionInfo) {
-<span class="fc" id="L72">        return entandoApp.getSpec().getKeycloakToUse().flatMap(KeycloakToUse::getRealm).or(() -&gt; ssoConnectionInfo.getDefaultRealm())</span>
+<span class="fc" id="L72">        return entandoApp.getSpec().getKeycloakToUse().flatMap(KeycloakToUse::getRealm).or(ssoConnectionInfo::getDefaultRealm)</span>
 <span class="fc" id="L73">                .orElse(KeycloakName.ENTANDO_DEFAULT_KEYCLOAK_REALM);</span>
     }
 

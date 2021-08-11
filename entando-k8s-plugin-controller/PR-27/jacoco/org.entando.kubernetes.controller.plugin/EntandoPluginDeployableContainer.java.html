@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.entando.kubernetes.controller.spi.common.EntandoOperatorConfigBase;
-import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfig;
 import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfigProperty;
 import org.entando.kubernetes.controller.spi.common.NameUtils;
 import org.entando.kubernetes.controller.spi.common.SecretUtils;
@@ -59,148 +58,148 @@ public class EntandoPluginDeployableContainer implements PersistentVolumeAwareCo
     private final SsoClientConfig ssoClientConfig;
 
     public EntandoPluginDeployableContainer(EntandoPlugin entandoPlugin, SsoConnectionInfo ssoConnectionInfo,
-<span class="fc" id="L62">            DatabaseConnectionInfo databaseConnectionInfo, SsoClientConfig ssoClientConfig) {</span>
-<span class="fc" id="L63">        this.entandoPlugin = entandoPlugin;</span>
-<span class="fc" id="L64">        this.ssoConnectionInfo = ssoConnectionInfo;</span>
-<span class="fc" id="L65">        this.ssoClientConfig = ssoClientConfig;</span>
-<span class="fc" id="L66">        this.databaseSchemaConnectionInfo = ofNullable(databaseConnectionInfo)</span>
-<span class="fc" id="L67">                .map(databaseServiceResult1 -&gt; DbAwareContainer</span>
-<span class="fc" id="L68">                        .buildDatabaseSchemaConnectionInfo(entandoPlugin, databaseConnectionInfo, Collections.singletonList(PLUGINDB)))</span>
-<span class="fc" id="L69">                .orElse(Collections.emptyList());</span>
+<span class="fc" id="L61">            DatabaseConnectionInfo databaseConnectionInfo, SsoClientConfig ssoClientConfig) {</span>
+<span class="fc" id="L62">        this.entandoPlugin = entandoPlugin;</span>
+<span class="fc" id="L63">        this.ssoConnectionInfo = ssoConnectionInfo;</span>
+<span class="fc" id="L64">        this.ssoClientConfig = ssoClientConfig;</span>
+<span class="fc" id="L65">        this.databaseSchemaConnectionInfo = ofNullable(databaseConnectionInfo)</span>
+<span class="fc" id="L66">                .map(databaseServiceResult1 -&gt; DbAwareContainer</span>
+<span class="fc" id="L67">                        .buildDatabaseSchemaConnectionInfo(entandoPlugin, databaseConnectionInfo, Collections.singletonList(PLUGINDB)))</span>
+<span class="fc" id="L68">                .orElse(Collections.emptyList());</span>
 
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L70">    }</span>
 
     @Override
     public Optional&lt;String&gt; getStorageClass() {
-<span class="fc" id="L75">        return ofNullable(this.entandoPlugin.getSpec().getStorageClass()</span>
-<span class="fc" id="L76">                .orElse(PersistentVolumeAwareContainer.super.getStorageClass().orElse(null)));</span>
+<span class="fc" id="L74">        return ofNullable(this.entandoPlugin.getSpec().getStorageClass()</span>
+<span class="fc" id="L75">                .orElse(PersistentVolumeAwareContainer.super.getStorageClass().orElse(null)));</span>
     }
 
     @Override
     public Optional&lt;DatabaseSchemaConnectionInfo&gt; getDatabaseSchema() {
-<span class="fc" id="L81">        return databaseSchemaConnectionInfo.stream().findFirst();</span>
+<span class="fc" id="L80">        return databaseSchemaConnectionInfo.stream().findFirst();</span>
     }
 
     @Override
     public int getCpuLimitMillicores() {
-<span class="fc" id="L86">        return 1000;</span>
+<span class="fc" id="L85">        return 1000;</span>
     }
 
     @Override
     public int getMemoryLimitMebibytes() {
-<span class="fc" id="L91">        return 1024;</span>
+<span class="fc" id="L90">        return 1024;</span>
     }
 
     @Override
     public Optional&lt;DbmsVendor&gt; getDbms() {
-<span class="fc" id="L96">        return entandoPlugin.getSpec().getDbms();</span>
+<span class="fc" id="L95">        return entandoPlugin.getSpec().getDbms();</span>
     }
 
     @Override
     public SsoClientConfig getSsoClientConfig() {
-<span class="fc" id="L101">        return ssoClientConfig;</span>
+<span class="fc" id="L100">        return ssoClientConfig;</span>
     }
 
     @Override
     public List&lt;String&gt; getNamesOfSecretsToMount() {
-<span class="fc" id="L106">        return entandoPlugin.getSpec().getConnectionConfigNames();</span>
+<span class="fc" id="L105">        return entandoPlugin.getSpec().getConnectionConfigNames();</span>
     }
 
     @Override
     public DockerImageInfo getDockerImageInfo() {
-<span class="fc" id="L111">        return new DockerImageInfo(entandoPlugin.getSpec().getImage());</span>
+<span class="fc" id="L110">        return new DockerImageInfo(entandoPlugin.getSpec().getImage());</span>
     }
 
     @Override
     public String getNameQualifier() {
-<span class="fc" id="L116">        return NameUtils.DEFAULT_SERVER_QUALIFIER;</span>
+<span class="fc" id="L115">        return NameUtils.DEFAULT_SERVER_QUALIFIER;</span>
     }
 
     @Override
     public int getPrimaryPort() {
-<span class="fc" id="L121">        return 8081;</span>
+<span class="fc" id="L120">        return 8081;</span>
     }
 
     @Override
     public String getVolumeMountPath() {
-<span class="fc" id="L126">        return &quot;/entando-data&quot;;</span>
+<span class="fc" id="L125">        return &quot;/entando-data&quot;;</span>
     }
 
     @Override
     public List&lt;EnvVar&gt; getEnvironmentVariables() {
-<span class="fc" id="L131">        List&lt;EnvVar&gt; vars = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L132">        vars.add(new EnvVar(&quot;PORT&quot;, &quot;8081&quot;, null));</span>
-<span class="fc" id="L133">        vars.add(new EnvVar(&quot;SPRING_PROFILES_ACTIVE&quot;, &quot;default,prod&quot;, null));</span>
-<span class="fc" id="L134">        vars.add(new EnvVar(&quot;ENTANDO_WIDGETS_FOLDER&quot;, &quot;/app/resources/widgets&quot;, null));</span>
-<span class="fc" id="L135">        vars.add(new EnvVar(&quot;ENTANDO_CONNECTIONS_ROOT&quot;, DeployableContainer.ENTANDO_SECRET_MOUNTS_ROOT, null));</span>
-<span class="fc" id="L136">        vars.add(new EnvVar(&quot;ENTANDO_PLUGIN_SECURITY_LEVEL&quot;,</span>
-<span class="fc" id="L137">                entandoPlugin.getSpec().getSecurityLevel().orElse(PluginSecurityLevel.STRICT).name(), null));</span>
-<span class="fc" id="L138">        vars.add(new EnvVar(&quot;PLUGIN_SIDECAR_PORT&quot;, &quot;8084&quot;, null));</span>
-<span class="fc" id="L139">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_KIND);</span>
-<span class="fc" id="L140">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_NAMESPACE);</span>
-<span class="fc" id="L141">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_NAME);</span>
-<span class="fc" id="L142">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_CONTROLLER_POD_NAME);</span>
-<span class="fc" id="L143">        return vars;</span>
+<span class="fc" id="L130">        List&lt;EnvVar&gt; vars = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L131">        vars.add(new EnvVar(&quot;PORT&quot;, &quot;8081&quot;, null));</span>
+<span class="fc" id="L132">        vars.add(new EnvVar(&quot;SPRING_PROFILES_ACTIVE&quot;, &quot;default,prod&quot;, null));</span>
+<span class="fc" id="L133">        vars.add(new EnvVar(&quot;ENTANDO_WIDGETS_FOLDER&quot;, &quot;/app/resources/widgets&quot;, null));</span>
+<span class="fc" id="L134">        vars.add(new EnvVar(&quot;ENTANDO_CONNECTIONS_ROOT&quot;, DeployableContainer.ENTANDO_SECRET_MOUNTS_ROOT, null));</span>
+<span class="fc" id="L135">        vars.add(new EnvVar(&quot;ENTANDO_PLUGIN_SECURITY_LEVEL&quot;,</span>
+<span class="fc" id="L136">                entandoPlugin.getSpec().getSecurityLevel().orElse(PluginSecurityLevel.STRICT).name(), null));</span>
+<span class="fc" id="L137">        vars.add(new EnvVar(&quot;PLUGIN_SIDECAR_PORT&quot;, &quot;8084&quot;, null));</span>
+<span class="fc" id="L138">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_KIND);</span>
+<span class="fc" id="L139">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_NAMESPACE);</span>
+<span class="fc" id="L140">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_RESOURCE_NAME);</span>
+<span class="fc" id="L141">        propagateProperty(vars, EntandoOperatorSpiConfigProperty.ENTANDO_CONTROLLER_POD_NAME);</span>
+<span class="fc" id="L142">        return vars;</span>
     }
 
     @Override
     public List&lt;EnvVar&gt; getSsoVariables() {
-<span class="fc" id="L148">        List&lt;EnvVar&gt; vars = SpringBootDeployableContainer.super.getSsoVariables();</span>
+<span class="fc" id="L147">        List&lt;EnvVar&gt; vars = SpringBootDeployableContainer.super.getSsoVariables();</span>
         //TODO remove this once the plugins stop using it. Plugins should use the standard Spring variable
         // SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
-<span class="fc" id="L151">        vars.add(new EnvVar(&quot;KEYCLOAK_REALM&quot;, ssoClientConfig.getRealm(), null));</span>
-<span class="fc" id="L152">        ofNullable(getSsoConnectionInfo()).ifPresent(ssoConnectionInfo -&gt;</span>
-<span class="fc" id="L153">                vars.add(new EnvVar(&quot;KEYCLOAK_AUTH_URL&quot;, ssoConnectionInfo.getExternalBaseUrl(), null)));</span>
-<span class="fc" id="L154">        String keycloakSecretName = KeycloakName.forTheClientSecret(ssoClientConfig);</span>
-<span class="fc" id="L155">        vars.add(new EnvVar(&quot;KEYCLOAK_CLIENT_SECRET&quot;, null,</span>
-<span class="fc" id="L156">                SecretUtils.secretKeyRef(keycloakSecretName, KeycloakName.CLIENT_SECRET_KEY)));</span>
-<span class="fc" id="L157">        vars.add(new EnvVar(&quot;KEYCLOAK_CLIENT_ID&quot;, null,</span>
-<span class="fc" id="L158">                SecretUtils.secretKeyRef(keycloakSecretName, KeycloakName.CLIENT_ID_KEY)));</span>
-<span class="fc" id="L159">        return vars;</span>
+<span class="fc" id="L150">        vars.add(new EnvVar(&quot;KEYCLOAK_REALM&quot;, ssoClientConfig.getRealm(), null));</span>
+<span class="fc" id="L151">        ofNullable(getSsoConnectionInfo()).ifPresent(sso -&gt;</span>
+<span class="fc" id="L152">                vars.add(new EnvVar(&quot;KEYCLOAK_AUTH_URL&quot;, sso.getExternalBaseUrl(), null)));</span>
+<span class="fc" id="L153">        String keycloakSecretName = KeycloakName.forTheClientSecret(ssoClientConfig);</span>
+<span class="fc" id="L154">        vars.add(new EnvVar(&quot;KEYCLOAK_CLIENT_SECRET&quot;, null,</span>
+<span class="fc" id="L155">                SecretUtils.secretKeyRef(keycloakSecretName, KeycloakName.CLIENT_SECRET_KEY)));</span>
+<span class="fc" id="L156">        vars.add(new EnvVar(&quot;KEYCLOAK_CLIENT_ID&quot;, null,</span>
+<span class="fc" id="L157">                SecretUtils.secretKeyRef(keycloakSecretName, KeycloakName.CLIENT_ID_KEY)));</span>
+<span class="fc" id="L158">        return vars;</span>
 
     }
 
     private void propagateProperty(List&lt;EnvVar&gt; vars, EntandoOperatorSpiConfigProperty prop) {
-<span class="fc" id="L164">        EntandoOperatorConfigBase.lookupProperty(prop).ifPresent(s -&gt; vars.add(new EnvVar(prop.name(), s, null)));</span>
-<span class="fc" id="L165">    }</span>
+<span class="fc" id="L163">        EntandoOperatorConfigBase.lookupProperty(prop).ifPresent(s -&gt; vars.add(new EnvVar(prop.name(), s, null)));</span>
+<span class="fc" id="L164">    }</span>
 
     @Override
     public SsoConnectionInfo getSsoConnectionInfo() {
-<span class="fc" id="L169">        return this.ssoConnectionInfo;</span>
+<span class="fc" id="L168">        return this.ssoConnectionInfo;</span>
     }
 
     @Override
     public Optional&lt;String&gt; getHealthCheckPath() {
-<span class="fc" id="L174">        return Optional.of(getWebContextPath() + entandoPlugin.getSpec().getHealthCheckPath());</span>
+<span class="fc" id="L173">        return Optional.of(getWebContextPath() + entandoPlugin.getSpec().getHealthCheckPath());</span>
     }
 
     @Override
     public String getWebContextPath() {
-<span class="fc" id="L179">        return ofNullable(entandoPlugin.getSpec().getIngressPath()).orElse(&quot;/&quot; + entandoPlugin.getMetadata().getName());</span>
+<span class="fc" id="L178">        return ofNullable(entandoPlugin.getSpec().getIngressPath()).orElse(&quot;/&quot; + entandoPlugin.getMetadata().getName());</span>
     }
 
     @Override
     public List&lt;DatabaseSchemaConnectionInfo&gt; getSchemaConnectionInfo() {
-<span class="fc" id="L184">        return this.databaseSchemaConnectionInfo;</span>
+<span class="fc" id="L183">        return this.databaseSchemaConnectionInfo;</span>
     }
 
     @Override
     public Optional&lt;EntandoResourceRequirements&gt; getResourceRequirementsOverride() {
-<span class="fc" id="L189">        return getKeycloakAwareSpec().getResourceRequirements();</span>
+<span class="fc" id="L188">        return getKeycloakAwareSpec().getResourceRequirements();</span>
     }
 
     @Override
     public Optional&lt;Integer&gt; getMaximumStartupTimeSeconds() {
-<span class="fc" id="L194">        return Optional.of(120);</span>
+<span class="fc" id="L193">        return Optional.of(120);</span>
     }
 
     @Override
     public List&lt;EnvVar&gt; getEnvironmentVariableOverrides() {
-<span class="fc" id="L199">        return getKeycloakAwareSpec().getEnvironmentVariables();</span>
+<span class="fc" id="L198">        return getKeycloakAwareSpec().getEnvironmentVariables();</span>
     }
 
     private KeycloakAwareSpec getKeycloakAwareSpec() {
-<span class="fc" id="L203">        return entandoPlugin.getSpec();</span>
+<span class="fc" id="L202">        return entandoPlugin.getSpec();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
