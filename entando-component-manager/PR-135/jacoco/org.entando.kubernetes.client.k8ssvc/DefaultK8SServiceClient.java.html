@@ -259,10 +259,10 @@ import org.springframework.web.util.UriComponentsBuilder;
     public List&lt;EntandoDeBundle&gt; getBundlesInNamespaces(List&lt;String&gt; namespaces) {
         @SuppressWarnings(&quot;unchecked&quot;)
 <span class="fc" id="L261">        CompletableFuture&lt;List&lt;EntandoDeBundle&gt;&gt;[] futures = namespaces.stream()</span>
-<span class="fc" id="L262">                .map(n -&gt; CompletableFuture.supplyAsync(() -&gt; getBundlesInNamespace(n))</span>
+<span class="pc" id="L262">                .map(n -&gt; CompletableFuture.supplyAsync(() -&gt; getBundlesInNamespace(n))</span>
 <span class="fc" id="L263">                        .exceptionally(ex -&gt; {</span>
-<span class="nc" id="L264">                            LOGGER.log(Level.SEVERE, &quot;An error occurred while retrieving bundle from a namespace&quot;, ex);</span>
-<span class="nc" id="L265">                            return Collections.emptyList();</span>
+<span class="fc" id="L264">                            LOGGER.log(Level.SEVERE, &quot;An error occurred while retrieving bundle from a namespace&quot;, ex);</span>
+<span class="fc" id="L265">                            return Collections.emptyList();</span>
                         }))
 <span class="fc" id="L267">                .toArray(CompletableFuture[]::new);</span>
 
