@@ -17,15 +17,15 @@
 package org.entando.kubernetes.controller.support.creators;
 
 import org.entando.kubernetes.controller.spi.container.ConfigurableResourceContainer;
-import org.entando.kubernetes.controller.spi.container.PersistentVolumeAware;
-import org.entando.kubernetes.model.EntandoResourceRequirements;
+import org.entando.kubernetes.controller.spi.container.PersistentVolumeAwareContainer;
+import org.entando.kubernetes.model.common.EntandoResourceRequirements;
 
 public class ConfigurableStorageCalculator extends StorageCalculator {
 
     private final EntandoResourceRequirements resourceRequirements;
 
     public ConfigurableStorageCalculator(ConfigurableResourceContainer container) {
-<span class="fc" id="L28">        super((PersistentVolumeAware) container);</span>
+<span class="fc" id="L28">        super((PersistentVolumeAwareContainer) container);</span>
 <span class="fc" id="L29">        this.resourceRequirements = container.getResourceRequirementsOverride().orElse(new EntandoResourceRequirements());</span>
 <span class="fc" id="L30">    }</span>
 
@@ -40,4 +40,4 @@ public class ConfigurableStorageCalculator extends StorageCalculator {
     }
 
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
