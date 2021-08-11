@@ -1,0 +1,131 @@
+--- !<EntandoApp>
+apiVersion: "entando.org/v1"
+kind: "EntandoApp"
+metadata:
+  annotations:
+    image-override.entando.org/app-builder-6-5: "someregistry/someorg/apppbuild:54312"
+    image-override.entando.org/entando-de-app-eap-6-5: "thepiratebay.com/pirates/of-the-carribean:1234"
+    image-override.entando.org/entando-component-manager-6-5: "myregistry/myorg/johns-component-manager@sha2561234561234"
+  generation: 1
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "2679830"
+  uid: "98297d2a-d568-4530-9092-c5ab2321fae3"
+spec:
+  replicas: 1
+  environmentVariables: []
+  entandoAppVersion: "6.5"
+status:
+  serverStatuses:
+    db:
+      type: "WebServerStatus"
+      qualifier: "db"
+      started: "2021-08-11T07:58:10+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-postgresql-dbms-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-postgresql-dbms-in-namespace-service"
+      adminSecretName: "default-postgresql-dbms-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        databaseName: "my_db"
+        dbmsVendor: "postgresql"
+    sso:
+      type: "WebServerStatus"
+      qualifier: "sso"
+      started: "2021-08-11T07:58:10+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-sso-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-sso-in-namespace-service"
+      adminSecretName: "default-sso-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        defaultRealm: "my-realm"
+      ingressName: "default-sso-in-namespace-ingress"
+      externalBaseUrl: "https://mykeycloak.apps.serv.run/auth"
+    ab:
+      type: "WebServerStatus"
+      qualifier: "ab"
+      started: "2021-08-11T07:58:10+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoApp"
+        namespace: "my-namespace"
+        name: "my-app"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "entando-k8s-entando-k8s-app-con-z5fj9-2-from-build-pack-c-6s5hv"
+      finished: "2021-08-11T07:58:10+0000"
+      serviceName: "my-app-ab-service"
+      deploymentName: "my-app-ab-deployment"
+      webContexts:
+        appbuilder: "/app-builder/"
+      podPhases:
+        my-app-ab-deployment: "Running"
+      ingressName: "my-app-ingress"
+      externalBaseUrl: "https://my-app-my-namespace.apps.serv.run/app-builder/"
+    cm:
+      type: "WebServerStatus"
+      qualifier: "cm"
+      started: "2021-08-11T07:58:10+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoApp"
+        namespace: "my-namespace"
+        name: "my-app"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "entando-k8s-entando-k8s-app-con-z5fj9-2-from-build-pack-c-6s5hv"
+      finished: "2021-08-11T07:58:11+0000"
+      serviceName: "my-app-cm-service"
+      deploymentName: "my-app-cm-deployment"
+      ssoRealm: "my-realm"
+      ssoClientId: "my-app-de"
+      webContexts:
+        de: "/digital-exchange"
+      podPhases:
+        my-app-dbprep-237d: "Complete"
+        my-app-cm-deployment: "Running"
+      persistentVolumeClaimPhases:
+        my-app-de-pvc: "Pending"
+      ingressName: "my-app-ingress"
+      externalBaseUrl: "https://my-app-my-namespace.apps.serv.run/digital-exchange"
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-08-11T07:58:10+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoApp"
+        namespace: "my-namespace"
+        name: "my-app"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "entando-k8s-entando-k8s-app-con-z5fj9-2-from-build-pack-c-6s5hv"
+      finished: "2021-08-11T07:58:11+0000"
+      serviceName: "my-app-service"
+      deploymentName: "my-app-deployment"
+      ssoRealm: "my-realm"
+      ssoClientId: "my-app"
+      webContexts:
+        server: "/entando-de-app"
+      podPhases:
+        my-app-deployment: "Running"
+        my-app-dbprep-ff33: "Complete"
+      persistentVolumeClaimPhases:
+        my-app-server-pvc: "Pending"
+      ingressName: "my-app-ingress"
+      externalBaseUrl: "https://my-app-my-namespace.apps.serv.run/entando-de-app"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "entandoapps.entando.org"
