@@ -92,11 +92,11 @@ public class EntandoAppController {
     public ResponseEntity&lt;EntityModel&lt;EntandoAppPluginLink&gt;&gt; linkToPlugin(
             @PathVariable(&quot;name&quot;) String appName,
             @RequestBody EntandoPlugin entandoPlugin) {
-<span class="nc" id="L95">        EntandoApp entandoApp = getEntandoAppOrFail(appName);</span>
-<span class="nc" id="L96">        EntandoPlugin plugin = createPlugin(entandoPlugin);</span>
-<span class="nc" id="L97">        EntandoAppPluginLink newLink = linkService.buildBetweenAppAndPlugin(entandoApp, plugin);</span>
-<span class="nc" id="L98">        EntandoAppPluginLink deployedLink = linkService.deploy(newLink);</span>
-<span class="nc" id="L99">        return ResponseEntity.status(HttpStatus.CREATED).body(linkResourceAssembler.toModel(deployedLink));</span>
+<span class="fc" id="L95">        EntandoApp entandoApp = getEntandoAppOrFail(appName);</span>
+<span class="fc" id="L96">        EntandoPlugin plugin = createPlugin(entandoPlugin);</span>
+<span class="fc" id="L97">        EntandoAppPluginLink newLink = linkService.buildBetweenAppAndPlugin(entandoApp, plugin);</span>
+<span class="fc" id="L98">        EntandoAppPluginLink deployedLink = linkService.deploy(newLink);</span>
+<span class="fc" id="L99">        return ResponseEntity.status(HttpStatus.CREATED).body(linkResourceAssembler.toModel(deployedLink));</span>
     }
 
     public Ingress getEntandoAppIngressOrFail(EntandoApp app) {
@@ -117,11 +117,11 @@ public class EntandoAppController {
     }
 
     private EntandoPlugin createPlugin(EntandoPlugin newPlugin) {
-<span class="nc" id="L120">        String pluginNamespace = Optional.ofNullable(newPlugin.getMetadata().getNamespace())</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">                .filter(ns -&gt; !ns.isEmpty())</span>
-<span class="nc" id="L122">                .orElse(observedNamespaces.getCurrentNamespace());</span>
-<span class="nc" id="L123">        newPlugin.getMetadata().setNamespace(pluginNamespace);</span>
-<span class="nc" id="L124">        return pluginService.deploy(newPlugin, EntandoPluginService.CREATE_OR_REPLACE);</span>
+<span class="fc" id="L120">        String pluginNamespace = Optional.ofNullable(newPlugin.getMetadata().getNamespace())</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">                .filter(ns -&gt; !ns.isEmpty())</span>
+<span class="fc" id="L122">                .orElse(observedNamespaces.getCurrentNamespace());</span>
+<span class="fc" id="L123">        newPlugin.getMetadata().setNamespace(pluginNamespace);</span>
+<span class="fc" id="L124">        return pluginService.deploy(newPlugin, EntandoPluginService.CREATE_OR_REPLACE);</span>
     }
 
     private void addAppCollectionLinks(CollectionModel&lt;EntityModel&lt;EntandoApp&gt;&gt; collection) {
