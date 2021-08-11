@@ -45,5 +45,14 @@ public abstract class EntandoKubernetesResourceCollector&lt;T extends HasMetadat
 <span class="fc" id="L45">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
 <span class="fc" id="L46">                .findFirst();</span>
     }
+
+    public Optional&lt;T&gt; findByNameAndDefaultNamespace(String name) {
+
+<span class="nc" id="L51">        final String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
+<span class="nc" id="L52">        return getAllInNamespace(namespace)</span>
+<span class="nc" id="L53">                .stream()</span>
+<span class="nc" id="L54">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
+<span class="nc" id="L55">                .findFirst();</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

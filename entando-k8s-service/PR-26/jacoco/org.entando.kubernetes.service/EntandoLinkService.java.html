@@ -75,7 +75,7 @@ public class EntandoLinkService extends EntandoKubernetesResourceCollector&lt;En
 <span class="fc" id="L75">        String appNamespace = app.getMetadata().getNamespace();</span>
 <span class="fc" id="L76">        String appName = app.getMetadata().getName();</span>
 <span class="fc" id="L77">        String pluginName = plugin.getMetadata().getName();</span>
-<span class="fc" id="L78">        String pluginNamespace = plugin.getMetadata().getNamespace();</span>
+<span class="fc" id="L78">        String pluginNamespace = kubernetesUtils.getDefaultPluginNamespace();</span>
 <span class="fc" id="L79">        return new EntandoAppPluginLinkBuilder()</span>
 <span class="fc" id="L80">                .withNewMetadata()</span>
 <span class="fc" id="L81">                .withName(String.format(&quot;%s-%s-link&quot;, appName, pluginName))</span>
