@@ -1,0 +1,30 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "my-labelled-mysql-dbms"
+    EntandoDatabaseService: "my-labelled-mysql-dbms"
+    my-label: "my-label-value"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+  name: "my-labelled-mysql-dbms-deployment"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-labelled-mysql-dbms"
+    uid: "d647adbf-a3a2-4164-b2b5-58053cc6d558"
+spec:
+  containers:
+  - {}
+status:
+  conditions:
+  - lastTransitionTime: "2021-08-11T10:12:11Z"
+    type: "Ready"
+  containerStatuses:
+  - state:
+      running: {}
+  phase: "Running"
