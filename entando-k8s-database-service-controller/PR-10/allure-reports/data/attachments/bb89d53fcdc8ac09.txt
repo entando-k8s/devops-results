@@ -1,0 +1,40 @@
+---
+internalServiceHostname: "mysql-dbms-1028-service.my-namespace.svc.cluster.local"
+mixins:
+- "SerializableDeploymentResult"
+- "ServiceDeploymentResult"
+- "ServiceResult"
+pod:
+  apiVersion: "v1"
+  kind: "Pod"
+  metadata:
+    name: "mysql-dbms-1028-deployment"
+    namespace: "my-namespace"
+  isCustomResource: false
+port: "3306"
+service:
+  apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    name: "mysql-dbms-1028-service"
+    namespace: "my-namespace"
+  isCustomResource: false
+status:
+  type: "WebServerStatus"
+  qualifier: "main"
+  started: "2021-08-11T09:51:13+0000"
+  originatingCustomResource:
+    apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    namespace: "my-namespace"
+    name: "mysql-dbms-1028"
+  originatingControllerPod:
+    namespace: "controller-namespace"
+    name: "test-controller-pod"
+  finished: "2021-08-11T09:51:13+0000"
+  serviceName: "mysql-dbms-1028-service"
+  deploymentName: "mysql-dbms-1028-deployment"
+  podPhases:
+    mysql-dbms-1028-deployment: "Running"
+  persistentVolumeClaimPhases:
+    mysql-dbms-1028-db-pvc: "Pending"
