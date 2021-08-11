@@ -1,0 +1,39 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoApp"
+    EntandoApp: "my-app"
+  name: "my-app-12284123"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoApp"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "ae8e3a9d-170e-4fde-af7e-acf4427f4c15"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-08-11T11:44:10Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoApp"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "8022008"
+  uid: "ae8e3a9d-170e-4fde-af7e-acf4427f4c15"
+lastTimestamp: "2021-08-11T11:44:10Z"
+message: "The EntandoApp  my-namespace/my-app received status update for sso "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-app-controller"
+type: "Normal"
