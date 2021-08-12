@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntandoPluginController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando Kubernetes Service</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.controller</a> &gt; <span class="el_source">EntandoPluginController.java</span></div><h1>EntandoPluginController.java</h1><pre class="source lang-java linenums">package org.entando.kubernetes.controller;
 
+import static java.util.Optional.ofNullable;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON_VALUE;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.entando.kubernetes.exception.BadRequestExceptionFactory;
 import org.entando.kubernetes.exception.NotFoundExceptionFactory;
 import org.entando.kubernetes.model.plugin.EntandoPlugin;
@@ -33,115 +35,138 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zalando.problem.ThrowableProblem;
 
 
-<span class="fc" id="L36">@Slf4j</span>
+<span class="fc" id="L38">@Slf4j</span>
 @RestController
 @RequestMapping(&quot;/plugins&quot;)
 @RequiredArgsConstructor
 public class EntandoPluginController {
 
-    private final EntandoPluginService pluginService;   
+    private final EntandoPluginService pluginService;
     private final EntandoPluginResourceAssembler resourceAssembler;
     private final IngressService ingressService;
 
     @GetMapping(produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
     public ResponseEntity&lt;CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt;&gt; list() {
-<span class="fc" id="L48">        log.info(&quot;Listing all deployed plugins in observed namespaces&quot;);</span>
-<span class="fc" id="L49">        List&lt;EntandoPlugin&gt; plugins = pluginService.getAll();</span>
-<span class="fc" id="L50">        CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; collection = getPluginCollectionModel(plugins);</span>
-<span class="fc" id="L51">        addCollectionLinks(collection);</span>
-<span class="fc" id="L52">        return ResponseEntity.ok(collection);</span>
+<span class="fc" id="L50">        log.info(&quot;Listing all deployed plugins in observed namespaces&quot;);</span>
+<span class="fc" id="L51">        List&lt;EntandoPlugin&gt; plugins = pluginService.getAll();</span>
+<span class="fc" id="L52">        CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; collection = getPluginCollectionModel(plugins);</span>
+<span class="fc" id="L53">        addCollectionLinks(collection);</span>
+<span class="fc" id="L54">        return ResponseEntity.ok(collection);</span>
     }
 
 
     @GetMapping(produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE}, params = &quot;namespace&quot;)
     public ResponseEntity&lt;CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt;&gt; listInNamespace(@RequestParam String namespace) {
-<span class="fc" id="L58">        log.info(&quot;Listing all deployed plugins in {} observed namespace&quot;, namespace);</span>
-<span class="fc" id="L59">        List&lt;EntandoPlugin&gt; plugins = pluginService.getAllInNamespace(namespace);</span>
-<span class="fc" id="L60">        CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; collection = getPluginCollectionModel(plugins);</span>
-<span class="fc" id="L61">        addCollectionLinks(collection);</span>
-<span class="fc" id="L62">        return ResponseEntity.ok(collection);</span>
+<span class="fc" id="L60">        log.info(&quot;Listing all deployed plugins in {} observed namespace&quot;, namespace);</span>
+<span class="fc" id="L61">        List&lt;EntandoPlugin&gt; plugins = pluginService.getAllInNamespace(namespace);</span>
+<span class="fc" id="L62">        CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; collection = getPluginCollectionModel(plugins);</span>
+<span class="fc" id="L63">        addCollectionLinks(collection);</span>
+<span class="fc" id="L64">        return ResponseEntity.ok(collection);</span>
     }
 
     @GetMapping(path = &quot;/{name}&quot;, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
-    public ResponseEntity&lt;EntityModel&lt;EntandoPlugin&gt;&gt; get(@PathVariable(&quot;name&quot;) final String pluginName) {
-<span class="fc" id="L67">        log.info(&quot;Searching plugin with name {} in observed namespaces&quot;, pluginName);</span>
-<span class="fc" id="L68">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName);</span>
-<span class="fc" id="L69">        return ResponseEntity.ok(resourceAssembler.toModel(plugin));</span>
+    public ResponseEntity&lt;EntityModel&lt;EntandoPlugin&gt;&gt; get(@PathVariable(&quot;name&quot;) final String pluginName,
+            @RequestParam(value = &quot;namespace&quot;, required = false) String namespace) {
+<span class="fc" id="L70">        log.info(&quot;Searching plugin with name {} in observed namespaces&quot;, pluginName);</span>
+
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (StringUtils.isEmpty(namespace)) {</span>
+<span class="fc" id="L73">            log.info(&quot;Searching plugin with name {} in observed namespaces&quot;, pluginName);</span>
+        } else {
+<span class="nc" id="L75">            log.info(&quot;Searching plugin with name {} in namespace {}&quot;, pluginName, namespace);</span>
+        }
+
+<span class="fc" id="L78">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName, namespace);</span>
+<span class="fc" id="L79">        return ResponseEntity.ok(resourceAssembler.toModel(plugin));</span>
     }
 
     @GetMapping(path = &quot;/{name}/ingress&quot;, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
-    public ResponseEntity&lt;EntityModel&lt;Ingress&gt;&gt; getPluginIngress(@PathVariable(&quot;name&quot;) final String pluginName) {
-<span class="fc" id="L74">        log.info(&quot;Searching plugin with name {} in observed namespaces&quot;, pluginName);</span>
-<span class="fc" id="L75">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName);</span>
-<span class="fc" id="L76">        Ingress pluginIngress = getEntandoPluginIngressOrFail(plugin);</span>
-<span class="fc" id="L77">        return ResponseEntity.ok(new EntityModel&lt;&gt;(pluginIngress));</span>
+    public ResponseEntity&lt;EntityModel&lt;Ingress&gt;&gt; getPluginIngress(@PathVariable(&quot;name&quot;) final String pluginName,
+            @RequestParam(value = &quot;namespace&quot;, required = false) String namespace) {
+
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (StringUtils.isEmpty(namespace)) {</span>
+<span class="fc" id="L87">            log.info(&quot;Searching plugin ingress with name {} in observed namespaces&quot;, pluginName);</span>
+        } else {
+<span class="nc" id="L89">            log.info(&quot;Searching plugin ingress with name {} in namespace {}&quot;, pluginName, namespace);</span>
+        }
+
+<span class="fc" id="L92">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName, namespace);</span>
+<span class="fc" id="L93">        Ingress pluginIngress = getEntandoPluginIngressOrFail(plugin);</span>
+<span class="fc" id="L94">        return ResponseEntity.ok(new EntityModel&lt;&gt;(pluginIngress));</span>
     }
 
     @DeleteMapping(path = &quot;/{name}&quot;, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
-    public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;name&quot;) String pluginName) {
-<span class="fc" id="L82">        log.info(&quot;Deleting plugin with identifier {} from observed namespaces&quot;, pluginName);</span>
-<span class="fc" id="L83">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName);</span>
-<span class="fc" id="L84">        pluginService.deletePlugin(plugin);</span>
-<span class="fc" id="L85">        return ResponseEntity.accepted().build();</span>
+    public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;name&quot;) String pluginName,
+            @RequestParam(value = &quot;namespace&quot;, required = false) String namespace) {
+
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (StringUtils.isEmpty(namespace)) {</span>
+<span class="fc" id="L102">            log.info(&quot;Deleting plugin with identifier {} from observed namespaces&quot;, pluginName);</span>
+        } else {
+<span class="nc" id="L104">            log.info(&quot;Deleting plugin with identifier {} from namespace {}&quot;, pluginName, namespace);</span>
+        }
+
+<span class="fc" id="L107">        EntandoPlugin plugin = getEntandoPluginOrFail(pluginName, namespace);</span>
+<span class="fc" id="L108">        pluginService.deletePlugin(plugin);</span>
+<span class="fc" id="L109">        return ResponseEntity.accepted().build();</span>
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
     public ResponseEntity&lt;EntityModel&lt;EntandoPlugin&gt;&gt; create(
             @RequestBody EntandoPlugin entandoPlugin) {
 
-<span class="fc" id="L92">        throwExceptionIfAlreadyDeployed(entandoPlugin);</span>
-<span class="fc" id="L93">        return this.excuteCreateOrReplacePlugin(entandoPlugin, EntandoPluginService.CREATE);</span>
+<span class="fc" id="L116">        throwExceptionIfAlreadyDeployed(entandoPlugin);</span>
+<span class="fc" id="L117">        return this.excuteCreateOrReplacePlugin(entandoPlugin, EntandoPluginService.CREATE);</span>
     }
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE, produces = {APPLICATION_JSON_VALUE, HAL_JSON_VALUE})
     public ResponseEntity&lt;EntityModel&lt;EntandoPlugin&gt;&gt; createOrReplace(
             @RequestBody EntandoPlugin entandoPlugin) {
 
-<span class="fc" id="L100">        return this.excuteCreateOrReplacePlugin(entandoPlugin, EntandoPluginService.CREATE_OR_REPLACE);</span>
+<span class="fc" id="L124">        return this.excuteCreateOrReplacePlugin(entandoPlugin, EntandoPluginService.CREATE_OR_REPLACE);</span>
     }
 
     private ResponseEntity&lt;EntityModel&lt;EntandoPlugin&gt;&gt; excuteCreateOrReplacePlugin(EntandoPlugin entandoPlugin,
             boolean createOrReplace) {
 
-<span class="fc" id="L106">        EntandoPlugin deployedPlugin = pluginService.deploy(entandoPlugin, createOrReplace);</span>
-<span class="fc" id="L107">        URI resourceLink = linkTo(methodOn(getClass()).get(deployedPlugin.getMetadata().getName())).toUri();</span>
-<span class="fc" id="L108">        return ResponseEntity.created(resourceLink).body(resourceAssembler.toModel(deployedPlugin));</span>
+<span class="fc" id="L130">        EntandoPlugin deployedPlugin = pluginService.deploy(entandoPlugin, createOrReplace);</span>
+<span class="fc" id="L131">        URI resourceLink = linkTo(methodOn(getClass()).get(deployedPlugin.getMetadata().getName(),</span>
+<span class="fc" id="L132">                deployedPlugin.getMetadata().getNamespace())).toUri();</span>
+<span class="fc" id="L133">        return ResponseEntity.created(resourceLink).body(resourceAssembler.toModel(deployedPlugin));</span>
     }
 
-    private EntandoPlugin getEntandoPluginOrFail(String pluginName) {
-<span class="fc" id="L112">        return pluginService</span>
-<span class="fc" id="L113">                .findByName(pluginName)</span>
-<span class="fc" id="L114">                .&lt;ThrowableProblem&gt;orElseThrow(() -&gt; {</span>
-<span class="nc" id="L115">                    throw NotFoundExceptionFactory.entandoPlugin(pluginName);</span>
-                });
+    private EntandoPlugin getEntandoPluginOrFail(String pluginName, String namespace) {
+
+<span class="fc" id="L138">        return ofNullable(namespace)</span>
+<span class="pc" id="L139">                .flatMap(ns -&gt; pluginService.findByNameAndNamespace(pluginName, ns))</span>
+<span class="fc" id="L140">                .or(() -&gt; pluginService.findByName(pluginName))</span>
+<span class="pc" id="L141">                .orElseThrow(() -&gt; NotFoundExceptionFactory.entandoPlugin(pluginName));</span>
     }
 
     private Ingress getEntandoPluginIngressOrFail(EntandoPlugin plugin) {
-<span class="fc" id="L120">        return ingressService</span>
-<span class="fc" id="L121">                .findByEntandoPlugin(plugin)</span>
-<span class="fc" id="L122">                .&lt;ThrowableProblem&gt;orElseThrow(() -&gt; {</span>
-<span class="fc" id="L123">                    throw NotFoundExceptionFactory.ingress(plugin);</span>
+<span class="fc" id="L145">        return ingressService</span>
+<span class="fc" id="L146">                .findByEntandoPlugin(plugin)</span>
+<span class="fc" id="L147">                .&lt;ThrowableProblem&gt;orElseThrow(() -&gt; {</span>
+<span class="fc" id="L148">                    throw NotFoundExceptionFactory.ingress(plugin);</span>
                 });
 
     }
 
     private void throwExceptionIfAlreadyDeployed(EntandoPlugin entandoPlugin) {
-<span class="fc" id="L129">        Optional&lt;EntandoPlugin&gt; alreadyDeployedPlugin = pluginService</span>
-<span class="fc" id="L130">                .findByName(entandoPlugin.getMetadata().getName());</span>
-<span class="fc bfc" id="L131" title="All 2 branches covered.">        if (alreadyDeployedPlugin.isPresent()) {</span>
-<span class="fc" id="L132">            throw BadRequestExceptionFactory.pluginAlreadyDeployed(alreadyDeployedPlugin.get());</span>
+<span class="fc" id="L154">        Optional&lt;EntandoPlugin&gt; alreadyDeployedPlugin = pluginService</span>
+<span class="fc" id="L155">                .findByName(entandoPlugin.getMetadata().getName());</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (alreadyDeployedPlugin.isPresent()) {</span>
+<span class="fc" id="L157">            throw BadRequestExceptionFactory.pluginAlreadyDeployed(alreadyDeployedPlugin.get());</span>
         }
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L159">    }</span>
 
     private void addCollectionLinks(CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; collection) {
-<span class="fc" id="L137">        collection.add(linkTo(methodOn(EntandoPluginController.class).get(null)).withRel(&quot;plugin&quot;));</span>
-<span class="fc" id="L138">        collection.add(linkTo(methodOn(EntandoPluginController.class).listInNamespace(null)).withRel(&quot;plugins-in-namespace&quot;));</span>
-<span class="fc" id="L139">        collection.add(linkTo(methodOn(EntandoLinksController.class).listPluginLinks(null)).withRel(&quot;plugin-links&quot;));</span>
-<span class="fc" id="L140">        collection.add(linkTo(methodOn(EntandoPluginController.class).createOrReplace(null)).withRel(&quot;create-or-replace-plugin&quot;));</span>
-<span class="fc" id="L141">    }</span>
+<span class="fc" id="L162">        collection.add(linkTo(methodOn(EntandoPluginController.class).get(null, null)).withRel(&quot;plugin&quot;));</span>
+<span class="fc" id="L163">        collection.add(linkTo(methodOn(EntandoPluginController.class).listInNamespace(null)).withRel(&quot;plugins-in-namespace&quot;));</span>
+<span class="fc" id="L164">        collection.add(linkTo(methodOn(EntandoLinksController.class).listPluginLinks(null)).withRel(&quot;plugin-links&quot;));</span>
+<span class="fc" id="L165">        collection.add(linkTo(methodOn(EntandoPluginController.class).createOrReplace(null)).withRel(&quot;create-or-replace-plugin&quot;));</span>
+<span class="fc" id="L166">    }</span>
 
     private CollectionModel&lt;EntityModel&lt;EntandoPlugin&gt;&gt; getPluginCollectionModel(List&lt;EntandoPlugin&gt; plugins) {
-<span class="fc" id="L144">        return new CollectionModel&lt;&gt;(plugins.stream().map(resourceAssembler::toModel).collect(Collectors.toList()));</span>
+<span class="fc" id="L169">        return new CollectionModel&lt;&gt;(plugins.stream().map(resourceAssembler::toModel).collect(Collectors.toList()));</span>
     }
 
 

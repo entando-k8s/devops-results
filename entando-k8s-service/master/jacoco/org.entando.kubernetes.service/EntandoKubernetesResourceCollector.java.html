@@ -24,8 +24,7 @@ public abstract class EntandoKubernetesResourceCollector&lt;T extends HasMetadat
     }
 
     public List&lt;T&gt; getAllInNamespace(String namespace) {
-<span class="fc" id="L27">        observedNamespaces.failIfNotObserved(namespace);</span>
-<span class="fc" id="L28">        return getInNamespaceWithoutChecking(namespace);</span>
+<span class="fc" id="L27">        return getInNamespaceWithoutChecking(namespace);</span>
     }
 
     protected abstract List&lt;T&gt; getInAnyNamespace();
@@ -33,18 +32,27 @@ public abstract class EntandoKubernetesResourceCollector&lt;T extends HasMetadat
     protected abstract List&lt;T&gt; getInNamespaceWithoutChecking(String namespace);
 
     public List&lt;T&gt; collectFromNamespaces(List&lt;String&gt; namespaceList) {
-<span class="fc" id="L36">        return namespaceList.stream().flatMap(ns -&gt; getAllInNamespace(ns).stream()).collect(Collectors.toList());</span>
+<span class="fc" id="L35">        return namespaceList.stream().flatMap(ns -&gt; getAllInNamespace(ns).stream()).collect(Collectors.toList());</span>
     }
 
     public Optional&lt;T&gt; findByName(String name) {
-<span class="fc" id="L40">        return getAll().stream().filter(r -&gt; r.getMetadata().getName().equals(name)).findFirst();</span>
+<span class="fc" id="L39">        return getAll().stream().filter(r -&gt; r.getMetadata().getName().equals(name)).findFirst();</span>
     }
 
     public Optional&lt;T&gt; findByNameAndNamespace(String name, String namespace) {
-<span class="fc" id="L44">        return getAllInNamespace(namespace)</span>
-<span class="fc" id="L45">                .stream()</span>
-<span class="fc" id="L46">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
-<span class="fc" id="L47">                .findFirst();</span>
+<span class="fc" id="L43">        return getAllInNamespace(namespace)</span>
+<span class="fc" id="L44">                .stream()</span>
+<span class="fc" id="L45">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
+<span class="fc" id="L46">                .findFirst();</span>
+    }
+
+    public Optional&lt;T&gt; findByNameAndDefaultNamespace(String name) {
+
+<span class="nc" id="L51">        final String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
+<span class="nc" id="L52">        return getAllInNamespace(namespace)</span>
+<span class="nc" id="L53">                .stream()</span>
+<span class="nc" id="L54">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
+<span class="nc" id="L55">                .findFirst();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

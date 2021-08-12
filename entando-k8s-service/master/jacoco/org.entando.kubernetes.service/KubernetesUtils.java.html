@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KubernetesUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando Kubernetes Service</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.service</a> &gt; <span class="el_source">KubernetesUtils.java</span></div><h1>KubernetesUtils.java</h1><pre class="source lang-java linenums">package org.entando.kubernetes.service;
 
+import static java.util.Optional.ofNullable;
+
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.JWTParser;
@@ -23,66 +25,81 @@ public class KubernetesUtils implements JwtDecoder {
 
     public static final String ROLES = &quot;roles&quot;;
     private final KubernetesClientCache kubernetesClients;
-<span class="fc" id="L26">    @SuppressWarnings(&quot;java:S5164&quot;)</span>
+<span class="fc" id="L28">    @SuppressWarnings(&quot;java:S5164&quot;)</span>
     //Because a single string per active thread cannot cause a memory leak.
     //This is exactly why we do not cache the KubernetesClient instance here.
     private final ThreadLocal&lt;String&gt; currentToken = new ThreadLocal&lt;&gt;();
+<span class="fc" id="L32">    @SuppressWarnings(&quot;java:S5164&quot;)</span>
+    private final ThreadLocal&lt;String&gt; callerNamespace = new ThreadLocal&lt;&gt;();
 
     public KubernetesUtils() {
-<span class="pc" id="L32">        this(s -&gt; new DefaultKubernetesClient());</span>
-<span class="fc" id="L33">    }</span>
+<span class="pc" id="L36">        this(s -&gt; new DefaultKubernetesClient());</span>
+<span class="fc" id="L37">    }</span>
 
-<span class="fc" id="L35">    public KubernetesUtils(Function&lt;String, KubernetesClient&gt; defaultKubernetesClientSupplier) {</span>
-<span class="fc" id="L36">        this.currentToken.set(DefaultKubernetesClientBuilder.NOT_K8S_TOKEN);</span>
-<span class="fc" id="L37">        this.kubernetesClients = new KubernetesClientCache(defaultKubernetesClientSupplier);</span>
-<span class="fc" id="L38">    }</span>
+<span class="fc" id="L39">    public KubernetesUtils(Function&lt;String, KubernetesClient&gt; defaultKubernetesClientSupplier) {</span>
+<span class="fc" id="L40">        this.currentToken.set(DefaultKubernetesClientBuilder.NOT_K8S_TOKEN);</span>
+<span class="fc" id="L41">        this.kubernetesClients = new KubernetesClientCache(defaultKubernetesClientSupplier);</span>
+<span class="fc" id="L42">    }</span>
+
+    public String getDefaultPluginNamespace() {
+<span class="fc" id="L45">        return ofNullable(callerNamespace.get()).orElse(getCurrentNamespace());</span>
+    }
 
     public String getCurrentNamespace() {
-<span class="fc" id="L41">        return getCurrentKubernetesClient().getNamespace();</span>
+<span class="fc" id="L49">        return getCurrentKubernetesClient().getNamespace();</span>
     }
 
     public KubernetesClient getCurrentKubernetesClient() {
-<span class="fc" id="L45">        return this.kubernetesClients.get(currentToken.get());</span>
+        //at this point, we always use the service account of the entando-k8s-service which should be the same as the operator's service
+        // account
+<span class="fc" id="L55">        return this.kubernetesClients.get(DefaultKubernetesClientBuilder.NOT_K8S_TOKEN);</span>
+        //If we ever require serviceAccount propagation from component-manager, reactivate this line:
+        //return this.kubernetesClients.get(currentToken.get());
     }
 
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-<span class="fc" id="L51">            final JWT parsedJwt = JWTParser.parse(token);</span>
-<span class="fc bfc" id="L52" title="All 2 branches covered.">            if (parsedJwt.getJWTClaimsSet().getClaims().get(&quot;kubernetes.io/serviceaccount/namespace&quot;) != null) {</span>
-<span class="fc" id="L53">                this.currentToken.set(token);</span>
+<span class="fc" id="L63">            final JWT parsedJwt = JWTParser.parse(token);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            if (parsedJwt.getJWTClaimsSet().getClaims().get(&quot;kubernetes.io/serviceaccount/namespace&quot;) != null) {</span>
+                //Leaving this here for now. We may still want to use the consumer's K8S token, but for now
+                // none of our consumers are passing the K8S token
+<span class="fc" id="L67">                this.currentToken.set(token);</span>
+<span class="fc" id="L68">                this.callerNamespace.set((String) parsedJwt.getJWTClaimsSet().getClaims().get(&quot;kubernetes.io/serviceaccount/namespace&quot;));</span>
+
                 //Some possible fields to use:
                 //iss
                 //kubernetes.io/serviceaccount/service-account.name
                 //kubernetes.io/serviceaccount/service-account.uid
             } else {
-                //TODO once component-manager has been migrated, throw an exception here. We only support K8S tokens
-<span class="fc" id="L60">                this.currentToken.set(DefaultKubernetesClientBuilder.NOT_K8S_TOKEN);</span>
+<span class="fc" id="L75">                this.callerNamespace.remove();</span>
+<span class="fc" id="L76">                this.currentToken.set(DefaultKubernetesClientBuilder.NOT_K8S_TOKEN);</span>
+
             }
-<span class="fc" id="L62">            Map&lt;String, Object&gt; claims = new LinkedHashMap&lt;&gt;(parsedJwt.getJWTClaimsSet().getClaims());</span>
-<span class="fc" id="L63">            claims.put(ROLES,</span>
-                    //For now, everyone is an admin
-<span class="fc" id="L65">                    Collections.singletonList(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)));</span>
-            //TODO take this out once migration is complete
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">            if (claims.get(JwtClaimNames.IAT) instanceof Date) {</span>
-<span class="nc" id="L68">                claims.put(JwtClaimNames.IAT, ((Date) claims.get(JwtClaimNames.IAT)).toInstant());</span>
+<span class="fc" id="L79">            Map&lt;String, Object&gt; claims = new LinkedHashMap&lt;&gt;(parsedJwt.getJWTClaimsSet().getClaims());</span>
+<span class="fc" id="L80">            claims.put(ROLES,</span>
+                    //TODO For now, everyone is an admin. In future we may want to limit the creation of plugins
+                    // across namespaces
+<span class="fc" id="L83">                    Collections.singletonList(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;)));</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">            if (claims.get(JwtClaimNames.IAT) instanceof Date) {</span>
+<span class="nc" id="L85">                claims.put(JwtClaimNames.IAT, ((Date) claims.get(JwtClaimNames.IAT)).toInstant());</span>
             }
-<span class="pc bpc" id="L70" title="1 of 2 branches missed.">            if (claims.get(JwtClaimNames.EXP) instanceof Date) {</span>
-<span class="nc" id="L71">                claims.put(JwtClaimNames.EXP, ((Date) claims.get(JwtClaimNames.EXP)).toInstant());</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">            if (claims.get(JwtClaimNames.EXP) instanceof Date) {</span>
+<span class="nc" id="L88">                claims.put(JwtClaimNames.EXP, ((Date) claims.get(JwtClaimNames.EXP)).toInstant());</span>
             }
-<span class="fc" id="L73">            Map&lt;String, Object&gt; headers = new LinkedHashMap&lt;&gt;(parsedJwt.getHeader().toJSONObject());</span>
-<span class="fc" id="L74">            return Jwt.withTokenValue(token)</span>
-<span class="fc" id="L75">                    .headers(h -&gt; h.putAll(headers))</span>
-<span class="fc" id="L76">                    .claims(c -&gt; {</span>
-<span class="fc" id="L77">                        c.putAll(claims);</span>
-<span class="fc" id="L78">                    }).build();</span>
-<span class="nc" id="L79">        } catch (ParseException e) {</span>
-<span class="nc" id="L80">            throw new JwtException(&quot;Malformed payload&quot;, e);</span>
-<span class="nc" id="L81">        } catch (Exception e) {</span>
+<span class="fc" id="L90">            Map&lt;String, Object&gt; headers = new LinkedHashMap&lt;&gt;(parsedJwt.getHeader().toJSONObject());</span>
+<span class="fc" id="L91">            return Jwt.withTokenValue(token)</span>
+<span class="fc" id="L92">                    .headers(h -&gt; h.putAll(headers))</span>
+<span class="fc" id="L93">                    .claims(c -&gt; {</span>
+<span class="fc" id="L94">                        c.putAll(claims);</span>
+<span class="fc" id="L95">                    }).build();</span>
+<span class="nc" id="L96">        } catch (ParseException e) {</span>
+<span class="nc" id="L97">            throw new JwtException(&quot;Malformed payload&quot;, e);</span>
+<span class="nc" id="L98">        } catch (Exception e) {</span>
             //TODO in future this can be taken out.
-<span class="nc" id="L83">            Logger.getLogger(getClass().getName()).log(Level.SEVERE, &quot;Could not process JWT token.&quot;, e);</span>
-<span class="nc" id="L84">            Logger.getLogger(getClass().getName()).log(Level.SEVERE, &quot;Token:&quot; + token);</span>
-<span class="nc" id="L85">            throw new IllegalArgumentException(e);</span>
+<span class="nc" id="L100">            Logger.getLogger(getClass().getName()).log(Level.SEVERE, &quot;Could not process JWT token.&quot;, e);</span>
+<span class="nc" id="L101">            Logger.getLogger(getClass().getName()).log(Level.SEVERE, &quot;Token:&quot; + token);</span>
+<span class="nc" id="L102">            throw new IllegalArgumentException(e);</span>
         }
     }
 }
