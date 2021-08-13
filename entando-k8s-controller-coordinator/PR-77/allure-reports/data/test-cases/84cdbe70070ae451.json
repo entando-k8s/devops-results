@@ -1,0 +1,250 @@
+{
+  "uid" : "84cdbe70070ae451",
+  "name" : "testGenerationObservedIsCurrentButForceInstructed()",
+  "fullName" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest.testGenerationObservedIsCurrentButForceInstructed",
+  "historyId" : "83318630cbd3c4c2c9c36e47e2c49c68",
+  "time" : {
+    "start" : 1628865727406,
+    "stop" : 1628865727707,
+    "duration" : 301
+  },
+  "description" : "Resource modification events should be processed when using the annotation 'entando.org/processing-instruction=force' even when the 'generation' property on the metadata of the resource is the same as the 'observedGeneration' property on its status",
+  "descriptionHtml" : "<p>Resource modification events should be processed when using the annotation 'entando.org/processing-instruction=force' even when the 'generation' property on the metadata of the resource is the same as the 'observedGeneration' property on its status</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "prepareCrds",
+    "time" : {
+      "start" : 1628865727407,
+      "stop" : 1628865727465,
+      "duration" : 58
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Resource modification events should be processed when using the annotation 'entando.org/processing-instruction=force' even when the 'generation' property on the metadata of the resource is the same as the 'observedGeneration' property on its status",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given the Coordinator observes this namespace",
+      "time" : {
+        "start" : 1628865727466,
+        "stop" : 1628865727466,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And I have created an TestResource resource with the 'force' processing instruction",
+      "time" : {
+        "start" : 1628865727467,
+        "stop" : 1628865727488,
+        "duration" : 21
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "7bfe662d7e55ddb9",
+        "name" : "TestResource",
+        "source" : "7bfe662d7e55ddb9.txt",
+        "type" : "text/plain",
+        "size" : 315
+      }, {
+        "uid" : "5d1ea6afcccf6a85",
+        "name" : "TestResource",
+        "source" : "5d1ea6afcccf6a85.txt",
+        "type" : "text/plain",
+        "size" : 315
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And the generation in the metadata is the same as the observedGeneration in the status",
+      "time" : {
+        "start" : 1628865727489,
+        "stop" : 1628865727490,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "34fcb40826f8b87",
+        "name" : "TestResource",
+        "source" : "34fcb40826f8b87.txt",
+        "type" : "text/plain",
+        "size" : 395
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "When I start the ControllerCoordinator",
+      "time" : {
+        "start" : 1628865727490,
+        "stop" : 1628865727523,
+        "duration" : 33
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "Then a new pod gets created",
+      "time" : {
+        "start" : 1628865727524,
+        "stop" : 1628865727700,
+        "duration" : 176
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And the 'force' processing instruction has been removed to avoid recursive processing",
+      "time" : {
+        "start" : 1628865727701,
+        "stop" : 1628865727705,
+        "duration" : 4
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "1f0347a6d864ed73",
+        "name" : "TestResource",
+        "source" : "1f0347a6d864ed73.txt",
+        "type" : "text/plain",
+        "size" : 350
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And the forced event was logged",
+      "time" : {
+        "start" : 1628865727706,
+        "stop" : 1628865727706,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 7,
+    "attachmentsCount" : 4,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "shutdownSchedulers",
+    "time" : {
+      "start" : 1628865727707,
+      "stop" : 1628865727707,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "component"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "inner-hexagon"
+  }, {
+    "name" : "tag",
+    "value" : "pre-deployment"
+  }, {
+    "name" : "feature",
+    "value" : "As a controller developer, I want my controller to be triggered when my custom resources are encountered but only when the underlying conditions require it so that they are not run unnecessarily"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-control-bqcq8-1-from-build-pack-r-lmmt2"
+  }, {
+    "name" : "thread",
+    "value" : "112@entando-k8s-entando-k8s-control-bqcq8-1-from-build-pack-r-lmmt2.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "testGenerationObservedIsCurrentButForceInstructed"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "inner-hexagon", "component", "pre-deployment", "allure", "in-process" ]
+  },
+  "source" : "84cdbe70070ae451.json",
+  "parameterValues" : [ ]
+}
