@@ -16,26 +16,48 @@
 
 package org.entando.kubernetes.controller.coordinator;
 
+import static java.lang.String.format;
+
 import io.fabric8.kubernetes.api.model.ConfigMap;
-import io.fabric8.kubernetes.client.KubernetesClientException;
-import io.fabric8.kubernetes.client.Watcher;
-import java.util.logging.Level;
+import io.fabric8.kubernetes.api.model.Event;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.entando.kubernetes.controller.spi.common.EntandoOperatorConfigBase;
 
-<span class="fc" id="L26">public class ConfigListener implements Watcher&lt;ConfigMap&gt; {</span>
+public class ConfigListener implements RestartingWatcher&lt;ConfigMap&gt; {
 
-<span class="fc" id="L28">    private static final Logger LOGGER = Logger.getLogger(ConfigListener.class.getName());</span>
+<span class="fc" id="L29">    private static final Logger LOGGER = Logger.getLogger(ConfigListener.class.getName());</span>
+    private final SimpleKubernetesClient client;
+
+<span class="fc" id="L32">    public ConfigListener(SimpleKubernetesClient client) {</span>
+<span class="fc" id="L33">        this.client = client;</span>
+<span class="fc" id="L34">        getRestartingAction().run();</span>
+<span class="fc" id="L35">    }</span>
 
     @Override
     public void eventReceived(Action action, ConfigMap resource) {
-<span class="fc" id="L32">        EntandoOperatorConfigBase.setConfigMap(resource);</span>
-<span class="fc" id="L33">    }</span>
+<span class="fc" id="L39">        LOGGER.info(() -&gt; format(&quot;ConfigMap %s/%s action received: %s:%n%s&quot;,</span>
+<span class="fc" id="L40">                resource.getMetadata().getNamespace(),</span>
+<span class="fc" id="L41">                resource.getMetadata().getName(),</span>
+<span class="fc" id="L42">                action.name(),</span>
+<span class="fc" id="L43">                resource.getData().entrySet().stream().map(e -&gt; e.getKey() + &quot;=&quot; + e.getValue()).collect(Collectors.joining(&quot;\n&quot;))));</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if (action == Action.DELETED) {</span>
+<span class="nc" id="L45">            EntandoOperatorConfigBase.setConfigMap(null);</span>
+        } else {
+<span class="fc" id="L47">            EntandoOperatorConfigBase.setConfigMap(resource);</span>
+        }
+<span class="fc" id="L49">    }</span>
 
     @Override
-    public void onClose(KubernetesClientException cause) {
-<span class="fc" id="L37">        LOGGER.log(Level.SEVERE, cause, () -&gt; &quot;ConfigListener closed. The container should restart now.&quot;);</span>
-<span class="fc" id="L38">        Liveness.dead();</span>
-<span class="fc" id="L39">    }</span>
+    public Runnable getRestartingAction() {
+<span class="fc" id="L53">        return () -&gt; client.watchControllerConfigMap(CoordinatorUtils.ENTANDO_OPERATOR_CONFIG, this);</span>
+    }
+
+    @Override
+
+    public void issueOperatorDeathEvent(Event event) {
+<span class="fc" id="L59">        client.issueOperatorDeathEvent(event);</span>
+<span class="fc" id="L60">    }</span>
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
