@@ -21,52 +21,48 @@ import io.fabric8.kubernetes.api.model.ConfigMapBuilder;
 import io.fabric8.kubernetes.api.model.Event;
 import io.fabric8.kubernetes.api.model.OwnerReference;
 import io.fabric8.kubernetes.api.model.apiextensions.v1beta1.CustomResourceDefinition;
-import io.fabric8.kubernetes.client.WatcherException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 class CrdNameMapSync implements RestartingWatcher&lt;CustomResourceDefinition&gt; {
 
-<span class="fc" id="L31">    private static final Logger LOGGER = Logger.getLogger(CrdNameMapSync.class.getName());</span>
     private ConfigMap crdNameMap;
     private final SimpleKubernetesClient client;
 
-<span class="fc" id="L35">    CrdNameMapSync(SimpleKubernetesClient client, List&lt;CustomResourceDefinition&gt; customResourceDefinitions) {</span>
-<span class="fc" id="L36">        this.client = client;</span>
-<span class="fc" id="L37">        crdNameMap = client.findOrCreateControllerConfigMap(CoordinatorUtils.ENTANDO_CRD_NAMES_CONFIGMAP_NAME);</span>
-<span class="fc" id="L38">        customResourceDefinitions.forEach(this::syncName);</span>
-<span class="fc" id="L39">        this.crdNameMap = client.patchControllerConfigMap(crdNameMap);</span>
-<span class="fc" id="L40">        getRestartingAction().run();</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc" id="L31">    CrdNameMapSync(SimpleKubernetesClient client, List&lt;CustomResourceDefinition&gt; customResourceDefinitions) {</span>
+<span class="fc" id="L32">        this.client = client;</span>
+<span class="fc" id="L33">        crdNameMap = client.findOrCreateControllerConfigMap(CoordinatorUtils.ENTANDO_CRD_NAMES_CONFIGMAP_NAME);</span>
+<span class="fc" id="L34">        customResourceDefinitions.forEach(this::syncName);</span>
+<span class="fc" id="L35">        this.crdNameMap = client.patchControllerConfigMap(crdNameMap);</span>
+<span class="fc" id="L36">        getRestartingAction().run();</span>
+<span class="fc" id="L37">    }</span>
 
     @Override
     public Runnable getRestartingAction() {
-<span class="fc" id="L45">        return () -&gt; this.client.watchCustomResourceDefinitions(this);</span>
+<span class="fc" id="L41">        return () -&gt; this.client.watchCustomResourceDefinitions(this);</span>
     }
 
     @Override
     public void issueOperatorDeathEvent(Event event) {
-<span class="fc" id="L50">        client.issueOperatorDeathEvent(event);</span>
-<span class="fc" id="L51">    }</span>
+<span class="fc" id="L46">        client.issueOperatorDeathEvent(event);</span>
+<span class="fc" id="L47">    }</span>
 
     @Override
     public void eventReceived(Action action, CustomResourceDefinition r) {
-<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (CoordinatorUtils.isOfInterest(r)) {</span>
-<span class="fc" id="L56">            crdNameMap = client.findOrCreateControllerConfigMap(CoordinatorUtils.ENTANDO_CRD_NAMES_CONFIGMAP_NAME);</span>
-<span class="fc" id="L57">            syncName(r);</span>
-<span class="fc" id="L58">            this.crdNameMap = client.patchControllerConfigMap(crdNameMap);</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (CoordinatorUtils.isOfInterest(r)) {</span>
+<span class="fc" id="L52">            crdNameMap = client.findOrCreateControllerConfigMap(CoordinatorUtils.ENTANDO_CRD_NAMES_CONFIGMAP_NAME);</span>
+<span class="fc" id="L53">            syncName(r);</span>
+<span class="fc" id="L54">            this.crdNameMap = client.patchControllerConfigMap(crdNameMap);</span>
         }
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L56">    }</span>
 
     private void syncName(CustomResourceDefinition r) {
-<span class="fc" id="L63">        String key = CoordinatorUtils.keyOf(r);</span>
-<span class="fc" id="L64">        crdNameMap = new ConfigMapBuilder(crdNameMap).addToData(key, r.getMetadata().getName()).build();</span>
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L59">        String key = CoordinatorUtils.keyOf(r);</span>
+<span class="fc" id="L60">        crdNameMap = new ConfigMapBuilder(crdNameMap).addToData(key, r.getMetadata().getName()).build();</span>
+<span class="fc" id="L61">    }</span>
 
     public boolean isOfInterest(OwnerReference ownerReference) {
-<span class="fc" id="L68">        final String key = CoordinatorUtils.keyOf(ownerReference);</span>
-<span class="fc" id="L69">        return CoordinatorUtils.resolveValue(crdNameMap, key).isPresent();</span>
+<span class="fc" id="L64">        final String key = CoordinatorUtils.keyOf(ownerReference);</span>
+<span class="fc" id="L65">        return CoordinatorUtils.resolveValue(crdNameMap, key).isPresent();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

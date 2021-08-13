@@ -17,7 +17,6 @@
 package org.entando.kubernetes.controller.coordinator;
 
 import io.fabric8.kubernetes.api.model.Event;
-import io.fabric8.kubernetes.api.model.ObjectReference;
 import io.fabric8.kubernetes.api.model.ObjectReferenceBuilder;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.client.KubernetesClient;
@@ -27,24 +26,24 @@ public class DeathEventIssuerBase implements DeathEventIssuer {
 
     protected final KubernetesClient client;
 
-<span class="fc" id="L30">    public DeathEventIssuerBase(KubernetesClient client) {</span>
-<span class="fc" id="L31">        this.client = client;</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L29">    public DeathEventIssuerBase(KubernetesClient client) {</span>
+<span class="fc" id="L30">        this.client = client;</span>
+<span class="fc" id="L31">    }</span>
 
     @Override
     public void issueOperatorDeathEvent(Event event) {
-<span class="fc" id="L36">        event.getMetadata().setNamespace(client.getNamespace());</span>
-<span class="fc" id="L37">        Pod pod = client.pods().inNamespace(client.getNamespace()).withName(EntandoOperatorSpiConfig.getControllerPodName()).get();</span>
-<span class="fc" id="L38">        event.setInvolvedObject(new ObjectReferenceBuilder()</span>
-<span class="fc" id="L39">                .withName(pod.getMetadata().getName())</span>
-<span class="fc" id="L40">                .withNamespace(pod.getMetadata().getNamespace())</span>
-<span class="fc" id="L41">                .withKind(pod.getKind())</span>
-<span class="fc" id="L42">                .withApiVersion(pod.getApiVersion())</span>
-<span class="fc" id="L43">                .withUid(pod.getMetadata().getUid())</span>
-<span class="fc" id="L44">                .withResourceVersion(pod.getMetadata().getResourceVersion())</span>
-<span class="fc" id="L45">                .build());</span>
-<span class="fc" id="L46">        event.getInvolvedObject().setNamespace(client.getNamespace());</span>
-<span class="fc" id="L47">        client.v1().events().inNamespace(client.getNamespace()).createOrReplace(event);</span>
-<span class="fc" id="L48">    }</span>
+<span class="fc" id="L35">        event.getMetadata().setNamespace(client.getNamespace());</span>
+<span class="fc" id="L36">        Pod pod = client.pods().inNamespace(client.getNamespace()).withName(EntandoOperatorSpiConfig.getControllerPodName()).get();</span>
+<span class="fc" id="L37">        event.setInvolvedObject(new ObjectReferenceBuilder()</span>
+<span class="fc" id="L38">                .withName(pod.getMetadata().getName())</span>
+<span class="fc" id="L39">                .withNamespace(pod.getMetadata().getNamespace())</span>
+<span class="fc" id="L40">                .withKind(pod.getKind())</span>
+<span class="fc" id="L41">                .withApiVersion(pod.getApiVersion())</span>
+<span class="fc" id="L42">                .withUid(pod.getMetadata().getUid())</span>
+<span class="fc" id="L43">                .withResourceVersion(pod.getMetadata().getResourceVersion())</span>
+<span class="fc" id="L44">                .build());</span>
+<span class="fc" id="L45">        event.getInvolvedObject().setNamespace(client.getNamespace());</span>
+<span class="fc" id="L46">        client.v1().events().inNamespace(client.getNamespace()).createOrReplace(event);</span>
+<span class="fc" id="L47">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
