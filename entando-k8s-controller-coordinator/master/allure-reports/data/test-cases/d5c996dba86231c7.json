@@ -1,0 +1,223 @@
+{
+  "uid" : "d5c996dba86231c7",
+  "name" : "testGenerationObservedIsBehind()",
+  "fullName" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest.testGenerationObservedIsBehind",
+  "historyId" : "69f64032a68cb61912837033a2d84db7",
+  "time" : {
+    "start" : 1628845536540,
+    "stop" : 1628845536810,
+    "duration" : 270
+  },
+  "description" : "Resource modification events should be processed when the 'generation' property on the metadata of the resource is higher than the 'observedGeneration' property on its status",
+  "descriptionHtml" : "<p>Resource modification events should be processed when the 'generation' property on the metadata of the resource is higher than the 'observedGeneration' property on its status</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "prepareCrds",
+    "time" : {
+      "start" : 1628845536541,
+      "stop" : 1628845536588,
+      "duration" : 47
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Resource modification events should be processed when the 'generation' property on the metadata of the resource is higher than the 'observedGeneration' property on its status",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given Ihe Coordinator observes this namespace",
+      "time" : {
+        "start" : 1628845536589,
+        "stop" : 1628845536589,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And I have created a TestResource resource",
+      "time" : {
+        "start" : 1628845536590,
+        "stop" : 1628845536607,
+        "duration" : 17
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "236ee5eb80942a7d",
+        "name" : "TestResource",
+        "source" : "236ee5eb80942a7d.txt",
+        "type" : "text/plain",
+        "size" : 270
+      }, {
+        "uid" : "52db8842ee5c90f9",
+        "name" : "TestResource",
+        "source" : "52db8842ee5c90f9.txt",
+        "type" : "text/plain",
+        "size" : 270
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "But the  observedGeneration in the status is behind generation in the metadata",
+      "time" : {
+        "start" : 1628845536608,
+        "stop" : 1628845536608,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "When I start the ControllerCoordinator",
+      "time" : {
+        "start" : 1628845536608,
+        "stop" : 1628845536629,
+        "duration" : 21
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "Then a new controller pod gets created",
+      "time" : {
+        "start" : 1628845536629,
+        "stop" : 1628845536808,
+        "duration" : 179
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And the generation increment event was logged",
+      "time" : {
+        "start" : 1628845536808,
+        "stop" : 1628845536809,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 6,
+    "attachmentsCount" : 2,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "shutdownSchedulers",
+    "time" : {
+      "start" : 1628845536809,
+      "stop" : 1628845536809,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "component"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "inner-hexagon"
+  }, {
+    "name" : "tag",
+    "value" : "pre-deployment"
+  }, {
+    "name" : "feature",
+    "value" : "As a controller developer, I want my controller to be triggered when my custom resources are encountered but only when the underlying conditions require it so that they are not run unnecessarily"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-control-qlvrw-2-from-build-pack-k-t454l"
+  }, {
+    "name" : "thread",
+    "value" : "108@entando-k8s-entando-k8s-control-qlvrw-2-from-build-pack-k-t454l.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "testGenerationObservedIsBehind"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.coordinator.ControllerCoordinatorProcessingCriteriaTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "inner-hexagon", "component", "pre-deployment", "allure", "in-process" ]
+  },
+  "source" : "d5c996dba86231c7.json",
+  "parameterValues" : [ ]
+}

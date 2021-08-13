@@ -1,0 +1,268 @@
+{
+  "uid" : "b7cde8a60dd83c5b",
+  "name" : "testCapabilityEventWithControllerImageOverride()",
+  "fullName" : "org.entando.kubernetes.controller.coordinator.CrdManagementTest.testCapabilityEventWithControllerImageOverride",
+  "historyId" : "ec5e6015e84fe19afe7a15dd7c5a1595",
+  "time" : {
+    "start" : 1628845539408,
+    "stop" : 1628845539592,
+    "duration" : 184
+  },
+  "description" : "Capabilities that my controller image supports should also result in the image specified in the entando-controller-image-overrides ConfigMap to be executed against the ProvidedCapability",
+  "descriptionHtml" : "<p>Capabilities that my controller image supports should also result in the image specified in the entando-controller-image-overrides ConfigMap to be executed against the ProvidedCapability</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "prepareSystemProperties",
+    "time" : {
+      "start" : 1628845539409,
+      "stop" : 1628845539409,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Capabilities that my controller image supports should also result in the image specified in the entando-controller-image-overrides ConfigMap to be executed against the ProvidedCapability",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given I prepared a namespace scoped deployment of the EntandoOperator",
+      "time" : {
+        "start" : 1628845539410,
+        "stop" : 1628845539410,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "Given I have started the Entando Operator",
+      "time" : {
+        "start" : 1628845539410,
+        "stop" : 1628845539429,
+        "duration" : 19
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And I have a CustomResourceDefinition with",
+      "time" : {
+        "start" : 1628845539437,
+        "stop" : 1628845539439,
+        "duration" : 2
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "the entando.org/crd-of-interest label ",
+        "time" : {
+          "start" : 1628845539438,
+          "stop" : 1628845539438,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and the entando.org/controller-image annotation ",
+        "time" : {
+          "start" : 1628845539438,
+          "stop" : 1628845539438,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and the SUPPORTED_CAPABILITIES annotation ",
+        "time" : {
+          "start" : 1628845539439,
+          "stop" : 1628845539439,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 3,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And I have registered my custom resource definition",
+      "time" : {
+        "start" : 1628845539439,
+        "stop" : 1628845539460,
+        "duration" : 21
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "But I have overridden the DBMS capability's image to 'test/image-override' in the entando-controller-image-overrides ConfigMap",
+      "time" : {
+        "start" : 1628845539461,
+        "stop" : 1628845539465,
+        "duration" : 4
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "When I create a new ProvidedCapability requiring the capability associated with my CustomResourceDefinition ",
+      "time" : {
+        "start" : 1628845539465,
+        "stop" : 1628845539488,
+        "duration" : 23
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "Then a controller pod has been created with the overriding image that I specified in the entando-controller-image-overrides ConfigMap",
+      "time" : {
+        "start" : 1628845539488,
+        "stop" : 1628845539591,
+        "duration" : 103
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 10,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "clearSystemProperties",
+    "time" : {
+      "start" : 1628845539592,
+      "stop" : 1628845539592,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "component"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "pre-deployment"
+  }, {
+    "name" : "feature",
+    "value" : "As a controller developer, I want the EntandoOperator to resolve my controller image from my CRD annotations but with the flexibility to override it at runtime so that I can easily a deploy and release my controller images"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-control-qlvrw-2-from-build-pack-k-t454l"
+  }, {
+    "name" : "thread",
+    "value" : "108@entando-k8s-entando-k8s-control-qlvrw-2-from-build-pack-k-t454l.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.coordinator.CrdManagementTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.coordinator.CrdManagementTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "testCapabilityEventWithControllerImageOverride"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.coordinator.CrdManagementTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "component", "pre-deployment", "allure", "in-process" ]
+  },
+  "source" : "b7cde8a60dd83c5b.json",
+  "parameterValues" : [ ]
+}
