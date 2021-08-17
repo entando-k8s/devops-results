@@ -1,0 +1,51 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    openshift.io/scc: "anyuid"
+  creationTimestamp: "2021-08-17T13:41:13Z"
+  name: "my-pod"
+  namespace: "entando-k8s-controller-coordinator-carcpr78-test1"
+  resourceVersion: "215800973"
+  selfLink: "/api/v1/namespaces/entando-k8s-controller-coordinator-carcpr78-test1/pods/my-pod"
+  uid: "c9cec92c-ff60-11eb-ad14-fa163ea775ae"
+spec:
+  containers:
+  - image: "busybox"
+    imagePullPolicy: "Always"
+    name: "busybox"
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - "MKNOD"
+    terminationMessagePath: "/dev/termination-log"
+    terminationMessagePolicy: "File"
+    volumeMounts:
+    - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+      name: "default-token-x8vv8"
+      readOnly: true
+  dnsPolicy: "ClusterFirst"
+  imagePullSecrets:
+  - name: "default-dockercfg-npqp2"
+  - name: "redhat-registry"
+  nodeSelector:
+    node-role.kubernetes.io/compute: "true"
+  priority: 0
+  restartPolicy: "Always"
+  schedulerName: "default-scheduler"
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c219,c119"
+  serviceAccount: "default"
+  serviceAccountName: "default"
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: "default-token-x8vv8"
+    secret:
+      defaultMode: 420
+      secretName: "default-token-x8vv8"
+status:
+  phase: "Pending"
+  qosClass: "BestEffort"
