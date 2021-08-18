@@ -1,0 +1,87 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  annotations:
+    openshift.io/scc: "anyuid"
+  creationTimestamp: "2021-08-18T09:15:11Z"
+  labels:
+    TestResource: "my-test-resource"
+    entando.org/entando-resource-kind: "TestResource"
+    entando.org/entando-resource-namespace: "entando-k8s-controller-coordinator-carcms5-test1"
+    entando.org/job-kind: "deployer"
+  name: "my-pod"
+  namespace: "entando-k8s-controller-coordinator-carcms5-test1"
+  resourceVersion: "215965415"
+  selfLink: "/api/v1/namespaces/entando-k8s-controller-coordinator-carcms5-test1/pods/my-pod"
+  uid: "ca6c1175-0004-11ec-ad14-fa163ea775ae"
+spec:
+  containers:
+  - args:
+    - "/bin/sh"
+    - "-c"
+    - "sleep 3"
+    image: "busybox"
+    imagePullPolicy: "Always"
+    name: "busybox"
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - "MKNOD"
+    terminationMessagePath: "/dev/termination-log"
+    terminationMessagePolicy: "File"
+    volumeMounts:
+    - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+      name: "default-token-6kn4s"
+      readOnly: true
+  dnsPolicy: "ClusterFirst"
+  imagePullSecrets:
+  - name: "redhat-registry"
+  - name: "default-dockercfg-5xllt"
+  nodeName: "openshift"
+  nodeSelector:
+    node-role.kubernetes.io/compute: "true"
+  priority: 0
+  restartPolicy: "Never"
+  schedulerName: "default-scheduler"
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c223,c157"
+  serviceAccount: "default"
+  serviceAccountName: "default"
+  terminationGracePeriodSeconds: 30
+  volumes:
+  - name: "default-token-6kn4s"
+    secret:
+      defaultMode: 420
+      secretName: "default-token-6kn4s"
+status:
+  conditions:
+  - lastTransitionTime: "2021-08-18T09:15:11Z"
+    status: "True"
+    type: "Initialized"
+  - lastTransitionTime: "2021-08-18T09:15:18Z"
+    status: "True"
+    type: "Ready"
+  - status: "True"
+    type: "ContainersReady"
+  - lastTransitionTime: "2021-08-18T09:15:11Z"
+    status: "True"
+    type: "PodScheduled"
+  containerStatuses:
+  - containerID: "docker://a556a45f1a8a5a18f5039c11c462467599015fc75025d079ed28d0d9db0ed21b"
+    image: "docker.io/busybox:latest"
+    imageID: "docker-pullable://docker.io/busybox@sha256:0f354ec1728d9ff32edcd7d1b8bbdfc798277ad36120dc3dc683be44524c8b60"
+    lastState: {}
+    name: "busybox"
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: "2021-08-18T09:15:18Z"
+  hostIP: "54.36.53.206"
+  phase: "Running"
+  podIP: "10.128.1.238"
+  qosClass: "BestEffort"
+  startTime: "2021-08-18T09:15:11Z"
