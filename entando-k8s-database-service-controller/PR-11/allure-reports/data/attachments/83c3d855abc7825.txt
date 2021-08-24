@@ -1,0 +1,23 @@
+---
+mixins:
+- "Secretive"
+- "Deployable"
+fileSystemUserAndGroupId: 26
+defaultServiceAccountName: "default"
+externalService:
+  mixins:
+  - "ExternalService"
+  port: 5432
+  host: "pg.apps.serv.run"
+  createDelegateService: true
+replicas: 1
+customResource:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoDatabaseService"
+  metadata:
+    name: "my-external-dbms"
+    namespace: "my-namespace"
+  isCustomResource: true
+containers: []
+secrets: []
+serviceAccountToUse: "default"
