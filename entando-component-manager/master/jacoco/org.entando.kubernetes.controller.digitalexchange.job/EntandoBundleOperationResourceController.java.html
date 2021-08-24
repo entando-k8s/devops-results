@@ -51,7 +51,7 @@ public class EntandoBundleOperationResourceController implements EntandoBundleOp
 
 <span class="fc" id="L52">        final InstallPlansRequest request = Optional.ofNullable(installPlansRequest).orElse(new InstallPlansRequest());</span>
 
-<span class="fc" id="L54">        EntandoDeBundle bundle = kubeService.getBundleByName(componentId)</span>
+<span class="fc" id="L54">        EntandoDeBundle bundle = kubeService.fetchBundleByName(componentId)</span>
 <span class="pc" id="L55">                .orElseThrow(() -&gt; new BundleNotFoundException(componentId));</span>
 <span class="fc" id="L56">        EntandoDeBundleTag tag = getBundleTagOrFail(bundle, request.getVersion());</span>
 
@@ -68,7 +68,7 @@ public class EntandoBundleOperationResourceController implements EntandoBundleOp
             @RequestBody(required = false) InstallRequest installRequest) {
 
 <span class="fc" id="L70">        final InstallRequest request = Optional.ofNullable(installRequest).orElse(new InstallRequest());</span>
-<span class="fc" id="L71">        EntandoDeBundle bundle = kubeService.getBundleByName(componentId)</span>
+<span class="fc" id="L71">        EntandoDeBundle bundle = kubeService.fetchBundleByName(componentId)</span>
 <span class="fc" id="L72">                .orElseThrow(() -&gt; new BundleNotFoundException(componentId));</span>
 <span class="fc" id="L73">        EntandoDeBundleTag tag = getBundleTagOrFail(bundle, request.getVersion());</span>
 
@@ -89,7 +89,7 @@ public class EntandoBundleOperationResourceController implements EntandoBundleOp
 
 <span class="fc" id="L90">        installPlanValidator.validateInstallPlanOrThrow(installRequest);</span>
 
-<span class="fc" id="L92">        EntandoDeBundle bundle = kubeService.getBundleByName(componentId)</span>
+<span class="fc" id="L92">        EntandoDeBundle bundle = kubeService.fetchBundleByName(componentId)</span>
 <span class="fc" id="L93">                .orElseThrow(() -&gt; new BundleNotFoundException(componentId));</span>
 <span class="fc" id="L94">        EntandoDeBundleTag tag = getBundleTagOrFail(bundle, request.getVersion());</span>
 
