@@ -1,0 +1,44 @@
+---
+internalServiceHostname: "my-labelled-mysql-dbms-service.my-namespace.svc.cluster.local"
+mixins:
+- "ServiceResult"
+- "DatabaseConnectionInfo"
+databaseName: "my_db"
+jdbcParameters:
+  disconnectOnExpiredPasswords: "true"
+port: "3306"
+vendor: "MYSQL"
+adminSecretName: "my-labelled-mysql-dbms-admin-secret"
+service:
+  apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    labels:
+      entando.org/entando-resource-namespace: "my-namespace"
+      entando.org/deployment: "my-labelled-mysql-dbms"
+      EntandoDatabaseService: "my-labelled-mysql-dbms"
+      my-label: "my-label-value"
+      entando.org/entando-resource-kind: "EntandoDatabaseService"
+    name: "my-labelled-mysql-dbms-service"
+    namespace: "my-namespace"
+    ownerReferences:
+    - apiVersion: "entando.org/v1"
+      kind: "EntandoDatabaseService"
+      blockOwnerDeletion: true
+      controller: true
+      name: "my-labelled-mysql-dbms"
+      uid: "2f467f23-12d4-4ec7-9ff1-fb399bb09a38"
+  spec:
+    clusterIP: "10.0.0.124"
+    ports:
+    - name: "db-port"
+      port: 3306
+      protocol: "TCP"
+      targetPort: 3306
+    selector:
+      entando.org/entando-resource-namespace: "my-namespace"
+      entando.org/deployment: "my-labelled-mysql-dbms"
+      EntandoDatabaseService: "my-labelled-mysql-dbms"
+      my-label: "my-label-value"
+      entando.org/entando-resource-kind: "EntandoDatabaseService"
+    type: "ClusterIP"
