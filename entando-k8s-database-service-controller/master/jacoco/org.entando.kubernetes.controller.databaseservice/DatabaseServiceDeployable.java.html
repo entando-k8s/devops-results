@@ -32,106 +32,110 @@ public class DatabaseServiceDeployable implements Deployable&lt;DatabaseDeployme
 <span class="fc" id="L32">    public DatabaseServiceDeployable(EntandoDatabaseService newEntandoDatabaseService) {</span>
 <span class="fc" id="L33">        this.dbmsVendor = strategyFor(newEntandoDatabaseService);</span>
 <span class="fc" id="L34">        this.customResource = newEntandoDatabaseService;</span>
-<span class="fc" id="L35">        this.containers = Collections</span>
-<span class="fc" id="L36">                .singletonList(new DatabaseServiceContainer(newEntandoDatabaseService,</span>
-<span class="fc" id="L37">                        buildVariableInitializer(strategyFor(newEntandoDatabaseService)),</span>
-<span class="fc" id="L38">                        strategyFor(newEntandoDatabaseService),</span>
-<span class="fc" id="L39">                        getPortOverride(newEntandoDatabaseService)));</span>
-<span class="fc" id="L40">        this.newEntandoDatabaseService = newEntandoDatabaseService;</span>
-<span class="fc" id="L41">    }</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (EntandoDatabaseServiceHelper.deployDirectly(newEntandoDatabaseService)) {</span>
+<span class="fc" id="L36">            this.containers = Collections</span>
+<span class="fc" id="L37">                    .singletonList(new DatabaseServiceContainer(newEntandoDatabaseService,</span>
+<span class="fc" id="L38">                            buildVariableInitializer(strategyFor(newEntandoDatabaseService)),</span>
+<span class="fc" id="L39">                            strategyFor(newEntandoDatabaseService),</span>
+<span class="fc" id="L40">                            getPortOverride(newEntandoDatabaseService)));</span>
+        } else {
+<span class="fc" id="L42">            this.containers = Collections.emptyList();</span>
+        }
+<span class="fc" id="L44">        this.newEntandoDatabaseService = newEntandoDatabaseService;</span>
+<span class="fc" id="L45">    }</span>
 
     @Override
     public Optional&lt;ExternalService&gt; getExternalService() {
-<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (EntandoDatabaseServiceHelper.deployDirectly(newEntandoDatabaseService)) {</span>
-<span class="fc" id="L46">            return Optional.empty();</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (EntandoDatabaseServiceHelper.deployDirectly(newEntandoDatabaseService)) {</span>
+<span class="fc" id="L50">            return Optional.empty();</span>
         } else {
-<span class="fc" id="L48">            return Optional.of(new ExternalDatabaseService(newEntandoDatabaseService));</span>
+<span class="fc" id="L52">            return Optional.of(new ExternalDatabaseService(newEntandoDatabaseService));</span>
         }
     }
 
     private static Integer getPortOverride(EntandoDatabaseService newEntandoDatabaseService) {
-<span class="fc" id="L53">        return newEntandoDatabaseService.getSpec().getPort().orElse(null);</span>
+<span class="fc" id="L57">        return newEntandoDatabaseService.getSpec().getPort().orElse(null);</span>
     }
 
     protected String getDatabaseAdminSecretName() {
-<span class="fc" id="L57">        return newEntandoDatabaseService.getSpec().getSecretName().orElse(NameUtils.standardAdminSecretName(newEntandoDatabaseService));</span>
+<span class="fc" id="L61">        return newEntandoDatabaseService.getSpec().getSecretName().orElse(NameUtils.standardAdminSecretName(newEntandoDatabaseService));</span>
     }
 
     @Override
     public List&lt;Secret&gt; getSecrets() {
-<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (newEntandoDatabaseService.getSpec().getSecretName().isPresent()) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (newEntandoDatabaseService.getSpec().getSecretName().isPresent()) {</span>
             //because it already exists
-<span class="fc" id="L64">            return Collections.emptyList();</span>
+<span class="fc" id="L68">            return Collections.emptyList();</span>
         } else {
-<span class="fc" id="L66">            Secret secret = SecretUtils.generateSecret(</span>
+<span class="fc" id="L70">            Secret secret = SecretUtils.generateSecret(</span>
                     customResource,
-<span class="fc" id="L68">                    getDatabaseAdminSecretName(),</span>
-<span class="fc" id="L69">                    dbmsVendor.getDefaultAdminUsername()</span>
+<span class="fc" id="L72">                    getDatabaseAdminSecretName(),</span>
+<span class="fc" id="L73">                    dbmsVendor.getDefaultAdminUsername()</span>
             );
-<span class="fc" id="L71">            return Collections.singletonList(secret);</span>
+<span class="fc" id="L75">            return Collections.singletonList(secret);</span>
         }
     }
 
     protected String getDatabaseName() {
-<span class="fc" id="L76">        return newEntandoDatabaseService.getSpec().getDatabaseName().orElse(</span>
-<span class="fc" id="L77">                NameUtils.databaseCompliantName(customResource, NameUtils.DB_NAME_QUALIFIER, dbmsVendor.getVendorConfig()));</span>
+<span class="fc" id="L80">        return newEntandoDatabaseService.getSpec().getDatabaseName().orElse(</span>
+<span class="fc" id="L81">                NameUtils.databaseCompliantName(customResource, NameUtils.DB_NAME_QUALIFIER, dbmsVendor.getVendorConfig()));</span>
     }
 
     @Override
     public String getServiceAccountToUse() {
-<span class="fc" id="L82">        return getDefaultServiceAccountName();</span>
+<span class="fc" id="L86">        return getDefaultServiceAccountName();</span>
     }
 
     protected DatabaseVariableInitializer buildVariableInitializer(DbmsDockerVendorStrategy vendorStrategy) {
-<span class="pc bpc" id="L86" title="1 of 3 branches missed.">        switch (vendorStrategy) {</span>
+<span class="pc bpc" id="L90" title="1 of 3 branches missed.">        switch (vendorStrategy) {</span>
             case CENTOS_MYSQL:
             case RHEL_MYSQL:
-<span class="fc" id="L89">                return vars -&gt;</span>
+<span class="fc" id="L93">                return vars -&gt;</span>
                         //No DB creation. Dbs are created during schema creation
-<span class="fc" id="L91">                        vars.add(new EnvVar(&quot;MYSQL_ROOT_PASSWORD&quot;, null,</span>
-<span class="fc" id="L92">                                SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
+<span class="fc" id="L95">                        vars.add(new EnvVar(&quot;MYSQL_ROOT_PASSWORD&quot;, null,</span>
+<span class="fc" id="L96">                                SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
             case CENTOS_POSTGRESQL:
             case RHEL_POSTGRESQL:
-<span class="fc" id="L95">                return vars -&gt; {</span>
-<span class="fc" id="L96">                    vars.add(new EnvVar(&quot;POSTGRESQL_DATABASE&quot;, getDatabaseName(), null));</span>
+<span class="fc" id="L99">                return vars -&gt; {</span>
+<span class="fc" id="L100">                    vars.add(new EnvVar(&quot;POSTGRESQL_DATABASE&quot;, getDatabaseName(), null));</span>
                     // This username will not be used, as we will be creating schema/user pairs,
                     // but without it the DB isn't created.
-<span class="fc" id="L99">                    vars.add(new EnvVar(&quot;POSTGRESQL_USER&quot;, getDatabaseName() + &quot;_user&quot;, null));</span>
-<span class="fc" id="L100">                    vars.add(new EnvVar(&quot;POSTGRESQL_PASSWORD&quot;, null,</span>
-<span class="fc" id="L101">                            SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
-<span class="fc" id="L102">                    vars.add(new EnvVar(&quot;POSTGRESQL_ADMIN_PASSWORD&quot;, null,</span>
-<span class="fc" id="L103">                            SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
+<span class="fc" id="L103">                    vars.add(new EnvVar(&quot;POSTGRESQL_USER&quot;, getDatabaseName() + &quot;_user&quot;, null));</span>
+<span class="fc" id="L104">                    vars.add(new EnvVar(&quot;POSTGRESQL_PASSWORD&quot;, null,</span>
+<span class="fc" id="L105">                            SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
+<span class="fc" id="L106">                    vars.add(new EnvVar(&quot;POSTGRESQL_ADMIN_PASSWORD&quot;, null,</span>
+<span class="fc" id="L107">                            SecretUtils.secretKeyRef(getDatabaseAdminSecretName(), SecretUtils.PASSSWORD_KEY)));</span>
 
-<span class="fc" id="L105">                };</span>
+<span class="fc" id="L109">                };</span>
             default:
-<span class="nc" id="L107">                throw new IllegalStateException(</span>
-<span class="nc" id="L108">                        format(&quot;The DBMS %s not supported for containerized deployments&quot;, vendorStrategy.getName()));</span>
+<span class="nc" id="L111">                throw new IllegalStateException(</span>
+<span class="nc" id="L112">                        format(&quot;The DBMS %s not supported for containerized deployments&quot;, vendorStrategy.getName()));</span>
         }
     }
 
     @Override
     public Optional&lt;Long&gt; getFileSystemUserAndGroupId() {
-<span class="fc" id="L114">        return dbmsVendor.getFileSystemUserGroupid();</span>
+<span class="fc" id="L118">        return dbmsVendor.getFileSystemUserGroupid();</span>
     }
 
     @Override
     public List&lt;DeployableContainer&gt; getContainers() {
-<span class="fc" id="L119">        return containers;</span>
+<span class="fc" id="L123">        return containers;</span>
     }
 
     @Override
     public Optional&lt;String&gt; getQualifier() {
-<span class="fc" id="L124">        return Optional.empty();</span>
+<span class="fc" id="L128">        return Optional.empty();</span>
     }
 
     @Override
     public EntandoCustomResource getCustomResource() {
-<span class="fc" id="L129">        return customResource;</span>
+<span class="fc" id="L133">        return customResource;</span>
     }
 
     @Override
     public DatabaseDeploymentResult createResult(Deployment deployment, Service service, Ingress ingress, Pod pod) {
-<span class="fc" id="L134">        return new DatabaseDeploymentResult(service, dbmsVendor.getVendorConfig(), getDatabaseName(), getDatabaseAdminSecretName(), pod);</span>
+<span class="fc" id="L138">        return new DatabaseDeploymentResult(service, dbmsVendor.getVendorConfig(), getDatabaseName(), getDatabaseAdminSecretName(), pod);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
