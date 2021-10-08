@@ -3,8 +3,10 @@
 import io.fabric8.kubernetes.client.dsl.MixedOperation;
 import io.fabric8.kubernetes.client.dsl.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.entando.kubernetes.model.debundle.DoneableEntandoDeBundle;
 import org.entando.kubernetes.model.debundle.EntandoDeBundle;
 import org.entando.kubernetes.model.debundle.EntandoDeBundleList;
@@ -12,47 +14,50 @@ import org.entando.kubernetes.model.debundle.EntandoDeBundleOperationFactory;
 import org.entando.kubernetes.model.namespace.ObservedNamespaces;
 import org.springframework.stereotype.Service;
 
-<span class="fc" id="L15">@Slf4j</span>
+<span class="fc" id="L17">@Slf4j</span>
 @Service
 public class EntandoDeBundleService extends EntandoKubernetesResourceCollector&lt;EntandoDeBundle&gt; {
 
     public EntandoDeBundleService(KubernetesUtils kubernetesUtils,
             ObservedNamespaces observedNamespaces) {
-<span class="fc" id="L21">        super(kubernetesUtils, observedNamespaces);</span>
-<span class="fc" id="L22">    }</span>
+<span class="fc" id="L23">        super(kubernetesUtils, observedNamespaces);</span>
+<span class="fc" id="L24">    }</span>
 
     @Override
     protected List&lt;EntandoDeBundle&gt; getInAnyNamespace() {
-<span class="nc" id="L26">        return getBundleOperations().inAnyNamespace().list().getItems();</span>
+<span class="nc" id="L28">        return getBundleOperations().inAnyNamespace().list().getItems();</span>
     }
 
     @Override
     protected List&lt;EntandoDeBundle&gt; getInNamespaceWithoutChecking(String namespace) {
-<span class="fc" id="L31">        return getBundleOperations().inNamespace(namespace).list().getItems();</span>
+<span class="fc" id="L33">        return getBundleOperations().inNamespace(namespace).list().getItems();</span>
     }
 
     public List&lt;EntandoDeBundle&gt; findBundlesByAnyKeywords(List&lt;String&gt; keywords) {
-<span class="fc" id="L35">        return getAll().stream()</span>
-<span class="fc" id="L36">                .filter(b -&gt; b.getSpec().getDetails().getKeywords().stream().anyMatch(keywords::contains))</span>
-<span class="fc" id="L37">                .collect(Collectors.toList());</span>
+<span class="fc" id="L37">        return getAll().stream()</span>
+<span class="fc" id="L38">                .filter(b -&gt; b.getSpec().getDetails().getKeywords().stream().anyMatch(keywords::contains))</span>
+<span class="fc" id="L39">                .collect(Collectors.toList());</span>
     }
 
     public List&lt;EntandoDeBundle&gt; findBundlesByAllKeywords(List&lt;String&gt; keywords) {
-<span class="fc" id="L41">        return getAll().stream()</span>
-<span class="fc" id="L42">                .filter(b -&gt; keywords.containsAll(b.getSpec().getDetails().getKeywords()))</span>
-<span class="fc" id="L43">                .collect(Collectors.toList());</span>
+<span class="fc" id="L43">        return getAll().stream()</span>
+<span class="fc" id="L44">                .filter(b -&gt; keywords.containsAll(b.getSpec().getDetails().getKeywords()))</span>
+<span class="fc" id="L45">                .collect(Collectors.toList());</span>
     }
 
     public EntandoDeBundle createBundle(EntandoDeBundle entandoDeBundle) {
-<span class="fc" id="L47">        return getBundleOperations()</span>
-<span class="fc" id="L48">                .inNamespace(entandoDeBundle.getMetadata().getNamespace()).createOrReplace(entandoDeBundle);</span>
+<span class="fc" id="L49">        String namespace = Optional.ofNullable(entandoDeBundle.getMetadata().getNamespace())</span>
+<span class="fc" id="L50">                .filter(StringUtils::isNotBlank)</span>
+<span class="fc" id="L51">                .orElse(observedNamespaces.getCurrentNamespace());</span>
+<span class="fc" id="L52">        return getBundleOperations()</span>
+<span class="fc" id="L53">                .inNamespace(namespace).createOrReplace(entandoDeBundle);</span>
     }
 
     //CHECKSTYLE:OFF
     private MixedOperation&lt;EntandoDeBundle, EntandoDeBundleList, DoneableEntandoDeBundle, Resource&lt;EntandoDeBundle,
             DoneableEntandoDeBundle&gt;&gt; getBundleOperations() {
         //CHECKSTYLE:ON
-<span class="fc" id="L55">        return EntandoDeBundleOperationFactory.produceAllEntandoDeBundles(kubernetesUtils.getCurrentKubernetesClient());</span>
+<span class="fc" id="L60">        return EntandoDeBundleOperationFactory.produceAllEntandoDeBundles(kubernetesUtils.getCurrentKubernetesClient());</span>
     }
 
 }
