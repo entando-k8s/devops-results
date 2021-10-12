@@ -1,0 +1,24 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "specified-dbms"
+    TestResource: "specified-dbms"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "specified-dbms-service"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "specified-dbms"
+    uid: "c60c9da9-08dc-4819-87dd-21cac76963c9"
+spec:
+  clusterIP: "10.0.0.-59"
+  ports:
+  - port: 3307
+    targetPort: 3307
+  type: "ClusterIP"
