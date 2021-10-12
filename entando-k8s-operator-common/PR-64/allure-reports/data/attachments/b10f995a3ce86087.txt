@@ -1,0 +1,20 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    TestResource: "default-postgresql-dbms-in-namespace"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "default-postgresql-dbms-in-namespace-admin-secret"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "default-postgresql-dbms-in-namespace"
+    uid: "9ee32bfd-2069-458f-825c-0212ad9b5297"
+stringData:
+  username: "postgres"
+  password: "da9147a8b64045e5"
