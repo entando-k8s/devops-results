@@ -1,0 +1,25 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "specified-dbms"
+    TestResource: "specified-dbms"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "specified-dbms-service"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "specified-dbms"
+    uid: "c505ed7b-21f1-4aba-9899-d81803c70e9c"
+spec:
+  clusterIP: "10.0.0.-70"
+  externalName: "pg.apps.serv.run"
+  ports:
+  - port: 3307
+    targetPort: 3307
+  type: "ExternalName"

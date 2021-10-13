@@ -47,13 +47,13 @@ import org.entando.kubernetes.model.common.EntandoCustomResource;
 public class DefaultKubernetesClientForControllers extends EntandoResourceClientBase implements KubernetesClientForControllers {
 
     public DefaultKubernetesClientForControllers(KubernetesClient client) {
-<span class="nc" id="L50">        super(client);</span>
+<span class="fc" id="L50">        super(client);</span>
 
-<span class="nc" id="L52">    }</span>
+<span class="fc" id="L52">    }</span>
 
     @Override
     public String getNamespace() {
-<span class="nc" id="L56">        return client.getNamespace();</span>
+<span class="fc" id="L56">        return client.getNamespace();</span>
     }
 
     @Override
@@ -63,31 +63,31 @@ public class DefaultKubernetesClientForControllers extends EntandoResourceClient
 
     @Override
     public &lt;T extends EntandoCustomResource&gt; T createOrPatchEntandoResource(T r) {
-<span class="nc" id="L66">        return super.createOrPatchEntandoResource(r);</span>
+<span class="fc" id="L66">        return super.createOrPatchEntandoResource(r);</span>
     }
 
     @Override
     public &lt;T extends EntandoCustomResource&gt; T load(Class&lt;T&gt; clzz, String resourceNamespace, String resourceName) {
-<span class="nc" id="L71">        return super.load(clzz, resourceNamespace, resourceName);</span>
+<span class="fc" id="L71">        return super.load(clzz, resourceNamespace, resourceName);</span>
     }
 
     @Override
     public SerializedEntandoResource loadCustomResource(String apiVersion, String kind, String namespace, String name) {
-<span class="nc" id="L76">        return super.loadCustomResource(apiVersion, kind, namespace, name);</span>
+<span class="fc" id="L76">        return super.loadCustomResource(apiVersion, kind, namespace, name);</span>
     }
 
     @Override
     public void prepareConfig() {
-<span class="nc" id="L81">        EntandoOperatorConfigBase.setConfigMap(loadOperatorConfig());</span>
-<span class="nc" id="L82">        EntandoOperatorSpiConfig.getCertificateAuthoritySecretName()</span>
-<span class="nc" id="L83">                .ifPresent(s -&gt; TrustStoreHelper</span>
+<span class="fc" id="L81">        EntandoOperatorConfigBase.setConfigMap(loadOperatorConfig());</span>
+<span class="fc" id="L82">        EntandoOperatorSpiConfig.getCertificateAuthoritySecretName()</span>
+<span class="pc" id="L83">                .ifPresent(s -&gt; TrustStoreHelper</span>
 <span class="nc" id="L84">                        .trustCertificateAuthoritiesIn(client.secrets().inNamespace(client.getNamespace()).withName(s).fromServer().get()));</span>
 
-<span class="nc" id="L86">    }</span>
+<span class="fc" id="L86">    }</span>
 
     public ConfigMap loadOperatorConfig() {
-<span class="nc" id="L89">        return client.configMaps().inNamespace(client.getNamespace())</span>
-<span class="nc" id="L90">                .withName(KubernetesClientForControllers.ENTANDO_OPERATOR_CONFIG_CONFIGMAP_NAME).fromServer().get();</span>
+<span class="fc" id="L89">        return client.configMaps().inNamespace(client.getNamespace())</span>
+<span class="fc" id="L90">                .withName(KubernetesClientForControllers.ENTANDO_OPERATOR_CONFIG_CONFIGMAP_NAME).fromServer().get();</span>
     }
 
     @Override
@@ -111,46 +111,46 @@ public class DefaultKubernetesClientForControllers extends EntandoResourceClient
 
     @Override
     public List&lt;Event&gt; listEventsFor(EntandoCustomResource resource) {
-<span class="nc" id="L114">        return client.v1().events().inAnyNamespace().withLabels(ResourceUtils.labelsFromResource(resource)).list().getItems();</span>
+<span class="fc" id="L114">        return client.v1().events().inAnyNamespace().withLabels(ResourceUtils.labelsFromResource(resource)).list().getItems();</span>
     }
 
     public &lt;T extends EntandoCustomResource&gt; void issueEvent(T customResource, Event event) {
-<span class="nc" id="L118">        client.v1().events().inNamespace(customResource.getMetadata().getNamespace())</span>
-<span class="nc" id="L119">                .create(event);</span>
-<span class="nc" id="L120">    }</span>
+<span class="fc" id="L118">        client.v1().events().inNamespace(customResource.getMetadata().getNamespace())</span>
+<span class="fc" id="L119">                .create(event);</span>
+<span class="fc" id="L120">    }</span>
 
     @SuppressWarnings({&quot;unchecked&quot;, &quot;java:S1905&quot;, &quot;java:S1874&quot;})
     //These casts are necessary to circumvent our &quot;inaccurate&quot; use of type parameters for our generic Serializable resources
     //We have to use the deprecated methods in question to &quot;generically&quot; resolve our Serializable resources
     @Override
     public &lt;T extends EntandoCustomResource&gt; T performStatusUpdate(T customResource, Consumer&lt;T&gt; consumer) {
-<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
-<span class="nc" id="L128">            return ioSafe(() -&gt; {</span>
-<span class="nc" id="L129">                SerializedEntandoResource ser = (SerializedEntandoResource) customResource;</span>
-<span class="nc" id="L130">                CustomResourceDefinitionContext definition = Optional.ofNullable(ser.getDefinition()).orElse(</span>
-<span class="nc" id="L131">                        resolveDefinitionContext(ser.getKind(), ser.getApiVersion()));</span>
-<span class="nc" id="L132">                ser.setDefinition(definition);</span>
-<span class="nc" id="L133">                RawCustomResourceOperationsImpl resource = client.customResource(definition)</span>
-<span class="nc" id="L134">                        .inNamespace(customResource.getMetadata().getNamespace())</span>
-<span class="nc" id="L135">                        .withName(customResource.getMetadata().getName());</span>
-<span class="nc" id="L136">                final ObjectMapper objectMapper = new ObjectMapper();</span>
-<span class="nc" id="L137">                ser = objectMapper.readValue(objectMapper.writeValueAsString(resource.get()), SerializedEntandoResource.class);</span>
-<span class="nc" id="L138">                ser.setDefinition(definition);</span>
-<span class="nc" id="L139">                T latest = (T) ser;</span>
-<span class="nc" id="L140">                consumer.accept(latest);</span>
-<span class="nc" id="L141">                return (T) objectMapper.readValue(</span>
-<span class="nc" id="L142">                        objectMapper.writeValueAsString(resource.updateStatus(objectMapper.writeValueAsString(latest))),</span>
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (customResource instanceof SerializedEntandoResource) {</span>
+<span class="fc" id="L128">            return ioSafe(() -&gt; {</span>
+<span class="fc" id="L129">                SerializedEntandoResource ser = (SerializedEntandoResource) customResource;</span>
+<span class="fc" id="L130">                CustomResourceDefinitionContext definition = Optional.ofNullable(ser.getDefinition()).orElse(</span>
+<span class="fc" id="L131">                        resolveDefinitionContext(ser.getKind(), ser.getApiVersion()));</span>
+<span class="fc" id="L132">                ser.setDefinition(definition);</span>
+<span class="fc" id="L133">                RawCustomResourceOperationsImpl resource = client.customResource(definition)</span>
+<span class="fc" id="L134">                        .inNamespace(customResource.getMetadata().getNamespace())</span>
+<span class="fc" id="L135">                        .withName(customResource.getMetadata().getName());</span>
+<span class="fc" id="L136">                final ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L137">                ser = objectMapper.readValue(objectMapper.writeValueAsString(resource.get()), SerializedEntandoResource.class);</span>
+<span class="fc" id="L138">                ser.setDefinition(definition);</span>
+<span class="fc" id="L139">                T latest = (T) ser;</span>
+<span class="fc" id="L140">                consumer.accept(latest);</span>
+<span class="fc" id="L141">                return (T) objectMapper.readValue(</span>
+<span class="fc" id="L142">                        objectMapper.writeValueAsString(resource.updateStatus(objectMapper.writeValueAsString(latest))),</span>
                         SerializedEntandoResource.class);
             });
         } else {
-<span class="nc" id="L146">            MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations(</span>
-<span class="nc" id="L147">                    (Class&lt;T&gt;) customResource.getClass());</span>
-<span class="nc" id="L148">            Resource&lt;T&gt; resource = operations</span>
-<span class="nc" id="L149">                    .inNamespace(customResource.getMetadata().getNamespace())</span>
-<span class="nc" id="L150">                    .withName(customResource.getMetadata().getName());</span>
-<span class="nc" id="L151">            T latest = resource.fromServer().get();</span>
-<span class="nc" id="L152">            consumer.accept(latest);</span>
-<span class="nc" id="L153">            return resource.updateStatus(latest);</span>
+<span class="fc" id="L146">            MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations(</span>
+<span class="fc" id="L147">                    (Class&lt;T&gt;) customResource.getClass());</span>
+<span class="fc" id="L148">            Resource&lt;T&gt; resource = operations</span>
+<span class="fc" id="L149">                    .inNamespace(customResource.getMetadata().getNamespace())</span>
+<span class="fc" id="L150">                    .withName(customResource.getMetadata().getName());</span>
+<span class="fc" id="L151">            T latest = resource.fromServer().get();</span>
+<span class="fc" id="L152">            consumer.accept(latest);</span>
+<span class="fc" id="L153">            return resource.updateStatus(latest);</span>
         }
     }
 
