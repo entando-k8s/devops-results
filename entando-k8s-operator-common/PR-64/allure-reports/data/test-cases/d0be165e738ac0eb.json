@@ -1,0 +1,620 @@
+{
+  "uid" : "d0be165e738ac0eb",
+  "name" : "exposeHttpsServiceOverSpecifiedHostName()",
+  "fullName" : "org.entando.kubernetes.controller.ExposedDeploymentTest.exposeHttpsServiceOverSpecifiedHostName",
+  "historyId" : "ade5f5219758cf016da287b728075b6f",
+  "time" : {
+    "start" : 1634125593784,
+    "stop" : 1634125594313,
+    "duration" : 529
+  },
+  "description" : "Should expose a service over HTTPS using the host name specified ",
+  "descriptionHtml" : "<p>Should expose a service over HTTPS using the host name specified</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "beforeEach",
+    "time" : {
+      "start" : 1634125593785,
+      "stop" : 1634125593807,
+      "duration" : 22
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given I have registered a CustomResourceDefinition for the resource kind 'TestResource'",
+      "time" : {
+        "start" : 1634125593785,
+        "stop" : 1634125593807,
+        "duration" : 22
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 1,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  }, {
+    "name" : "resetSystemPropertiesUsed",
+    "time" : {
+      "start" : 1634125593807,
+      "stop" : 1634125593807,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Should expose a service over HTTPS using the host name specified ",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given I have a custom resource of kind TestResource with name 'my-app'",
+      "time" : {
+        "start" : 1634125593808,
+        "stop" : 1634125593810,
+        "duration" : 2
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "3b4d862a668af6d8",
+        "name" : "TestResource",
+        "source" : "3b4d862a668af6d8.txt",
+        "type" : "text/plain",
+        "size" : 189
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And I have three Kubernetes Secrets",
+      "time" : {
+        "start" : 1634125593810,
+        "stop" : 1634125593823,
+        "duration" : 13
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "a standard TLS Secret named 'test-tls-secret'",
+        "time" : {
+          "start" : 1634125593820,
+          "stop" : 1634125593821,
+          "duration" : 1
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "61153288b283c797",
+          "name" : "TlsSecret",
+          "source" : "61153288b283c797.txt",
+          "type" : "text/plain",
+          "size" : 9
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "an Opaque Secret containing trusted certificates 'test-ca-secret' that is also configured as the default CA Secret",
+        "time" : {
+          "start" : 1634125593821,
+          "stop" : 1634125593822,
+          "duration" : 1
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "b8d32b83d7deb315",
+          "name" : "CASecret",
+          "source" : "b8d32b83d7deb315.txt",
+          "type" : "text/plain",
+          "size" : 9
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "another Opaque Secret containing the equivalent Java trust store with the default truststore secret name 'entando-default-truststore'",
+        "time" : {
+          "start" : 1634125593822,
+          "stop" : 1634125593823,
+          "duration" : 1
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "2a0483b4dafebbd5",
+          "name" : "TrustStoreSecret",
+          "source" : "2a0483b4dafebbd5.txt",
+          "type" : "text/plain",
+          "size" : 9
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 3,
+      "attachmentsCount" : 3,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And there is a controller to process requests for the SSO capability requested",
+      "time" : {
+        "start" : 1634125593823,
+        "stop" : 1634125593824,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And I have requested a requirement for the SSO capability",
+      "time" : {
+        "start" : 1634125593824,
+        "stop" : 1634125593824,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And I have an IngressingDeployable that specifies the TLS Secret test-tls-secret and the hostname 'myhost.com', targeting an Ingress in the same namespace as the custom resource ",
+      "time" : {
+        "start" : 1634125593824,
+        "stop" : 1634125593827,
+        "duration" : 3
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "3e8254e8be6b155f",
+        "name" : "Deployable",
+        "source" : "3e8254e8be6b155f.txt",
+        "type" : "text/plain",
+        "size" : 527
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "and a TrustStoreAware, IngressingContainer with the context path '/my-app' and the health check path '/my-app/health'",
+      "time" : {
+        "start" : 1634125593828,
+        "stop" : 1634125593831,
+        "duration" : 3
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "a68ad834236f21c0",
+        "name" : "Container",
+        "source" : "a68ad834236f21c0.txt",
+        "type" : "text/plain",
+        "size" : 1101
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "When the controller processes a new TestResource",
+      "time" : {
+        "start" : 1634125593831,
+        "stop" : 1634125594291,
+        "duration" : 460
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Executing command PROVIDE_CAPABILITY",
+        "time" : {
+          "start" : 1634125593850,
+          "stop" : 1634125594104,
+          "duration" : 254
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "with the SSO service 'default-keycloak-sso-in-namespace-service'",
+          "time" : {
+            "start" : 1634125594069,
+            "stop" : 1634125594074,
+            "duration" : 5
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "d743dea3e3e310f2",
+            "name" : "SSO Service",
+            "source" : "d743dea3e3e310f2.txt",
+            "type" : "text/plain",
+            "size" : 181
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "and the admin secret 'default-keycloak-sso-in-namespace-admin-secret'",
+          "time" : {
+            "start" : 1634125594076,
+            "stop" : 1634125594080,
+            "duration" : 4
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "5ee85f2d0bf0beb1",
+            "name" : "Admin Secret",
+            "source" : "5ee85f2d0bf0beb1.txt",
+            "type" : "text/plain",
+            "size" : 187
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        } ],
+        "attachments" : [ {
+          "uid" : "ebb296b2f6c6d73b",
+          "name" : "Required Capability",
+          "source" : "ebb296b2f6c6d73b.txt",
+          "type" : "text/plain",
+          "size" : 361
+        }, {
+          "uid" : "55f25d0e89b3ca76",
+          "name" : "Provided Capability",
+          "source" : "55f25d0e89b3ca76.txt",
+          "type" : "text/plain",
+          "size" : 766
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 2,
+        "attachmentsCount" : 4,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "Executing command PROCESS_DEPLOYABLE",
+        "time" : {
+          "start" : 1634125594129,
+          "stop" : 1634125594270,
+          "duration" : 141
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "2352728bd5ce0c6e",
+          "name" : "Input Deployable",
+          "source" : "2352728bd5ce0c6e.txt",
+          "type" : "text/plain",
+          "size" : 2608
+        }, {
+          "uid" : "4a69fd95bd832efd",
+          "name" : "Ouput DeploymentResult",
+          "source" : "4a69fd95bd832efd.txt",
+          "type" : "text/plain",
+          "size" : 1375
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 2,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ {
+        "uid" : "87902018ff92e386",
+        "name" : "TestResource",
+        "source" : "87902018ff92e386.txt",
+        "type" : "text/plain",
+        "size" : 189
+      }, {
+        "uid" : "50b7d5de72ea0f37",
+        "name" : "TestResource",
+        "source" : "50b7d5de72ea0f37.txt",
+        "type" : "text/plain",
+        "size" : 189
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 4,
+      "attachmentsCount" : 8,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Then a Deployment was created with a single Container",
+      "time" : {
+        "start" : 1634125594292,
+        "stop" : 1634125594301,
+        "duration" : 9
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "that has the standard Java truststore variable JAVA_TOOL_OPTIONS set to point to the Secret key entando-default-truststore.TRUSTSTORE_SETTINGS",
+        "time" : {
+          "start" : 1634125594300,
+          "stop" : 1634125594300,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and its startupProbe, readinessProbe and livenessProbe all point to the path /my-app/health",
+        "time" : {
+          "start" : 1634125594301,
+          "stop" : 1634125594301,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      } ],
+      "attachments" : [ {
+        "uid" : "a2d6dc4b8cedabb0",
+        "name" : "Deployment",
+        "source" : "a2d6dc4b8cedabb0.txt",
+        "type" : "text/plain",
+        "size" : 3305
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 2,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And a Service was created that points to port 8081 on the target Container",
+      "time" : {
+        "start" : 1634125594301,
+        "stop" : 1634125594306,
+        "duration" : 5
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "97f973cb81703d5f",
+        "name" : "Service",
+        "source" : "97f973cb81703d5f.txt",
+        "type" : "text/plain",
+        "size" : 808
+      }, {
+        "uid" : "7dcd34569b6cf762",
+        "name" : "Service",
+        "source" : "7dcd34569b6cf762.txt",
+        "type" : "text/plain",
+        "size" : 808
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 2,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And an Ingress for was created",
+      "time" : {
+        "start" : 1634125594307,
+        "stop" : 1634125594311,
+        "duration" : 4
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : " that points to port 8081 on the target Service",
+        "time" : {
+          "start" : 1634125594310,
+          "stop" : 1634125594310,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and exposes the service on the host 'myhost.com'",
+        "time" : {
+          "start" : 1634125594310,
+          "stop" : 1634125594310,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and uses the TLS Secret 'test-tls-secret' for this host",
+        "time" : {
+          "start" : 1634125594311,
+          "stop" : 1634125594311,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      } ],
+      "attachments" : [ {
+        "uid" : "f61fcb373c68432",
+        "name" : "Ingress",
+        "source" : "f61fcb373c68432.txt",
+        "type" : "text/plain",
+        "size" : 705
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 3,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "And all the environment variables referring to Secrets are resolved",
+      "time" : {
+        "start" : 1634125594311,
+        "stop" : 1634125594312,
+        "duration" : 1
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "And the path is carried on the status of the CustomResource against the correct qualifier",
+      "time" : {
+        "start" : 1634125594313,
+        "stop" : 1634125594313,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 24,
+    "attachmentsCount" : 18,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "resetSystemPropertiesUsed",
+    "time" : {
+      "start" : 1634125594313,
+      "stop" : 1634125594313,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "inner-hexagon"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "pre-deployment"
+  }, {
+    "name" : "feature",
+    "value" : "As a controller developer, I would like to request the OIDC capability so that I can use it to provide single sign on to my users"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-operato-gd7ns-21-from-build-pack--6ks52"
+  }, {
+    "name" : "thread",
+    "value" : "106@entando-k8s-entando-k8s-operato-gd7ns-21-from-build-pack--6ks52.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.ExposedDeploymentTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.ExposedDeploymentTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "exposeHttpsServiceOverSpecifiedHostName"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.ExposedDeploymentTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "SsoConsumerTest.java",
+    "url" : "https://github.com/entando-k8s/entando-k8s-operator-common/tree/ENG-2284_removing_cluster_infrastructure/src/test/java/org/entando/kubernetes/controller/SsoConsumerTest.java",
+    "type" : "source"
+  }, {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "inner-hexagon", "pre-deployment", "allure", "in-process" ]
+  },
+  "source" : "d0be165e738ac0eb.json",
+  "parameterValues" : [ ]
+}
