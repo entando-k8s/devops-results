@@ -31,22 +31,22 @@ public class KubernetesRestInterceptor implements InvocationHandler {
 
     private Object delegate;
 
-<span class="nc" id="L34">    public KubernetesRestInterceptor(Object delegate) {</span>
-<span class="nc" id="L35">        this.delegate = delegate;</span>
-<span class="nc" id="L36">    }</span>
+<span class="fc" id="L34">    public KubernetesRestInterceptor(Object delegate) {</span>
+<span class="fc" id="L35">        this.delegate = delegate;</span>
+<span class="fc" id="L36">    }</span>
 
     private static String format(HasMetadata entandoCustomResource) {
-<span class="nc" id="L39">        return String.format(&quot; with %s: %s/%s&quot;, entandoCustomResource.getKind(), entandoCustomResource.getMetadata().getNamespace(),</span>
-<span class="nc" id="L40">                entandoCustomResource.getMetadata().getName());</span>
+<span class="fc" id="L39">        return String.format(&quot; with %s: %s/%s&quot;, entandoCustomResource.getKind(), entandoCustomResource.getMetadata().getNamespace(),</span>
+<span class="fc" id="L40">                entandoCustomResource.getMetadata().getName());</span>
     }
 
     @SuppressWarnings(&quot;squid:S2139&quot;)//Because it is common practice to log and rethrow an exception in a logging interceptor
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-<span class="nc" id="L46">        Logger logger = Logger.getLogger(method.getDeclaringClass().getName());</span>
-<span class="nc" id="L47">        logger.logp(Level.INFO, method.getDeclaringClass().getName(), method.getName(), () -&gt; buildEnterMessage(method, args));</span>
+<span class="fc" id="L46">        Logger logger = Logger.getLogger(method.getDeclaringClass().getName());</span>
+<span class="fc" id="L47">        logger.logp(Level.INFO, method.getDeclaringClass().getName(), method.getName(), () -&gt; buildEnterMessage(method, args));</span>
         try {
-<span class="nc" id="L49">            return method.invoke(delegate, args);</span>
+<span class="fc" id="L49">            return method.invoke(delegate, args);</span>
 <span class="nc" id="L50">        } catch (InvocationTargetException e) {</span>
 <span class="nc" id="L51">            logger.logp(Level.SEVERE, method.getDeclaringClass().getName(), method.getName(), e.getTargetException(),</span>
 <span class="nc" id="L52">                    () -&gt; String.format(&quot;Failure executing method %s in class %s&quot;,</span>
@@ -60,37 +60,37 @@ public class KubernetesRestInterceptor implements InvocationHandler {
 <span class="nc" id="L60">                            method.getDeclaringClass().getName()));</span>
 <span class="nc" id="L61">            throw e;</span>
         } finally {
-<span class="nc" id="L63">            logger.logp(Level.INFO, method.getDeclaringClass().getName(), method.getName(), () -&gt;</span>
-<span class="nc" id="L64">                    String.format(&quot;Exiting method %s in class %s&quot;, method.getName(),</span>
-<span class="nc" id="L65">                            method.getDeclaringClass().getName()));</span>
+<span class="fc" id="L63">            logger.logp(Level.INFO, method.getDeclaringClass().getName(), method.getName(), () -&gt;</span>
+<span class="fc" id="L64">                    String.format(&quot;Exiting method %s in class %s&quot;, method.getName(),</span>
+<span class="fc" id="L65">                            method.getDeclaringClass().getName()));</span>
 
         }
     }
 
     private String buildEnterMessage(Method method, Object[] args) {
-<span class="nc" id="L71">        StringBuilder message = new StringBuilder(</span>
-<span class="nc" id="L72">                String.format(&quot;Entering method %s in class %s&quot;, method.getName(),</span>
-<span class="nc" id="L73">                        method.getDeclaringClass().getName()));</span>
-<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (args != null) {</span>
-<span class="nc" id="L75">            Optional&lt;EntandoCustomResource&gt; first = Arrays.stream(args)</span>
-<span class="nc" id="L76">                    .filter(EntandoCustomResource.class::isInstance)</span>
-<span class="nc" id="L77">                    .map(EntandoCustomResource.class::cast).findFirst();</span>
-<span class="nc" id="L78">            first.ifPresent(entandoCustomResource -&gt; message.append(format(entandoCustomResource)));</span>
-<span class="nc" id="L79">            Optional&lt;HasMetadata&gt; second = Arrays.stream(args)</span>
-<span class="nc bnc" id="L80" title="All 4 branches missed.">                    .filter(o -&gt; o instanceof HasMetadata &amp;&amp; o.getClass().getName().startsWith(&quot;io.fabric8.kubernetes&quot;))</span>
-<span class="nc" id="L81">                    .map(HasMetadata.class::cast).findFirst();</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (second.isPresent()) {</span>
-<span class="nc bnc" id="L83" title="All 2 branches missed.">                if (first.isPresent()) {</span>
-<span class="nc" id="L84">                    message.append(&quot; and&quot;);</span>
+<span class="fc" id="L71">        StringBuilder message = new StringBuilder(</span>
+<span class="fc" id="L72">                String.format(&quot;Entering method %s in class %s&quot;, method.getName(),</span>
+<span class="fc" id="L73">                        method.getDeclaringClass().getName()));</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (args != null) {</span>
+<span class="fc" id="L75">            Optional&lt;EntandoCustomResource&gt; first = Arrays.stream(args)</span>
+<span class="fc" id="L76">                    .filter(EntandoCustomResource.class::isInstance)</span>
+<span class="fc" id="L77">                    .map(EntandoCustomResource.class::cast).findFirst();</span>
+<span class="fc" id="L78">            first.ifPresent(entandoCustomResource -&gt; message.append(format(entandoCustomResource)));</span>
+<span class="fc" id="L79">            Optional&lt;HasMetadata&gt; second = Arrays.stream(args)</span>
+<span class="fc bfc" id="L80" title="All 4 branches covered.">                    .filter(o -&gt; o instanceof HasMetadata &amp;&amp; o.getClass().getName().startsWith(&quot;io.fabric8.kubernetes&quot;))</span>
+<span class="fc" id="L81">                    .map(HasMetadata.class::cast).findFirst();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            if (second.isPresent()) {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">                if (first.isPresent()) {</span>
+<span class="fc" id="L84">                    message.append(&quot; and&quot;);</span>
                 }
-<span class="nc" id="L86">                message.append(format(second.get()));</span>
+<span class="fc" id="L86">                message.append(format(second.get()));</span>
             }
-<span class="nc bnc" id="L88" title="All 4 branches missed.">            if (!(first.isPresent() || second.isPresent())) {</span>
-<span class="nc" id="L89">                message.append(&quot; with &quot;)</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">                        .append(Arrays.stream(args).map(o -&gt; o == null ? &quot;null&quot; : o.toString()).collect(Collectors.joining(&quot;,&quot;)));</span>
+<span class="fc bfc" id="L88" title="All 4 branches covered.">            if (!(first.isPresent() || second.isPresent())) {</span>
+<span class="fc" id="L89">                message.append(&quot; with &quot;)</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">                        .append(Arrays.stream(args).map(o -&gt; o == null ? &quot;null&quot; : o.toString()).collect(Collectors.joining(&quot;,&quot;)));</span>
             }
         }
-<span class="nc" id="L93">        return message.toString();</span>
+<span class="fc" id="L93">        return message.toString();</span>
     }
 
 }
