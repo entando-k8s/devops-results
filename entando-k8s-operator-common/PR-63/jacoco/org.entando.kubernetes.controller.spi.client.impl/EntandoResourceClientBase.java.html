@@ -53,9 +53,9 @@ public class EntandoResourceClientBase {
     protected final KubernetesClient client;
     private ConfigMap crdNameMap;
 
-<span class="fc" id="L56">    public EntandoResourceClientBase(KubernetesClient client) {</span>
-<span class="fc" id="L57">        this.client = client;</span>
-<span class="fc" id="L58">    }</span>
+<span class="nc" id="L56">    public EntandoResourceClientBase(KubernetesClient client) {</span>
+<span class="nc" id="L57">        this.client = client;</span>
+<span class="nc" id="L58">    }</span>
 
     @SuppressWarnings(&quot;unchecked&quot;)
     public &lt;T extends EntandoCustomResource&gt; T waitForCompletion(T customResource, int timeoutSeconds) throws TimeoutException {
@@ -130,7 +130,7 @@ public class EntandoResourceClientBase {
 
     @SuppressWarnings(&quot;unchecked&quot;)
     protected &lt;T extends EntandoCustomResource&gt; MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; getOperations(Class&lt;T&gt; c) {
-<span class="fc" id="L133">        return client.customResources((Class) c);</span>
+<span class="nc" id="L133">        return client.customResources((Class) c);</span>
     }
 
     @SuppressWarnings({&quot;unchecked&quot;})
@@ -193,9 +193,9 @@ public class EntandoResourceClientBase {
 
     @SuppressWarnings(&quot;unchecked&quot;)
     protected &lt;T extends EntandoCustomResource&gt; T createOrPatchEntandoResource(T r) {
-<span class="fc" id="L196">        final MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations((Class&lt;T&gt;) r.getClass());</span>
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        if (operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).get() == null) {</span>
-<span class="fc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
+<span class="nc" id="L196">        final MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations((Class&lt;T&gt;) r.getClass());</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).get() == null) {</span>
+<span class="nc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
         } else {
 <span class="nc" id="L200">            return operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).patch(r);</span>
         }
