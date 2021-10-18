@@ -88,7 +88,7 @@ public class DefaultIngressClient implements IngressClient {
     @Override
     public Ingress createIngress(EntandoCustomResource peerInNamespace, Ingress ingress) {
         try {
-<span class="fc" id="L91">            return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace()).create(ingress);</span>
+<span class="nc" id="L91">            return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace()).create(ingress);</span>
 <span class="fc" id="L92">        } catch (KubernetesClientException e) {</span>
 <span class="pc bpc" id="L93" title="1 of 2 branches missed.">            if (e.getCode() == HttpURLConnection.HTTP_CONFLICT) {</span>
 <span class="fc" id="L94">                return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace())</span>
@@ -106,7 +106,7 @@ public class DefaultIngressClient implements IngressClient {
 
     @Override
     public DoneableIngress editIngress(EntandoCustomResource peerInNamespace, String name) {
-<span class="nc" id="L109">        return edit(peerInNamespace.getMetadata(), name);</span>
+<span class="fc" id="L109">        return edit(peerInNamespace.getMetadata(), name);</span>
     }
 
     @Override
