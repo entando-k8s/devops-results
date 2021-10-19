@@ -39,49 +39,49 @@ import org.entando.kubernetes.model.common.ServerStatus;
 public class DefaultCapabilityClient extends EntandoResourceClientBase implements CapabilityClient {
 
     public DefaultCapabilityClient(KubernetesClient client) {
-<span class="nc" id="L42">        super(client);</span>
-<span class="nc" id="L43">    }</span>
+<span class="fc" id="L42">        super(client);</span>
+<span class="fc" id="L43">    }</span>
 
     @Override
     public Optional&lt;ProvidedCapability&gt; providedCapabilityByName(String namespace, String name) {
-<span class="nc" id="L47">        return ofNullable(client.customResources(ProvidedCapability.class).inNamespace(namespace).withName(name).fromServer().get());</span>
+<span class="fc" id="L47">        return ofNullable(client.customResources(ProvidedCapability.class).inNamespace(namespace).withName(name).fromServer().get());</span>
     }
 
     @Override
     public Optional&lt;ProvidedCapability&gt; providedCapabilityByLabels(Map&lt;String, String&gt; labels) {
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (EntandoOperatorConfig.isClusterScopedDeployment()) {</span>
-<span class="nc" id="L53">            return client.customResources(ProvidedCapability.class).inAnyNamespace().withLabels(labels).list().getItems().stream()</span>
-<span class="nc" id="L54">                    .findFirst();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (EntandoOperatorConfig.isClusterScopedDeployment()) {</span>
+<span class="fc" id="L53">            return client.customResources(ProvidedCapability.class).inAnyNamespace().withLabels(labels).list().getItems().stream()</span>
+<span class="fc" id="L54">                    .findFirst();</span>
         } else {
-<span class="nc bnc" id="L56" title="All 2 branches missed.">            for (String namespace : EntandoOperatorConfig.getAllAccessibleNamespaces()) {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">            for (String namespace : EntandoOperatorConfig.getAllAccessibleNamespaces()) {</span>
                 try {
-<span class="nc" id="L58">                    final Optional&lt;ProvidedCapability&gt; providedCapability = client.customResources(ProvidedCapability.class)</span>
-<span class="nc" id="L59">                            .inNamespace(namespace)</span>
-<span class="nc" id="L60">                            .withLabels(labels).list().getItems().stream()</span>
-<span class="nc" id="L61">                            .findFirst();</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">                    if (providedCapability.isPresent()) {</span>
-<span class="nc" id="L63">                        return providedCapability;</span>
+<span class="fc" id="L58">                    final Optional&lt;ProvidedCapability&gt; providedCapability = client.customResources(ProvidedCapability.class)</span>
+<span class="fc" id="L59">                            .inNamespace(namespace)</span>
+<span class="fc" id="L60">                            .withLabels(labels).list().getItems().stream()</span>
+<span class="fc" id="L61">                            .findFirst();</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                    if (providedCapability.isPresent()) {</span>
+<span class="fc" id="L63">                        return providedCapability;</span>
                     }
 <span class="nc" id="L65">                } catch (KubernetesClientException e) {</span>
 <span class="nc bnc" id="L66" title="All 2 branches missed.">                    if (e.getCode() != HttpURLConnection.HTTP_FORBIDDEN) {</span>
 <span class="nc" id="L67">                        throw e;</span>
                     }
-<span class="nc" id="L69">                }</span>
-<span class="nc" id="L70">            }</span>
+<span class="fc" id="L69">                }</span>
+<span class="fc" id="L70">            }</span>
 
         }
-<span class="nc" id="L73">        return Optional.empty();</span>
+<span class="fc" id="L73">        return Optional.empty();</span>
     }
 
     @Override
     public Optional&lt;ProvidedCapability&gt; providedCapabilityByLabels(String namespace, Map&lt;String, String&gt; labels) {
-<span class="nc" id="L78">        return client.customResources(ProvidedCapability.class).inNamespace(namespace).withLabels(labels).list().getItems().stream()</span>
-<span class="nc" id="L79">                .findFirst();</span>
+<span class="fc" id="L78">        return client.customResources(ProvidedCapability.class).inNamespace(namespace).withLabels(labels).list().getItems().stream()</span>
+<span class="fc" id="L79">                .findFirst();</span>
     }
 
     @Override
     public ProvidedCapability createOrPatchCapability(ProvidedCapability capability) {
-<span class="nc" id="L84">        return super.createOrPatchEntandoResource(capability);</span>
+<span class="fc" id="L84">        return super.createOrPatchEntandoResource(capability);</span>
     }
 
     public ProvidedCapability waitForCapabilityCommencement(ProvidedCapability capability, int timeoutSeconds) throws TimeoutException {
@@ -90,7 +90,7 @@ public class DefaultCapabilityClient extends EntandoResourceClientBase implement
 
     @Override
     public ProvidedCapability waitForCapabilityCompletion(ProvidedCapability capability, int timeoutSeconds) throws TimeoutException {
-<span class="nc" id="L93">        return waitForCompletion(capability, timeoutSeconds);</span>
+<span class="fc" id="L93">        return waitForCompletion(capability, timeoutSeconds);</span>
     }
 
     @Override
@@ -100,18 +100,18 @@ public class DefaultCapabilityClient extends EntandoResourceClientBase implement
 
     @Override
     public SerializedCapabilityProvisioningResult buildCapabilityProvisioningResult(ProvidedCapability providedCapability) {
-<span class="nc" id="L103">        final ServerStatus serverStatus = providedCapability.getStatus().getServerStatus(NameUtils.MAIN_QUALIFIER)</span>
-<span class="nc" id="L104">                .orElseThrow(IllegalStateException::new);</span>
-<span class="nc" id="L105">        Service service = serverStatus.getServiceName()</span>
-<span class="nc" id="L106">                .map(s -&gt; client.services().inNamespace(providedCapability.getMetadata().getNamespace())</span>
-<span class="nc" id="L107">                        .withName(s).get()).orElse(null);</span>
-<span class="nc" id="L108">        Secret adminSecret = serverStatus.getAdminSecretName()</span>
-<span class="nc" id="L109">                .map(s -&gt; client.secrets().inNamespace(providedCapability.getMetadata().getNamespace()).withName(s).get())</span>
-<span class="nc" id="L110">                .orElse(null);</span>
-<span class="nc" id="L111">        Ingress ingress = serverStatus.getIngressName()</span>
-<span class="nc" id="L112">                .map(s -&gt; client.extensions().ingresses().inNamespace(providedCapability.getMetadata().getNamespace())</span>
-<span class="nc" id="L113">                        .withName(s).get()).orElse(null);</span>
-<span class="nc" id="L114">        return new SerializedCapabilityProvisioningResult(providedCapability, service, ingress, adminSecret);</span>
+<span class="fc" id="L103">        final ServerStatus serverStatus = providedCapability.getStatus().getServerStatus(NameUtils.MAIN_QUALIFIER)</span>
+<span class="fc" id="L104">                .orElseThrow(IllegalStateException::new);</span>
+<span class="fc" id="L105">        Service service = serverStatus.getServiceName()</span>
+<span class="fc" id="L106">                .map(s -&gt; client.services().inNamespace(providedCapability.getMetadata().getNamespace())</span>
+<span class="fc" id="L107">                        .withName(s).get()).orElse(null);</span>
+<span class="fc" id="L108">        Secret adminSecret = serverStatus.getAdminSecretName()</span>
+<span class="fc" id="L109">                .map(s -&gt; client.secrets().inNamespace(providedCapability.getMetadata().getNamespace()).withName(s).get())</span>
+<span class="fc" id="L110">                .orElse(null);</span>
+<span class="fc" id="L111">        Ingress ingress = serverStatus.getIngressName()</span>
+<span class="fc" id="L112">                .map(s -&gt; client.extensions().ingresses().inNamespace(providedCapability.getMetadata().getNamespace())</span>
+<span class="fc" id="L113">                        .withName(s).get()).orElse(null);</span>
+<span class="fc" id="L114">        return new SerializedCapabilityProvisioningResult(providedCapability, service, ingress, adminSecret);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
