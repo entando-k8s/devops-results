@@ -98,23 +98,23 @@ public interface KubernetesClientForControllers {
     @SuppressWarnings({&quot;java:S106&quot;})
     default ExecutionResult executeAndWait(PodResource&lt;Pod&gt; podResource, String containerName, int timeoutSeconds,
             String... script) throws TimeoutException {
-<span class="fc" id="L101">        StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L102" title="All 2 branches covered.">        for (String s : script) {</span>
-<span class="fc" id="L103">            sb.append(s);</span>
-<span class="fc" id="L104">            sb.append(&quot; || exit $?\n&quot;);</span>
+<span class="nc" id="L101">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        for (String s : script) {</span>
+<span class="nc" id="L103">            sb.append(s);</span>
+<span class="nc" id="L104">            sb.append(&quot; || exit $?\n&quot;);</span>
         }
-<span class="fc" id="L106">        sb.append(&quot;exit $?\n&quot;);</span>
-<span class="fc" id="L107">        ByteArrayInputStream in = new ByteArrayInputStream(sb.toString().getBytes());</span>
-<span class="fc" id="L108">        final CompletableFuture&lt;ExecutionResult&gt; future = new CompletableFuture&lt;&gt;();</span>
-<span class="fc" id="L109">        ExecutionResult listener = new ExecutionResult(future);</span>
-<span class="fc" id="L110">        podResource.inContainer(containerName)</span>
-<span class="fc" id="L111">                .readingInput(in)</span>
-<span class="fc" id="L112">                .writingOutput(listener.getOutput())</span>
-<span class="fc" id="L113">                .writingError(listener.getOutput())</span>
-<span class="fc" id="L114">                .writingErrorChannel(listener.getErrorChannel())</span>
-<span class="fc" id="L115">                .withTTY()</span>
-<span class="fc" id="L116">                .usingListener(listener).exec();</span>
-<span class="fc" id="L117">        return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
+<span class="nc" id="L106">        sb.append(&quot;exit $?\n&quot;);</span>
+<span class="nc" id="L107">        ByteArrayInputStream in = new ByteArrayInputStream(sb.toString().getBytes());</span>
+<span class="nc" id="L108">        final CompletableFuture&lt;ExecutionResult&gt; future = new CompletableFuture&lt;&gt;();</span>
+<span class="nc" id="L109">        ExecutionResult listener = new ExecutionResult(future);</span>
+<span class="nc" id="L110">        podResource.inContainer(containerName)</span>
+<span class="nc" id="L111">                .readingInput(in)</span>
+<span class="nc" id="L112">                .writingOutput(listener.getOutput())</span>
+<span class="nc" id="L113">                .writingError(listener.getOutput())</span>
+<span class="nc" id="L114">                .writingErrorChannel(listener.getErrorChannel())</span>
+<span class="nc" id="L115">                .withTTY()</span>
+<span class="nc" id="L116">                .usingListener(listener).exec();</span>
+<span class="nc" id="L117">        return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
     }
 
     default &lt;T extends EntandoCustomResource&gt; Event populateEvent(T customResource, UnaryOperator&lt;EventBuilder&gt; eventPopulator) {
@@ -222,7 +222,7 @@ public interface KubernetesClientForControllers {
                     //Never overwrite existing exceptions. Exceptions are cleared on start event.
                     //More specific exceptions should be set in the commands and creators.
                     //This is more for use from the Controllers
-<span class="fc bfc" id="L225" title="All 2 branches covered.">                    t.getStatus().getServerStatus(qualifierToUse).filter(status -&gt; !status.hasFailed())</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">                    t.getStatus().getServerStatus(qualifierToUse).filter(status -&gt; !status.hasFailed())</span>
 <span class="fc" id="L226">                            .ifPresent(</span>
 <span class="fc" id="L227">                                    newStatus -&gt; newStatus.finishWith(entandoControllerFailure));</span>
 <span class="fc" id="L228">                    t.getStatus().updateDeploymentPhase(EntandoDeploymentPhase.FAILED, t.getMetadata().getGeneration());</span>
