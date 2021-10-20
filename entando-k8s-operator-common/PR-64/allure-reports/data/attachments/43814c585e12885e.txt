@@ -1,0 +1,39 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    TestResource: "my-app"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "my-app-84272614"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "2063cc88-5b74-4caa-a400-177a9d1c3bf9"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-10-20T08:49:06Z"
+involvedObject:
+  apiVersion: "test.org/v1"
+  kind: "TestResource"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "8260253"
+  uid: "2063cc88-5b74-4caa-a400-177a9d1c3bf9"
+lastTimestamp: "2021-10-20T08:49:06Z"
+message: "The TestResource  my-namespace/my-app received status update for main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-ource-controller"
+type: "Normal"
