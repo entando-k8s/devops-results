@@ -1,0 +1,69 @@
+---
+service:
+  apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    name: "my-db-service"
+    namespace: "my-db-namespace"
+  spec:
+    clusterIP: "10.0.0.-4"
+    ports:
+    - port: 3306
+ingress:
+  empty: true
+  present: false
+providedCapability:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  metadata:
+    annotations:
+      entando.org/origin-uuid: "9e351715-53a4-468c-b779-629f5eec1d13"
+    generation: 1
+    labels:
+      entando.org/capability: "Dbms"
+      entando.org/capability-implementation: "Mysql"
+      entando.org/capability-provision-scope: "Specified"
+    name: "my-db"
+    namespace: "my-db-namespace"
+    resourceVersion: "4550655"
+    uid: "cf8ae989-dff6-43ce-973a-7d7e57d19542"
+  spec:
+    capability: "dbms"
+    implementation: "mysql"
+    resolutionScopePreference:
+    - "Specified"
+    provisioningStrategy: "DeployDirectly"
+    selector: {}
+    capabilityParameters: {}
+    specifiedCapability:
+      namespace: "my-db-namespace"
+      name: "my-db"
+  status:
+    serverStatuses:
+      main:
+        type: "WebServerStatus"
+        qualifier: "main"
+        started: "2021-10-21T12:37:12+0000"
+        originatingCustomResource:
+          apiVersion: "entando.org/v1"
+          kind: "ProvidedCapability"
+          namespace: "my-db-namespace"
+          name: "my-db"
+        originatingControllerPod:
+          namespace: "controller-namespace"
+          name: "my-test-pod"
+        serviceName: "my-db-service"
+        adminSecretName: "my-db-admin-secret"
+        derivedDeploymentParameters:
+          databaseName: "my_db"
+          dbmsVendor: "mysql"
+    observedGeneration: 1
+    phase: "successful"
+    entandoDeploymentPhase: "successful"
+  crdName: "providedcapabilities.entando.org"
+adminSecret:
+  empty: false
+  present: true
+controllerFailure:
+  empty: true
+  present: false
