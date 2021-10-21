@@ -1,0 +1,45 @@
+---
+apiVersion: "entando.org/v1"
+kind: "ProvidedCapability"
+metadata:
+  creationTimestamp: "2021-10-13T12:00:50Z"
+  generation: 1
+  name: "my-capability"
+  namespace: "entando-k8s-operator-common-cmpr64-test99"
+  resourceVersion: "226074297"
+  selfLink: "/apis/entando.org/v1/namespaces/entando-k8s-operator-common-cmpr64-test99/providedcapabilities/my-capability"
+  uid: "358c68ac-2c1d-11ec-aa61-fa163ea775ae"
+spec:
+  capability: "sso"
+  implementation: "keycloak"
+  selector: {}
+  capabilityParameters: {}
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-10-21T12:54:34+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "entando-k8s-operator-common-cmpr64-test99"
+        name: "my-capability"
+      originatingControllerPod:
+        namespace: "jx"
+        name: "my-test-pod"
+      serviceName: "my-capability-service"
+      adminSecretName: "my-capability-admin-secret"
+      ingressName: "my-capability-ingress"
+      externalBaseUrl: "https://myhost.com/my-context"
+    server:
+      type: "WebServerStatus"
+      qualifier: "server"
+      started: "2021-10-13T12:00:52+0000"
+      originatingControllerPod:
+        namespace: "jx"
+        name: "test-controller-pod"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "providedcapabilities.entando.org"
