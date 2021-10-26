@@ -1,0 +1,45 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    ProvidedCapability: "my-keycloak"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "my-keycloak-55335566"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "ad05deb7-54f6-4d76-8345-7f30a9ca0bb4"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-10-26T19:02:48Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-keycloak"
+  namespace: "my-namespace"
+  resourceVersion: "9421329"
+  uid: "ad05deb7-54f6-4d76-8345-7f30a9ca0bb4"
+lastTimestamp: "2021-10-26T19:02:48Z"
+message: "The deployment of ProvidedCapability my-namespace/my-keycloak failed due\
+  \ to Could not disable Keycloak HTTPS requirement:Execution failed!. Fix the root\
+  \ cause and then trigger a redeployment by adding the annotation 'entando.org/processing-instruction:\
+  \ force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Error"
