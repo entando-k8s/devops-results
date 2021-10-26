@@ -1,0 +1,44 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Dbms"
+    ProvidedCapability: "my-labelled-mysql-dbms"
+    my-label: "my-label-value"
+    entando.org/capability-implementation: "Mysql"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Labeled"
+  name: "my-labelled-mysql-dbms-03902710"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-labelled-mysql-dbms"
+    uid: "a86551c1-7ce5-4d53-9fd5-466221c56327"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-10-26T19:00:01Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-labelled-mysql-dbms"
+  namespace: "my-namespace"
+  resourceVersion: "8893818"
+  uid: "a86551c1-7ce5-4d53-9fd5-466221c56327"
+lastTimestamp: "2021-10-26T19:00:01Z"
+message: "The ProvidedCapability  my-namespace/my-labelled-mysql-dbms received status\
+  \ update for main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Normal"
