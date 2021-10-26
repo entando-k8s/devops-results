@@ -1,0 +1,43 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/capability: "Sso"
+    ProvidedCapability: "my-app-sso"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/entando-resource-kind: "ProvidedCapability"
+    entando.org/capability-provision-scope: "Dedicated"
+  name: "my-app-sso-32294408"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app-sso"
+    uid: "f11e4c82-f863-444c-87c4-b919f02ebd70"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-10-26T20:31:22Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "ProvidedCapability"
+  fieldPath: "status"
+  name: "my-app-sso"
+  namespace: "my-namespace"
+  resourceVersion: "8860585"
+  uid: "f11e4c82-f863-444c-87c4-b919f02ebd70"
+lastTimestamp: "2021-10-26T20:31:22Z"
+message: "The ProvidedCapability  my-namespace/my-app-sso received status update for\
+  \ main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-d-capability-controller"
+type: "Normal"
