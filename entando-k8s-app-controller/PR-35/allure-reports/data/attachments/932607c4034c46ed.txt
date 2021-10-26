@@ -1,0 +1,41 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoApp"
+    EntandoApp: "my-app"
+  name: "my-app-02349951"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoApp"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "98b44e42-21f4-4472-9909-1e189254a47c"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-10-26T18:53:24Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoApp"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "7557748"
+  uid: "98b44e42-21f4-4472-9909-1e189254a47c"
+lastTimestamp: "2021-10-26T18:53:24Z"
+message: "The deployment of EntandoApp my-namespace/my-app failed due to Fake Controller\
+  \ Exception. Fix the root cause and then trigger a redeployment by adding the annotation\
+  \ 'entando.org/processing-instruction: force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "entando-k8s-entando-k8s-app-con-kpzvb-1-from-build-pack-w-szhp8"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-app-controller"
+type: "Error"
