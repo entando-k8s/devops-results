@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ControllerCoordinatorConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando K8S Controller Coordinator</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.controller.coordinator</a> &gt; <span class="el_source">ControllerCoordinatorConfig.java</span></div><h1>ControllerCoordinatorConfig.java</h1><pre class="source lang-java linenums">/*
+ *
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ *  This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ */
+
+package org.entando.kubernetes.controller.coordinator;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import javax.print.attribute.standard.MediaSize.NA;
+import org.entando.kubernetes.controller.spi.common.EntandoOperatorConfigBase;
+import org.entando.kubernetes.controller.spi.common.EntandoOperatorSpiConfigProperty;
+
+public class ControllerCoordinatorConfig extends EntandoOperatorConfigBase {
+
+<span class="fc" id="L28">    private static final String[] NAMES_OF_CRDS_OF_INTEREST = {</span>
+            &quot;entandoapppluginlinks.entando.org&quot;,
+            &quot;entandoapps.entando.org&quot;,
+            &quot;entandodatabaseservices.entando.org&quot;,
+            &quot;entandodebundles.entando.org&quot;,
+            &quot;entandokeycloakservers.entando.org&quot;,
+            &quot;entandoplugins.entando.org&quot;,
+            &quot;providedcapabilities.entando.org&quot;
+    };
+
+    private ControllerCoordinatorConfig() {
+    }
+
+    public static Optional&lt;String&gt; getOperatorServiceAccount() {
+<span class="fc" id="L42">        return lookupProperty(ControllerCoordinatorProperty.ENTANDO_K8S_OPERATOR_SERVICEACCOUNT);</span>
+    }
+
+    public static long getPodShutdownTimeoutSeconds() {
+<span class="fc" id="L46">        return lookupProperty(EntandoOperatorSpiConfigProperty.ENTANDO_POD_SHUTDOWN_TIMEOUT_SECONDS).map(Long::valueOf).orElse(120L);</span>
+    }
+
+    public static Integer getRemovalDelay() {
+<span class="fc" id="L50">        return lookupProperty(ControllerCoordinatorProperty.ENTANDO_K8S_CONTROLLER_REMOVAL_DELAY)</span>
+<span class="fc" id="L51">                .map(Integer::parseInt)</span>
+<span class="fc" id="L52">                .orElse(30);</span>
+    }
+
+    public static List&lt;String&gt; getNamesOfCrdsOfInterest() {
+<span class="nc" id="L56">        return Arrays.asList(</span>
+<span class="nc" id="L57">                lookupProperty(ControllerCoordinatorProperty.ENTANDO_CRDS_OF_INTEREST)</span>
+<span class="nc" id="L58">                        .map(s -&gt; s.split(SEPERATOR_PATTERN))</span>
+<span class="nc" id="L59">                        .orElse(NAMES_OF_CRDS_OF_INTEREST));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
