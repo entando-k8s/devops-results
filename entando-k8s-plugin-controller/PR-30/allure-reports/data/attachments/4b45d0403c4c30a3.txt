@@ -1,0 +1,29 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  labels:
+    EntandoPlugin: "my-plugin"
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "my-plugin"
+    entando.org/entando-resource-kind: "EntandoPlugin"
+  name: "my-plugin-deployment"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoPlugin"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-plugin"
+    uid: "ecc8af3b-56c5-4018-8e61-9be749c5fe9f"
+spec:
+  containers:
+  - {}
+status:
+  conditions:
+  - lastTransitionTime: "2021-10-28T04:32:53Z"
+    type: "Ready"
+  containerStatuses:
+  - state:
+      running: {}
+  phase: "Running"
