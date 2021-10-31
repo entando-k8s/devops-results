@@ -1,0 +1,83 @@
+--- !<EntandoPlugin>
+apiVersion: "entando.org/v1"
+kind: "EntandoPlugin"
+metadata:
+  generation: 1
+  name: "my-plugin"
+  namespace: "my-namespace"
+  resourceVersion: "3761978"
+  uid: "048260d6-f454-49e1-9a9f-532061ef543a"
+spec:
+  image: "entando/my-plugin:6.2.1"
+  dbms: "postgresql"
+  replicas: 1
+  roles: []
+  permissions: []
+  environmentVariables: []
+  connectionConfigNames: []
+  companionContainers: []
+status:
+  serverStatuses:
+    db:
+      type: "WebServerStatus"
+      qualifier: "db"
+      started: "2021-10-31T14:36:42+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-postgresql-dbms-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-postgresql-dbms-in-namespace-service"
+      adminSecretName: "default-postgresql-dbms-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        databaseName: "my_db"
+        dbmsVendor: "postgresql"
+    sso:
+      type: "WebServerStatus"
+      qualifier: "sso"
+      started: "2021-10-31T14:36:43+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-sso-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-sso-in-namespace-service"
+      adminSecretName: "default-sso-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        defaultRealm: "my-realm"
+      ingressName: "default-sso-in-namespace-ingress"
+      externalBaseUrl: "https://mykeycloak.apps.serv.run/auth"
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-10-31T14:36:43+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoPlugin"
+        namespace: "my-namespace"
+        name: "my-plugin"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "entando-k8s-entando-k8s-plugin-v6wrf-5-from-build-pack-dw-qq4v5"
+      serviceName: "my-plugin-service"
+      deploymentName: "my-plugin-deployment"
+      ssoRealm: "my-realm"
+      ssoClientId: "my-plugin-server"
+      webContexts:
+        server: "/my-plugin"
+      podPhases:
+        my-plugin-dbprep-1cd5: "Complete"
+        my-plugin-deployment: "Running"
+      persistentVolumeClaimPhases:
+        my-plugin-server-pvc: "Pending"
+      ingressName: "my-plugin-ingress"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "entandoplugins.entando.org"
