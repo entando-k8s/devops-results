@@ -1,0 +1,46 @@
+---
+apiVersion: "entando.org/v1"
+kind: "ProvidedCapability"
+metadata:
+  annotations:
+    entando.org/origin-uuid: "868f3972-3b8e-4041-8e59-cb8ee0891ff9"
+  generation: 1
+  labels:
+    entando.org/capability: "Dbms"
+    entando.org/capability-implementation: "Postgresql"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "default-postgresql-dbms-in-namespace"
+  namespace: "my-namespace"
+  resourceVersion: "8210193"
+  uid: "e2f398f5-85d9-44b5-b3e9-aeb7af31123c"
+spec:
+  capability: "dbms"
+  implementation: "postgresql"
+  resolutionScopePreference:
+  - "Namespace"
+  - "Dedicated"
+  - "Cluster"
+  capabilityParameters: {}
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-10-31T14:48:39+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-postgresql-dbms-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-postgresql-dbms-in-namespace-service"
+      adminSecretName: "default-postgresql-dbms-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        databaseName: "my_db"
+        dbmsVendor: "postgresql"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "providedcapabilities.entando.org"
