@@ -34,51 +34,51 @@ public class EntandoDeBundleService extends EntandoKubernetesResourceCollector&l
 
     @Override
     protected List&lt;EntandoDeBundle&gt; getInNamespaceWithoutChecking(String namespace) {
-<span class="fc" id="L37">        return getBundleOperations().inNamespace(namespace).list().getItems();</span>
+<span class="nc" id="L37">        return getBundleOperations().inNamespace(namespace).list().getItems();</span>
     }
 
     public List&lt;EntandoDeBundle&gt; findBundlesByAnyKeywords(List&lt;String&gt; keywords) {
-<span class="fc" id="L41">        return getAll().stream()</span>
-<span class="fc" id="L42">                .filter(b -&gt; b.getSpec().getDetails().getKeywords().stream().anyMatch(keywords::contains))</span>
-<span class="fc" id="L43">                .collect(Collectors.toList());</span>
+<span class="nc" id="L41">        return getAll().stream()</span>
+<span class="nc" id="L42">                .filter(b -&gt; b.getSpec().getDetails().getKeywords().stream().anyMatch(keywords::contains))</span>
+<span class="nc" id="L43">                .collect(Collectors.toList());</span>
     }
 
     public List&lt;EntandoDeBundle&gt; findBundlesByAllKeywords(List&lt;String&gt; keywords) {
-<span class="fc" id="L47">        return getAll().stream()</span>
-<span class="fc" id="L48">                .filter(b -&gt; keywords.containsAll(b.getSpec().getDetails().getKeywords()))</span>
-<span class="fc" id="L49">                .collect(Collectors.toList());</span>
+<span class="nc" id="L47">        return getAll().stream()</span>
+<span class="nc" id="L48">                .filter(b -&gt; keywords.containsAll(b.getSpec().getDetails().getKeywords()))</span>
+<span class="nc" id="L49">                .collect(Collectors.toList());</span>
     }
 
     public EntandoDeBundle createBundle(EntandoDeBundle entandoDeBundle) {
-<span class="fc" id="L53">        String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
-<span class="fc" id="L54">        return getBundleOperations()</span>
-<span class="fc" id="L55">                .inNamespace(namespace).createOrReplace(entandoDeBundle);</span>
+<span class="nc" id="L53">        String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
+<span class="nc" id="L54">        return getBundleOperations()</span>
+<span class="nc" id="L55">                .inNamespace(namespace).createOrReplace(entandoDeBundle);</span>
     }
 
     public void deleteBundle(String bundleName) {
 
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (ObjectUtils.isEmpty(bundleName)) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (ObjectUtils.isEmpty(bundleName)) {</span>
 <span class="nc" id="L61">            throw BadRequestExceptionFactory.invalidBundleNameRequest();</span>
         }
 
-<span class="fc" id="L64">        final EntandoDeBundle entandoDeBundle = new EntandoDeBundleBuilder().withNewMetadata().withName(bundleName)</span>
-<span class="fc" id="L65">                .endMetadata().build();</span>
-<span class="fc" id="L66">        String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
+<span class="nc" id="L64">        final EntandoDeBundle entandoDeBundle = new EntandoDeBundleBuilder().withNewMetadata().withName(bundleName)</span>
+<span class="nc" id="L65">                .endMetadata().build();</span>
+<span class="nc" id="L66">        String namespace = kubernetesUtils.getDefaultPluginNamespace();</span>
 
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (Boolean.FALSE.equals(</span>
-<span class="fc" id="L69">                getBundleOperations().inNamespace(namespace).delete(entandoDeBundle))) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (Boolean.FALSE.equals(</span>
+<span class="nc" id="L69">                getBundleOperations().inNamespace(namespace).delete(entandoDeBundle))) {</span>
 
-<span class="fc" id="L71">            throw NotFoundExceptionFactory.entandoDeBundle(bundleName);</span>
+<span class="nc" id="L71">            throw NotFoundExceptionFactory.entandoDeBundle(bundleName);</span>
         }
 
-<span class="fc" id="L74">        log.info(&quot;Deleted {} EntandoDeBundle&quot;, bundleName);</span>
-<span class="fc" id="L75">    }</span>
+<span class="nc" id="L74">        log.info(&quot;Deleted {} EntandoDeBundle&quot;, bundleName);</span>
+<span class="nc" id="L75">    }</span>
 
     //CHECKSTYLE:OFF
     private MixedOperation&lt;EntandoDeBundle, EntandoDeBundleList, DoneableEntandoDeBundle, Resource&lt;EntandoDeBundle,
             DoneableEntandoDeBundle&gt;&gt; getBundleOperations() {
         //CHECKSTYLE:ON
-<span class="fc" id="L81">        return EntandoDeBundleOperationFactory.produceAllEntandoDeBundles(kubernetesUtils.getCurrentKubernetesClient());</span>
+<span class="nc" id="L81">        return EntandoDeBundleOperationFactory.produceAllEntandoDeBundles(kubernetesUtils.getCurrentKubernetesClient());</span>
     }
 
 }

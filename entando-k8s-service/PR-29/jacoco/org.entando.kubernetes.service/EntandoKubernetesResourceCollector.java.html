@@ -16,15 +16,15 @@ public abstract class EntandoKubernetesResourceCollector&lt;T extends HasMetadat
     protected final ObservedNamespaces observedNamespaces;
 
     public List&lt;T&gt; getAll() {
-<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (observedNamespaces.isClusterScoped()) {</span>
-<span class="fc" id="L20">            return getInAnyNamespace();</span>
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (observedNamespaces.isClusterScoped()) {</span>
+<span class="nc" id="L20">            return getInAnyNamespace();</span>
         } else {
-<span class="fc" id="L22">            return collectFromNamespaces(observedNamespaces.getNames());</span>
+<span class="nc" id="L22">            return collectFromNamespaces(observedNamespaces.getNames());</span>
         }
     }
 
     public List&lt;T&gt; getAllInNamespace(String namespace) {
-<span class="fc" id="L27">        return getInNamespaceWithoutChecking(namespace);</span>
+<span class="nc" id="L27">        return getInNamespaceWithoutChecking(namespace);</span>
     }
 
     protected abstract List&lt;T&gt; getInAnyNamespace();
@@ -32,18 +32,18 @@ public abstract class EntandoKubernetesResourceCollector&lt;T extends HasMetadat
     protected abstract List&lt;T&gt; getInNamespaceWithoutChecking(String namespace);
 
     public List&lt;T&gt; collectFromNamespaces(List&lt;String&gt; namespaceList) {
-<span class="fc" id="L35">        return namespaceList.stream().flatMap(ns -&gt; getAllInNamespace(ns).stream()).collect(Collectors.toList());</span>
+<span class="nc" id="L35">        return namespaceList.stream().flatMap(ns -&gt; getAllInNamespace(ns).stream()).collect(Collectors.toList());</span>
     }
 
     public Optional&lt;T&gt; findByName(String name) {
-<span class="fc" id="L39">        return getAll().stream().filter(r -&gt; r.getMetadata().getName().equals(name)).findFirst();</span>
+<span class="nc" id="L39">        return getAll().stream().filter(r -&gt; r.getMetadata().getName().equals(name)).findFirst();</span>
     }
 
     public Optional&lt;T&gt; findByNameAndNamespace(String name, String namespace) {
-<span class="fc" id="L43">        return getAllInNamespace(namespace)</span>
-<span class="fc" id="L44">                .stream()</span>
-<span class="fc" id="L45">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
-<span class="fc" id="L46">                .findFirst();</span>
+<span class="nc" id="L43">        return getAllInNamespace(namespace)</span>
+<span class="nc" id="L44">                .stream()</span>
+<span class="nc" id="L45">                .filter(r -&gt; r.getMetadata().getName().equals(name))</span>
+<span class="nc" id="L46">                .findFirst();</span>
     }
 
     public Optional&lt;T&gt; findByNameAndDefaultNamespace(String name) {
