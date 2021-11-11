@@ -1,0 +1,77 @@
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1636638375.9355063,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-k8s-environment-entando-k9nfb-xf6hx[0m
+{"level":"info","ts":1636638492.81138,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/entando-k8s/environment-entando-**-staging.git @ v0.0.143 in path /workspace/source"}
+{"level":"warn","ts":1636638492.811587,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /****/.ssh: file exists"}
+{"level":"info","ts":1636638492.8872652,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:ed160059677f7596c358ac38cda687fc1c221836
+WARNING: no SHAs to merge, falling back to initial cloned commit
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
+Generated Git credentials file /tekton/home/git/credentials
+
+Showing logs for build [32mentando-k8s-environment-entando-k9nfb-1[0m stage [32mfrom-build-pack[0m and container [32mstep-build-helm-apply[0m
+Modified file /workspace/source/env/Chart.yaml to set the chart to version 1
+Copying the helm source directory /workspace/source/env to a temporary location for building and applying /tmp/**-helm-apply-402113916/env
+Applying helm chart at /tmp/**-helm-apply-402113916/env as release name ** to namespace **-staging
+verifying the helm requirements versions in dir: . using version stream URL:  and git ref: 
+Deleting and cloning the Jenkins X versions repo
+Cloning the Jenkins X versions repo https://github.com/jenkins-x/jenkins-x-versions.git with revision v1.0.610 to /tekton/home/.**/jenkins-x-versions
+From https://github.com/jenkins-x/jenkins-x-versions
+ * tag                 v1.0.610   -> FETCH_HEAD
+Ignoring templates/.gitignore
+Ignoring templates/wildcardcert-secret.yaml
+Wrote chart values.yaml /tmp/**-helm-apply-402113916/env/values.yaml generated from directory tree
+generated helm /tmp/**-helm-apply-402113916/env/values.yaml
+
+PipelineSecrets: {}
+cleanup:
+  Annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --cleanup
+expose:
+  Annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --v
+  - 4
+  config:
+    domain: *************
+    exposer: Ingress
+    http: "****"
+    tlsacme: "false"
+    urltemplate: '{{.Service}}-{{.Namespace}}.{{.Domain}}'
+jenkins:
+  Servers:
+    Global: {}
+prow: {}
+test:
+  **Requirements:
+    ingress:
+      domain: stage.*************
+
+Using values files: /tmp/**-helm-apply-402113916/env/values.yaml
+WARNING: No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x-charts.github.io https://jenkins-x-charts.github.io/v2
+Successfully added Helm repository jenkins-x-charts.github.io.
+Adding missing Helm repo: jenkins-x-chartmuseum http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository jenkins-x-chartmuseum.
+WARNING: No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: chartmuseum.jenkins-x.io http://chartmuseum.jenkins-x.io
+error: failed to add chart repositories: failed to add Helm repository 'http://chartmuseum.jenkins-x.io': prompting for creds for http://chartmuseum.jenkins-x.io: asking for username: EOF
+[0G[2K[1;92m? [0m[1;99mRepository username [0m[36m[? for help][0m [?25l7[999;999f[6n[6n
+[31m
+Pipeline failed on stage 'from-build-pack' : container 'step-build-helm-apply'. The execution of the pipeline has stopped.[0m
