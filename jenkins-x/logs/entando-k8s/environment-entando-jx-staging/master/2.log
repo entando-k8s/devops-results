@@ -1,0 +1,78 @@
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1636638455.3340945,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-k8s-environment-entando-cz6cs-tk248[0m
+{"level":"info","ts":1636638550.9229841,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/entando-k8s/environment-**********-staging.git @ v0.0.144 in path /workspace/source"}
+{"level":"warn","ts":1636638550.9232965,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /****/.ssh: file exists"}
+{"level":"info","ts":1636638551.00294,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:179372b60dbf00d639eba873323a1193f2514068
+WARNING: no SHAs to merge, falling back to initial cloned commit
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
+Generated Git credentials file /tekton/home/git/credentials
+
+Showing logs for build [32mentando-k8s-environment-entando-cz6cs-2[0m stage [32mfrom-build-pack[0m and container [32mstep-build-helm-apply[0m
+Modified file /workspace/source/env/Chart.yaml to set the chart to version 2
+Copying the helm source directory /workspace/source/env to a temporary location for building and applying /tmp/**-helm-apply-344263763/env
+Applying helm chart at /tmp/**-helm-apply-344263763/env as release name ** to namespace **-staging
+verifying the helm requirements versions in dir: . using version stream URL:  and git ref: 
+Deleting and cloning the Jenkins X versions repo
+Cloning the Jenkins X versions repo https://github.com/jenkins-x/jenkins-x-versions.git with revision v1.0.610 to /tekton/home/.**/jenkins-x-versions
+From https://github.com/jenkins-x/jenkins-x-versions
+ * tag                 v1.0.610   -> FETCH_HEAD
+Ignoring templates/.gitignore
+Ignoring templates/wildcardcert-secret.yaml
+Wrote chart values.yaml /tmp/**-helm-apply-344263763/env/values.yaml generated from directory tree
+generated helm /tmp/**-helm-apply-344263763/env/values.yaml
+
+PipelineSecrets: {}
+cleanup:
+  Annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --cleanup
+expose:
+  Annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-delete-policy: hook-succeeded
+  Args:
+  - --v
+  - 4
+  config:
+    domain: *************
+    exposer: Ingress
+    http: "****"
+    tlsacme: "false"
+    urltemplate: '{{.Service}}-{{.Namespace}}.{{.Domain}}'
+jenkins:
+  Servers:
+    Global: {}
+prow: {}
+test:
+  **Requirements:
+    ingress:
+      domain: stage.*************
+
+Using values files: /tmp/**-helm-apply-344263763/env/values.yaml
+WARNING: No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x-charts.github.io https://jenkins-x-charts.github.io/v2
+Successfully added Helm repository jenkins-x-charts.github.io.
+Adding missing Helm repo: jenkins-x-chartmuseum http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository jenkins-x-chartmuseum.
+WARNING: No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+error: failed to lint the chart '/tmp/**-helm-apply-344263763/env': failed to run 'helm lint --values /tmp/**-helm-apply-344263763/env/values.yaml' command in directory '/tmp/**-helm-apply-344263763/env', output: '==> Linting .
+[ERROR] Chart.yaml: apiVersion is required
+
+Error: 1 chart(s) linted, 1 chart(s) failed'
+[31m
+Pipeline failed on stage 'from-build-pack' : container 'step-build-helm-apply'. The execution of the pipeline has stopped.[0m
