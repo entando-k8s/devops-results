@@ -89,14 +89,14 @@ public class DefaultIngressClient implements IngressClient {
     public Ingress createIngress(EntandoCustomResource peerInNamespace, Ingress ingress) {
         try {
 <span class="fc" id="L91">            return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace()).create(ingress);</span>
-<span class="nc" id="L92">        } catch (KubernetesClientException e) {</span>
-<span class="nc bnc" id="L93" title="All 2 branches missed.">            if (e.getCode() == HttpURLConnection.HTTP_CONFLICT) {</span>
-<span class="nc" id="L94">                return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace())</span>
-<span class="nc" id="L95">                        .withName(ingress.getMetadata().getName())</span>
-<span class="nc" id="L96">                        .edit(existing -&gt; {</span>
-<span class="nc" id="L97">                            existing.getSpec().getRules().get(0).getHttp().getPaths()</span>
-<span class="nc" id="L98">                                    .addAll(ingress.getSpec().getRules().get(0).getHttp().getPaths());</span>
-<span class="nc" id="L99">                            return existing;</span>
+<span class="fc" id="L92">        } catch (KubernetesClientException e) {</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">            if (e.getCode() == HttpURLConnection.HTTP_CONFLICT) {</span>
+<span class="fc" id="L94">                return client.extensions().ingresses().inNamespace(peerInNamespace.getMetadata().getNamespace())</span>
+<span class="fc" id="L95">                        .withName(ingress.getMetadata().getName())</span>
+<span class="fc" id="L96">                        .edit(existing -&gt; {</span>
+<span class="fc" id="L97">                            existing.getSpec().getRules().get(0).getHttp().getPaths()</span>
+<span class="fc" id="L98">                                    .addAll(ingress.getSpec().getRules().get(0).getHttp().getPaths());</span>
+<span class="fc" id="L99">                            return existing;</span>
                         });
             } else {
 <span class="nc" id="L102">                throw e;</span>
@@ -106,7 +106,7 @@ public class DefaultIngressClient implements IngressClient {
 
     @Override
     public DoneableIngress editIngress(EntandoCustomResource peerInNamespace, String name) {
-<span class="nc" id="L109">        return edit(peerInNamespace.getMetadata(), name);</span>
+<span class="fc" id="L109">        return edit(peerInNamespace.getMetadata(), name);</span>
     }
 
     @Override
