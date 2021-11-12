@@ -1,0 +1,1085 @@
+{
+  "uid" : "52d6c9345538e140",
+  "name" : "absoluteMinimalDeployment()",
+  "fullName" : "org.entando.kubernetes.controller.MinimalDeploymentTest.absoluteMinimalDeployment",
+  "historyId" : "b85a4cbe42a4980e7ff25b7b8c818a21",
+  "time" : {
+    "start" : 1636713774557,
+    "stop" : 1636713774849,
+    "duration" : 292
+  },
+  "description" : "Should deploy successfully even if only the image and port are specified",
+  "descriptionHtml" : "<p>Should deploy successfully even if only the image and port are specified</p>\n",
+  "status" : "passed",
+  "flaky" : false,
+  "newFailed" : false,
+  "beforeStages" : [ {
+    "name" : "beforeEach",
+    "time" : {
+      "start" : 1636713774558,
+      "stop" : 1636713774581,
+      "duration" : 23
+    },
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given I have registered a CustomResourceDefinition for the resource kind 'TestResource'",
+      "time" : {
+        "start" : 1636713774558,
+        "stop" : 1636713774581,
+        "duration" : 23
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 1,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  }, {
+    "name" : "resetSystemPropertiesUsed",
+    "time" : {
+      "start" : 1636713774582,
+      "stop" : 1636713774582,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "description" : "Should deploy successfully even if only the image and port are specified",
+    "status" : "passed",
+    "steps" : [ {
+      "name" : "Given I have a basic Deployable",
+      "time" : {
+        "start" : 1636713774583,
+        "stop" : 1636713774583,
+        "duration" : 0
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 0,
+      "shouldDisplayMessage" : false,
+      "hasContent" : false
+    }, {
+      "name" : "and a basic DeployableContainer qualified as 'server' that uses the image test/my-image:6.3.2 and exports port 8081",
+      "time" : {
+        "start" : 1636713774583,
+        "stop" : 1636713774587,
+        "duration" : 4
+      },
+      "status" : "passed",
+      "steps" : [ ],
+      "attachments" : [ {
+        "uid" : "5444f598526a463b",
+        "name" : "DeployableContainer",
+        "source" : "5444f598526a463b.txt",
+        "type" : "text/plain",
+        "size" : 41
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 0,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "When the controller processes a new TestResource",
+      "time" : {
+        "start" : 1636713774587,
+        "stop" : 1636713774736,
+        "duration" : 149
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "Executing command PROCESS_DEPLOYABLE",
+        "time" : {
+          "start" : 1636713774645,
+          "stop" : 1636713774717,
+          "duration" : 72
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ {
+          "uid" : "e2348e30fb77ce8d",
+          "name" : "Input Deployable",
+          "source" : "e2348e30fb77ce8d.txt",
+          "type" : "text/plain",
+          "size" : 622
+        }, {
+          "uid" : "64e444e81f7adbd9",
+          "name" : "Ouput DeploymentResult",
+          "source" : "64e444e81f7adbd9.txt",
+          "type" : "text/plain",
+          "size" : 673
+        } ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 2,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ {
+        "uid" : "dac641681a5f169a",
+        "name" : "TestResource",
+        "source" : "dac641681a5f169a.txt",
+        "type" : "text/plain",
+        "size" : 189
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 1,
+      "attachmentsCount" : 3,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Then a Deployment was created reflecting the name of the TestResource and the suffix 'deployment'",
+      "time" : {
+        "start" : 1636713774736,
+        "stop" : 1636713774748,
+        "duration" : 12
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "and it has a single container with a name reflecting the qualifier 'server'",
+        "time" : {
+          "start" : 1636713774745,
+          "stop" : 1636713774745,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and this container exports port 8081 with a name that reflects the qualifier 'server'",
+        "time" : {
+          "start" : 1636713774746,
+          "stop" : 1636713774746,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "and the image of this container is the previously specified image test/my-image:6.3.2 but with the default registry 'registry.hub.docker.com' specified",
+        "time" : {
+          "start" : 1636713774746,
+          "stop" : 1636713774746,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "And the default resource limits of 256Mi of Memory and 0.5 CPU were specified",
+        "time" : {
+          "start" : 1636713774747,
+          "stop" : 1636713774747,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "And all the startupProbe, readinessProbe and livenessProve all verify that port 8081 is receiving connections",
+        "time" : {
+          "start" : 1636713774747,
+          "stop" : 1636713774747,
+          "duration" : 0
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      }, {
+        "name" : "And the startupProbe is guaranteed to allow the maximum boot time required by the container",
+        "time" : {
+          "start" : 1636713774747,
+          "stop" : 1636713774748,
+          "duration" : 1
+        },
+        "status" : "passed",
+        "steps" : [ ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 0,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : false
+      } ],
+      "attachments" : [ {
+        "uid" : "b96f0c4a7a7e21ac",
+        "name" : "Deployment",
+        "source" : "b96f0c4a7a7e21ac.txt",
+        "type" : "text/plain",
+        "size" : 2146
+      } ],
+      "parameters" : [ ],
+      "stepsCount" : 6,
+      "attachmentsCount" : 1,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    }, {
+      "name" : "Resulting state changes in the Kubernetes cluster",
+      "time" : {
+        "start" : 1636713774748,
+        "stop" : 1636713774848,
+        "duration" : 100
+      },
+      "status" : "passed",
+      "steps" : [ {
+        "name" : "my-namespace",
+        "time" : {
+          "start" : 1636713774748,
+          "stop" : 1636713774840,
+          "duration" : 92
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "ingresses",
+          "time" : {
+            "start" : 1636713774748,
+            "stop" : 1636713774748,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "serviceAccounts",
+          "time" : {
+            "start" : 1636713774748,
+            "stop" : 1636713774750,
+            "duration" : 2
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "5ae97d0c0fceffa8",
+            "name" : "default",
+            "source" : "5ae97d0c0fceffa8.txt",
+            "type" : "text/plain",
+            "size" : 100
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "roleBinding",
+          "time" : {
+            "start" : 1636713774750,
+            "stop" : 1636713774759,
+            "duration" : 9
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "f80100babb719ace",
+            "name" : "default-rolebinding",
+            "source" : "f80100babb719ace.txt",
+            "type" : "text/plain",
+            "size" : 230
+          }, {
+            "uid" : "3fe5803e4ed3fce3",
+            "name" : "default-pod-viewer",
+            "source" : "3fe5803e4ed3fce3.txt",
+            "type" : "text/plain",
+            "size" : 239
+          }, {
+            "uid" : "2368a1301e0eaba0",
+            "name" : "default-entando-editor",
+            "source" : "2368a1301e0eaba0.txt",
+            "type" : "text/plain",
+            "size" : 247
+          }, {
+            "uid" : "6a5f9b67982cb4bf",
+            "name" : "default-ingress-viewer",
+            "source" : "6a5f9b67982cb4bf.txt",
+            "type" : "text/plain",
+            "size" : 247
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 4,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "endpointsMap",
+          "time" : {
+            "start" : 1636713774759,
+            "stop" : 1636713774759,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "roles",
+          "time" : {
+            "start" : 1636713774759,
+            "stop" : 1636713774760,
+            "duration" : 1
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "560b44289359f681",
+            "name" : "default",
+            "source" : "560b44289359f681.txt",
+            "type" : "text/plain",
+            "size" : 98
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "services",
+          "time" : {
+            "start" : 1636713774760,
+            "stop" : 1636713774761,
+            "duration" : 1
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "TestResource",
+          "time" : {
+            "start" : 1636713774761,
+            "stop" : 1636713774764,
+            "duration" : 3
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "30b4e857f6b84ce7",
+            "name" : "my-app",
+            "source" : "30b4e857f6b84ce7.txt",
+            "type" : "text/plain",
+            "size" : 826
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "secrets",
+          "time" : {
+            "start" : 1636713774764,
+            "stop" : 1636713774764,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "deployments",
+          "time" : {
+            "start" : 1636713774765,
+            "stop" : 1636713774772,
+            "duration" : 7
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "fe1b31de651cabdc",
+            "name" : "my-app-deployment",
+            "source" : "fe1b31de651cabdc.txt",
+            "type" : "text/plain",
+            "size" : 2146
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "configMaps",
+          "time" : {
+            "start" : 1636713774772,
+            "stop" : 1636713774772,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "pods",
+          "time" : {
+            "start" : 1636713774772,
+            "stop" : 1636713774829,
+            "duration" : 57
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "617ca81e8a2b9b61",
+            "name" : "my-app-deployment",
+            "source" : "617ca81e8a2b9b61.txt",
+            "type" : "text/plain",
+            "size" : 660
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "persistentVolumeClaims",
+          "time" : {
+            "start" : 1636713774829,
+            "stop" : 1636713774829,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "events",
+          "time" : {
+            "start" : 1636713774829,
+            "stop" : 1636713774840,
+            "duration" : 11
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "3912432465bd923",
+            "name" : "my-app-76488961",
+            "source" : "3912432465bd923.txt",
+            "type" : "text/plain",
+            "size" : 1039
+          }, {
+            "uid" : "2a5c352d585852e8",
+            "name" : "my-app-09112152",
+            "source" : "2a5c352d585852e8.txt",
+            "type" : "text/plain",
+            "size" : 938
+          }, {
+            "uid" : "880ffd69994dad07",
+            "name" : "my-app-48573704",
+            "source" : "880ffd69994dad07.txt",
+            "type" : "text/plain",
+            "size" : 935
+          }, {
+            "uid" : "e49f6035a34da6b3",
+            "name" : "my-app-84623246",
+            "source" : "e49f6035a34da6b3.txt",
+            "type" : "text/plain",
+            "size" : 1039
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 4,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 13,
+        "attachmentsCount" : 13,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "entando",
+        "time" : {
+          "start" : 1636713774840,
+          "stop" : 1636713774841,
+          "duration" : 1
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "ingresses",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "serviceAccounts",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "roleBinding",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "endpointsMap",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "roles",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "services",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "secrets",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "deployments",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774840,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "configMaps",
+          "time" : {
+            "start" : 1636713774840,
+            "stop" : 1636713774841,
+            "duration" : 1
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "pods",
+          "time" : {
+            "start" : 1636713774841,
+            "stop" : 1636713774841,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "persistentVolumeClaims",
+          "time" : {
+            "start" : 1636713774841,
+            "stop" : 1636713774841,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "events",
+          "time" : {
+            "start" : 1636713774841,
+            "stop" : 1636713774841,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 12,
+        "attachmentsCount" : 0,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "ClusterScopedResource",
+        "time" : {
+          "start" : 1636713774841,
+          "stop" : 1636713774846,
+          "duration" : 5
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "customResourceDefinitions",
+          "time" : {
+            "start" : 1636713774841,
+            "stop" : 1636713774846,
+            "duration" : 5
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "aa2cfd6fddbae7e4",
+            "name" : "testresources.test.org",
+            "source" : "aa2cfd6fddbae7e4.txt",
+            "type" : "text/plain",
+            "size" : 1141
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 1,
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      }, {
+        "name" : "controller-namespace",
+        "time" : {
+          "start" : 1636713774846,
+          "stop" : 1636713774848,
+          "duration" : 2
+        },
+        "status" : "passed",
+        "steps" : [ {
+          "name" : "ingresses",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "serviceAccounts",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "roleBinding",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "endpointsMap",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "roles",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "services",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "secrets",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "deployments",
+          "time" : {
+            "start" : 1636713774846,
+            "stop" : 1636713774846,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "configMaps",
+          "time" : {
+            "start" : 1636713774847,
+            "stop" : 1636713774848,
+            "duration" : 1
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ {
+            "uid" : "568013940d7f64a1",
+            "name" : "entando-crd-names",
+            "source" : "568013940d7f64a1.txt",
+            "type" : "text/plain",
+            "size" : 260
+          } ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 1,
+          "shouldDisplayMessage" : false,
+          "hasContent" : true
+        }, {
+          "name" : "pods",
+          "time" : {
+            "start" : 1636713774848,
+            "stop" : 1636713774848,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "persistentVolumeClaims",
+          "time" : {
+            "start" : 1636713774848,
+            "stop" : 1636713774848,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        }, {
+          "name" : "events",
+          "time" : {
+            "start" : 1636713774848,
+            "stop" : 1636713774848,
+            "duration" : 0
+          },
+          "status" : "passed",
+          "steps" : [ ],
+          "attachments" : [ ],
+          "parameters" : [ ],
+          "stepsCount" : 0,
+          "attachmentsCount" : 0,
+          "shouldDisplayMessage" : false,
+          "hasContent" : false
+        } ],
+        "attachments" : [ ],
+        "parameters" : [ ],
+        "stepsCount" : 12,
+        "attachmentsCount" : 1,
+        "shouldDisplayMessage" : false,
+        "hasContent" : true
+      } ],
+      "attachments" : [ ],
+      "parameters" : [ ],
+      "stepsCount" : 42,
+      "attachmentsCount" : 15,
+      "shouldDisplayMessage" : false,
+      "hasContent" : true
+    } ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 54,
+    "attachmentsCount" : 20,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "resetSystemPropertiesUsed",
+    "time" : {
+      "start" : 1636713774849,
+      "stop" : 1636713774849,
+      "duration" : 0
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "tag",
+    "value" : "inner-hexagon"
+  }, {
+    "name" : "tag",
+    "value" : "in-process"
+  }, {
+    "name" : "tag",
+    "value" : "allure"
+  }, {
+    "name" : "tag",
+    "value" : "pre-deployment"
+  }, {
+    "name" : "feature",
+    "value" : "As a controller developer, I would like to specify how my image gets deployed providing only the essential configuration so that  I can focus on my development tasks"
+  }, {
+    "name" : "AS_ID",
+    "value" : "test11"
+  }, {
+    "name" : "host",
+    "value" : "entando-k8s-entando-k8s-operato-7455r-22-from-build-pack--qv2q6"
+  }, {
+    "name" : "thread",
+    "value" : "110@entando-k8s-entando-k8s-operato-7455r-22-from-build-pack--qv2q6.ForkJoinPool-1-worker-3(17)"
+  }, {
+    "name" : "framework",
+    "value" : "junit-platform"
+  }, {
+    "name" : "language",
+    "value" : "java"
+  }, {
+    "name" : "package",
+    "value" : "org.entando.kubernetes.controller.MinimalDeploymentTest"
+  }, {
+    "name" : "testClass",
+    "value" : "org.entando.kubernetes.controller.MinimalDeploymentTest"
+  }, {
+    "name" : "testMethod",
+    "value" : "absoluteMinimalDeployment"
+  }, {
+    "name" : "suite",
+    "value" : "org.entando.kubernetes.controller.MinimalDeploymentTest"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ {
+    "name" : "MinimalDeploymentTest.java",
+    "url" : "https://github.com/entando-k8s/entando-k8s-operator-common/tree/ENG-2284_removing_cluster_infrastructure/src/test/java/org/entando/kubernetes/controller/MinimalDeploymentTest.java",
+    "type" : "source"
+  }, {
+    "name" : "ENG-2284",
+    "url" : "https://entando.myjetbrains.com/youtrack/issue/ENG-2284",
+    "type" : "issue"
+  } ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ "inner-hexagon", "pre-deployment", "allure", "in-process" ]
+  },
+  "source" : "52d6c9345538e140.json",
+  "parameterValues" : [ ]
+}
