@@ -1,0 +1,39 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    EntandoPlugin: "my-plugin"
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoPlugin"
+  name: "my-plugin-42784924"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoPlugin"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-plugin"
+    uid: "31cb0334-ce57-48c4-8685-f977ec2efaf0"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-11-14T13:46:44Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoPlugin"
+  fieldPath: "status"
+  name: "my-plugin"
+  namespace: "my-namespace"
+  resourceVersion: "5127502"
+  uid: "31cb0334-ce57-48c4-8685-f977ec2efaf0"
+lastTimestamp: "2021-11-14T13:46:44Z"
+message: "The EntandoPlugin  my-namespace/my-plugin received status update for sso "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-plugin-controller"
+type: "Normal"
