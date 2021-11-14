@@ -1,0 +1,45 @@
+---
+apiVersion: "entando.org/v1"
+kind: "ProvidedCapability"
+metadata:
+  annotations:
+    entando.org/origin-uuid: "7d034e7d-1433-482a-af1f-3efc31440fae"
+  generation: 1
+  labels:
+    entando.org/capability: "Sso"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "default-sso-in-namespace"
+  namespace: "my-namespace"
+  resourceVersion: "150498"
+  uid: "f12f5901-b0c3-40ab-8c96-79d7c2694014"
+spec:
+  capability: "sso"
+  resolutionScopePreference:
+  - "Namespace"
+  - "Cluster"
+  capabilityParameters:
+    preferredDbms: "embedded"
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-11-14T13:22:02+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-sso-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-sso-in-namespace-service"
+      adminSecretName: "default-sso-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        defaultRealm: "my-realm"
+      ingressName: "default-sso-in-namespace-ingress"
+      externalBaseUrl: "https://mykeycloak.apps.serv.run/auth"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "providedcapabilities.entando.org"
