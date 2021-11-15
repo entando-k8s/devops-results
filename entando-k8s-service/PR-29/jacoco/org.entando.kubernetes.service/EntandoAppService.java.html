@@ -22,18 +22,18 @@ public class EntandoAppService extends EntandoKubernetesResourceCollector&lt;Ent
 
     @Override
     protected List&lt;EntandoApp&gt; getInAnyNamespace() {
-<span class="nc" id="L25">        return getEntandoAppsOperations().inAnyNamespace().list().getItems();</span>
+<span class="fc" id="L25">        return getEntandoAppsOperations().inAnyNamespace().list().getItems();</span>
     }
 
     @Override
     protected List&lt;EntandoApp&gt; getInNamespaceWithoutChecking(String namespace) {
-<span class="nc" id="L30">        return getEntandoAppsOperations().inNamespace(namespace).list().getItems();</span>
+<span class="fc" id="L30">        return getEntandoAppsOperations().inNamespace(namespace).list().getItems();</span>
     }
 
     //CHECKSTYLE:OFF
     private MixedOperation&lt;EntandoApp, EntandoAppList, DoneableEntandoApp, Resource&lt;EntandoApp, DoneableEntandoApp&gt;&gt; getEntandoAppsOperations() {
         //CHECKSTYLE:ON
-<span class="nc" id="L36">        return EntandoAppOperationFactory.produceAllEntandoApps(kubernetesUtils.getCurrentKubernetesClient());</span>
+<span class="fc" id="L36">        return EntandoAppOperationFactory.produceAllEntandoApps(kubernetesUtils.getCurrentKubernetesClient());</span>
     }
 
 }
