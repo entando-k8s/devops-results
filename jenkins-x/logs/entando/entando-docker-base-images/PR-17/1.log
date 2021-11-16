@@ -1,0 +1,49 @@
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1637075915.7221973,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-entando-docker-base-ima-p6nkl-wph6v[0m
+{"level":"info","ts":1637076026.5107305,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/entando/entando-docker-base-images.git @ master in path /workspace/source"}
+{"level":"warn","ts":1637076026.511487,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /****/.ssh: file exists"}
+{"level":"info","ts":1637076026.5816693,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:e04eb535d081177e4aee36ebc1cef0f1ab4b819e,17:b54efc1ce61a7dc7ffea619b997173282761a0e9
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git fetch origin --unshallow b54efc1ce61a7dc7ffea619b997173282761a0e9: e04eb535d081177e4aee36ebc1cef0f1ab4b819e:
+DEBUG: ran git fetch --unshallow origin b54efc1ce61a7dc7ffea619b997173282761a0e9: e04eb535d081177e4aee36ebc1cef0f1ab4b819e: in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git branch
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git checkout master
+DEBUG: ran git checkout master in 
+DEBUG: JX_LOG_LEVEL=error LC_ALL=C git reset --hard e04eb535d081177e4aee36ebc1cef0f1ab4b819e
+DEBUG: ran git reset --hard e04eb535d081177e4aee36ebc1cef0f1ab4b819e in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git clean -fd .
+DEBUG: ran clean --force -d . in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git merge b54efc1ce61a7dc7ffea619b997173282761a0e9
+DEBUG: ran git merge b54efc1ce61a7dc7ffea619b997173282761a0e9 in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git log --format=%H%x1f%an%x1f%ae%x1f%cn%x1f%ce%x1f%s%n%b%x1e e04eb535d081177e4aee36ebc1cef0f1ab4b819e..HEAD
+Merged SHA b54efc1ce61a7dc7ffea619b997173282761a0e9 with commit message 'Update jenkins-x.yml' into base branch master
+Merged SHA a962dafd8e1269f739bdd71e030fb2eb81b39c78 with commit message 'ENG-2614 log ******' into base branch master
+
+Showing logs for build [32mentando-entando-docker-base-ima-p6nkl-1[0m stage [32mfrom-build-pack[0m and container [32mstep-container-build1[0m
+This avoids unwanted kaniko command substitution
+Generating tags...
+ - entando/entando-base-common -> *********/entando/entando-base-common:0.0.0-SNAPSHOT-PR-17-1
+Checking cache...
+ - entando/entando-base-common: Not found. Building
+Building [entando/entando-base-common]...
+Sending build context to Docker daemon  552.4kBSending build context to Docker daemon  4.965MBSending build context to Docker daemon  13.31MBSending build context to Docker daemon  19.97MBSending build context to Docker daemon  20.53MB
+Step 1/11 : FROM busybox:latest
+ ---> 7138284460ff
+Step 2/11 : ENV USERID_TO_USE 1001 ENTANDO_COMMON_PATH "/entando-common" HOME opt/app-****/src
+ ---> Running in a10c6f1dab3b
+ ---> c047720ef435
+Step 3/11 : COPY --chown=1001:0 ./entando-dependencies-bootstrap "${ENTANDO_COMMON_PATH}"
+time="2021-11-16T15:20:32Z" level=fatal msg="build failed: build failed: building [entando/entando-base-common]: build artifact: unable to stream build output: Unknown flag: chown"
+[31m
+Pipeline failed on stage 'from-build-pack' : container 'step-container-build1'. The execution of the pipeline has stopped.[0m
