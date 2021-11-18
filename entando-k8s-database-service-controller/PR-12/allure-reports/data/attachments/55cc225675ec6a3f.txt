@@ -1,0 +1,57 @@
+---
+apiVersion: "entando.org/v1"
+kind: "ProvidedCapability"
+metadata:
+  generation: 1
+  labels:
+    entando.org/capability: "Dbms"
+    entando.org/capability-implementation: "Oracle"
+    entando.org/capability-provision-scope: "Namespace"
+  name: "my-external-dbms"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-external-dbms"
+    uid: "f306cd70-ddfa-4b22-92c0-326c3a967948"
+  resourceVersion: "7906150"
+  uid: "5675b7e1-19e5-4e90-bb11-84594a882d18"
+spec:
+  capability: "dbms"
+  implementation: "oracle"
+  resolutionScopePreference:
+  - "Namespace"
+  provisioningStrategy: "UseExternal"
+  selector: {}
+  capabilityParameters:
+    databaseName: "my_db"
+  externallyProvidedService:
+    host: "oracle.apps.serv.run"
+    port: 1521
+    adminSecretName: "my-existing-dbms-admin-secret"
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-11-18T02:37:44+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "my-external-dbms"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      finished: "2021-11-18T02:37:45+0000"
+      serviceName: "my-external-dbms-service"
+      adminSecretName: "my-existing-dbms-admin-secret"
+      derivedDeploymentParameters:
+        databaseName: "my_db"
+        dbmsVendor: "oracle"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "providedcapabilities.entando.org"

@@ -1,0 +1,21 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    EntandoDatabaseService: "my-labelled-mysql-dbms"
+    my-label: "my-label-value"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+  name: "my-labelled-mysql-dbms-admin-secret"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-labelled-mysql-dbms"
+    uid: "f7236a44-4fd4-4907-a71b-e62c490fba53"
+stringData:
+  username: "root"
+  password: "21824cb81c354808"
