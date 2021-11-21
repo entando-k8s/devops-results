@@ -43,21 +43,21 @@ public class DefaultPodClient implements PodClient {
 
     @Override
     public void removeSuccessfullyCompletedPods(String namespace, Map&lt;String, String&gt; labels) {
-<span class="fc" id="L46">        client.pods().inNamespace(namespace).withLabels(labels).list().getItems().stream()</span>
-<span class="pc bpc" id="L47" title="1 of 4 branches missed.">                .filter(pod -&gt; PodResult.of(pod).getState() == State.COMPLETED &amp;&amp; !PodResult.of(pod).hasFailed())</span>
-<span class="fc" id="L48">                .forEach(client.pods().inNamespace(namespace)::delete);</span>
-<span class="fc" id="L49">    }</span>
+<span class="nc" id="L46">        client.pods().inNamespace(namespace).withLabels(labels).list().getItems().stream()</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">                .filter(pod -&gt; PodResult.of(pod).getState() == State.COMPLETED &amp;&amp; !PodResult.of(pod).hasFailed())</span>
+<span class="nc" id="L48">                .forEach(client.pods().inNamespace(namespace)::delete);</span>
+<span class="nc" id="L49">    }</span>
 
     @Override
     public void removeAndWait(String namespace, Map&lt;String, String&gt; labels, int timeoutSeconds) throws TimeoutException {
-<span class="fc" id="L53">        interruptionSafe(() -&gt; {</span>
-<span class="fc" id="L54">            FilterWatchListDeletable&lt;Pod, PodList&gt; podResource = client.pods().inNamespace(namespace).withLabels(labels);</span>
-<span class="fc" id="L55">            podResource.delete();</span>
-<span class="fc" id="L56">            return podResource.waitUntilCondition(pod -&gt; podResource.list().getItems().isEmpty(),</span>
+<span class="nc" id="L53">        interruptionSafe(() -&gt; {</span>
+<span class="nc" id="L54">            FilterWatchListDeletable&lt;Pod, PodList&gt; podResource = client.pods().inNamespace(namespace).withLabels(labels);</span>
+<span class="nc" id="L55">            podResource.delete();</span>
+<span class="nc" id="L56">            return podResource.waitUntilCondition(pod -&gt; podResource.list().getItems().isEmpty(),</span>
                     timeoutSeconds,
                     TimeUnit.SECONDS);
         });
-<span class="fc" id="L60">    }</span>
+<span class="nc" id="L60">    }</span>
 
     @Override
     public Pod runToCompletion(Pod pod, int timeoutSeconds) throws TimeoutException {
@@ -92,7 +92,7 @@ public class DefaultPodClient implements PodClient {
 
     @Override
     public Pod loadPod(String namespace, Map&lt;String, String&gt; labels) {
-<span class="fc" id="L95">        return client.pods().inNamespace(namespace).withLabels(labels).list().getItems().stream().findFirst().orElse(null);</span>
+<span class="nc" id="L95">        return client.pods().inNamespace(namespace).withLabels(labels).list().getItems().stream().findFirst().orElse(null);</span>
     }
 
 }

@@ -92,20 +92,20 @@ public class DefaultKubernetesClientForControllers extends EntandoResourceClient
 
     @Override
     public ExecutionResult executeOnPod(Pod pod, String containerName, int timeoutSeconds, String... commands) throws TimeoutException {
-<span class="fc" id="L95">        PodResource&lt;Pod&gt; podResource = this.client.pods().inNamespace(pod.getMetadata().getNamespace())</span>
-<span class="fc" id="L96">                .withName(pod.getMetadata().getName());</span>
-<span class="fc" id="L97">        return executeAndWait(podResource, containerName, timeoutSeconds, commands);</span>
+<span class="nc" id="L95">        PodResource&lt;Pod&gt; podResource = this.client.pods().inNamespace(pod.getMetadata().getNamespace())</span>
+<span class="nc" id="L96">                .withName(pod.getMetadata().getName());</span>
+<span class="nc" id="L97">        return executeAndWait(podResource, containerName, timeoutSeconds, commands);</span>
     }
 
     @Override
     public HasMetadata loadStandardResource(String kind, String namespace, String name) {
-<span class="fc" id="L102">        return SupportedStandardResourceKind.resolveFromKind(kind)</span>
-<span class="fc" id="L103">                .map(k -&gt; k.getOperation(client)</span>
-<span class="fc" id="L104">                        .inNamespace(namespace)</span>
-<span class="fc" id="L105">                        .withName(name)</span>
-<span class="fc" id="L106">                        .fromServer()</span>
-<span class="fc" id="L107">                        .get())</span>
-<span class="pc" id="L108">                .orElseThrow(() -&gt; new IllegalStateException(</span>
+<span class="nc" id="L102">        return SupportedStandardResourceKind.resolveFromKind(kind)</span>
+<span class="nc" id="L103">                .map(k -&gt; k.getOperation(client)</span>
+<span class="nc" id="L104">                        .inNamespace(namespace)</span>
+<span class="nc" id="L105">                        .withName(name)</span>
+<span class="nc" id="L106">                        .fromServer()</span>
+<span class="nc" id="L107">                        .get())</span>
+<span class="nc" id="L108">                .orElseThrow(() -&gt; new IllegalStateException(</span>
                         &quot;Resource kind '&quot; + kind + &quot;' not supported.&quot;));
     }
 
