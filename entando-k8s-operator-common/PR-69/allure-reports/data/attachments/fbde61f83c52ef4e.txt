@@ -1,0 +1,42 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    TestResource: "my-app"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "my-app-63770061"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "4b96de0c-f63a-4cf5-9fc1-2c859cbf2c5e"
+action: "FAILED"
+count: 1
+firstTimestamp: "2021-11-21T14:38:41Z"
+involvedObject:
+  apiVersion: "test.org/v1"
+  kind: "TestResource"
+  fieldPath: "status"
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "6021518"
+  uid: "4b96de0c-f63a-4cf5-9fc1-2c859cbf2c5e"
+lastTimestamp: "2021-11-21T14:38:41Z"
+message: "The deployment of TestResource my-namespace/my-app failed due to Deployment\
+  \ failed. Please inspect the logs of the pod my-namespace/my-app-deployment. Fix\
+  \ the root cause and then trigger a redeployment by adding the annotation 'entando.org/processing-instruction:\
+  \ force'"
+reason: "Failed"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-ource-controller"
+type: "Error"
