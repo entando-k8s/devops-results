@@ -72,10 +72,10 @@ public class ReflectionUtil {
 <span class="fc" id="L72">        String name = m.getName();</span>
 <span class="fc bfc" id="L73" title="All 2 branches covered.">        if (name.startsWith(&quot;get&quot;)) {</span>
 <span class="fc" id="L74">            return Introspector.decapitalize(name.substring(3));</span>
-<span class="pc bpc" id="L75" title="1 of 4 branches missed.">        } else if (name.startsWith(&quot;is&quot;) &amp;&amp; m.getReturnType() == Boolean.TYPE) {</span>
+<span class="pc bpc" id="L75" title="2 of 4 branches missed.">        } else if (name.startsWith(&quot;is&quot;) &amp;&amp; m.getReturnType() == Boolean.TYPE) {</span>
 <span class="fc" id="L76">            return Introspector.decapitalize(name.substring(2));</span>
         }
-<span class="fc" id="L78">        return null;</span>
+<span class="nc" id="L78">        return null;</span>
     }
 
     public static &lt;A extends Annotation&gt; A getAnnotation(Class&lt;?&gt; c, String methodName, Class&lt;A&gt; annotationType) {
