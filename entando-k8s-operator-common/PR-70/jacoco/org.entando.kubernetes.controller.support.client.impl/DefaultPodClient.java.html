@@ -61,10 +61,10 @@ public class DefaultPodClient implements PodClient {
 
     @Override
     public Pod runToCompletion(Pod pod, int timeoutSeconds) throws TimeoutException {
-<span class="fc" id="L64">        return interruptionSafe(() -&gt; {</span>
-<span class="fc" id="L65">            this.client.pods().inNamespace(pod.getMetadata().getNamespace()).create(pod);</span>
-<span class="fc" id="L66">            return this.client.pods().inNamespace(pod.getMetadata().getNamespace()).withName(pod.getMetadata().getName())</span>
-<span class="fc bfc" id="L67" title="All 2 branches covered.">                    .waitUntilCondition(got -&gt; PodResult.of(got).getState() == State.COMPLETED,</span>
+<span class="nc" id="L64">        return interruptionSafe(() -&gt; {</span>
+<span class="nc" id="L65">            this.client.pods().inNamespace(pod.getMetadata().getNamespace()).create(pod);</span>
+<span class="nc" id="L66">            return this.client.pods().inNamespace(pod.getMetadata().getNamespace()).withName(pod.getMetadata().getName())</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                    .waitUntilCondition(got -&gt; PodResult.of(got).getState() == State.COMPLETED,</span>
                             timeoutSeconds, TimeUnit.SECONDS);
         });
     }

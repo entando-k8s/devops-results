@@ -1,0 +1,17 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  labels:
+    TestResource: "my-app"
+  name: "my-app-server-secret"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "d62b16d7-b5a2-49a0-98b0-e1389815b05b"
+stringData:
+  username: "my_app_server"
+  password: "e9b2c2fcfd9c47e9"
