@@ -60,8 +60,8 @@ import java.util.Optional;
 <span class="fc bfc" id="L60" title="All 2 branches covered.">        } else if (pod.getStatus().getPhase().equals(PENDING_PHASE)) {</span>
 <span class="fc" id="L61">            setState(State.CREATING);</span>
 <span class="fc bfc" id="L62" title="All 2 branches covered.">        } else if (pod.getStatus().getPhase().equals(RUNNING_PHASE)) {</span>
-<span class="pc bpc" id="L63" title="1 of 4 branches missed.">            if (hasCondition(pod, &quot;Ready&quot;) &amp;&amp; hasCondition(pod, &quot;ContainersReady&quot;)) {</span>
-<span class="fc" id="L64">                setState(State.READY);</span>
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">            if (hasCondition(pod, &quot;Ready&quot;) &amp;&amp; hasCondition(pod, &quot;ContainersReady&quot;)) {</span>
+<span class="nc" id="L64">                setState(State.READY);</span>
             } else {
 <span class="fc" id="L66">                setState(State.RUNNING);</span>
             }
@@ -73,7 +73,7 @@ import java.util.Optional;
 
     private boolean hasCondition(Pod pod, String condition) {
 <span class="fc" id="L75">        return pod.getStatus().getConditions().stream()</span>
-<span class="fc bfc" id="L76" title="All 4 branches covered.">                .anyMatch(podCondition -&gt; condition.equals(podCondition.getType()) &amp;&amp; &quot;True&quot;.equals(podCondition.getStatus()));</span>
+<span class="pc bpc" id="L76" title="2 of 4 branches missed.">                .anyMatch(podCondition -&gt; condition.equals(podCondition.getType()) &amp;&amp; &quot;True&quot;.equals(podCondition.getStatus()));</span>
     }
 
     protected boolean didSomeContainersNotRun(Pod pod) {

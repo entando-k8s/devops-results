@@ -1,0 +1,32 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Ingress"
+metadata:
+  creationTimestamp: "2021-11-23T08:06:19Z"
+  generation: 2
+  name: "my-capability-ingress"
+  namespace: "entando-k8s-operator-common-cmpr70-test1"
+  resourceVersion: "231069001"
+  selfLink: "/apis/extensions/v1beta1/namespaces/entando-k8s-operator-common-cmpr70-test1/ingresses/my-capability-ingress"
+  uid: "3d98f86a-4c34-11ec-9836-ee8ada7efff9"
+spec:
+  rules:
+  - host: "myhost.com"
+    http:
+      paths:
+      - backend:
+          serviceName: "my-capability-service"
+          servicePort: 8081
+        path: "/my-context"
+      - backend:
+          serviceName: "my-capability-service"
+          servicePort: 8081
+        path: "/my-context"
+  tls:
+  - hosts:
+    - "myhost.com"
+status:
+  loadBalancer:
+    ingress:
+    - ip: "172.29.218.102"
+    - ip: "172.29.218.102"
