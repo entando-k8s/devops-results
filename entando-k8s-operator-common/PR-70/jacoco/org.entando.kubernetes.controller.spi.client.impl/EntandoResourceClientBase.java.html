@@ -65,34 +65,34 @@ public class EntandoResourceClientBase {
 
     protected &lt;T extends EntandoCustomResource&gt; T waitForPhase(T customResource, int timeoutSeconds, EntandoDeploymentPhase... phases)
             throws TimeoutException {
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        Predicate&lt;EntandoCustomResource&gt; predicate = resource -&gt; resource.getStatus().getPhase() != null &amp;&amp; Set</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        Predicate&lt;EntandoCustomResource&gt; predicate = resource -&gt; resource.getStatus().getPhase() != null &amp;&amp; Set</span>
 <span class="pc bpc" id="L69" title="1 of 2 branches missed.">                .of(phases).contains(resource.getStatus().getPhase());</span>
 <span class="fc" id="L70">        final T reloaded = reload(customResource);</span>
 <span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (predicate.test(reloaded)) {</span>
-<span class="fc" id="L72">            return reloaded;</span>
+<span class="nc" id="L72">            return reloaded;</span>
         }
-<span class="nc" id="L74">        final CompletableFuture&lt;T&gt; future = new CompletableFuture&lt;&gt;();</span>
+<span class="fc" id="L74">        final CompletableFuture&lt;T&gt; future = new CompletableFuture&lt;&gt;();</span>
         final CustomResourceDefinitionContext definition;
-<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
 <span class="nc" id="L77">            definition = ((SerializedEntandoResource) customResource).getDefinition();</span>
         } else {
-<span class="nc" id="L79">            definition = CustomResourceDefinitionContext.fromCustomResourceType(((CustomResource&lt;?, ?&gt;) customResource).getClass());</span>
+<span class="fc" id="L79">            definition = CustomResourceDefinitionContext.fromCustomResourceType(((CustomResource&lt;?, ?&gt;) customResource).getClass());</span>
         }
-<span class="nc" id="L81">        try (Watch ignore = ioSafe(() -&gt; client.customResource(definition)</span>
-<span class="nc" id="L82">                .watch(customResource.getMetadata().getNamespace(), customResource.getMetadata().getName(), null,</span>
-<span class="nc" id="L83">                        (ListOptions) null, new Watcher&lt;&gt;() {</span>
-<span class="nc" id="L84">                            final ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="fc" id="L81">        try (Watch ignore = ioSafe(() -&gt; client.customResource(definition)</span>
+<span class="fc" id="L82">                .watch(customResource.getMetadata().getNamespace(), customResource.getMetadata().getName(), null,</span>
+<span class="fc" id="L83">                        (ListOptions) null, new Watcher&lt;&gt;() {</span>
+<span class="fc" id="L84">                            final ObjectMapper objectMapper = new ObjectMapper();</span>
 
                             @Override
                             public void eventReceived(Action action, String s) {
-<span class="nc" id="L88">                                final T resource = ioSafe(() -&gt; objectMapper.readValue(s, (Class&lt;T&gt;) customResource.getClass()));</span>
-<span class="nc bnc" id="L89" title="All 2 branches missed.">                                if (resource instanceof SerializedEntandoResource) {</span>
+<span class="fc" id="L88">                                final T resource = ioSafe(() -&gt; objectMapper.readValue(s, (Class&lt;T&gt;) customResource.getClass()));</span>
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                                if (resource instanceof SerializedEntandoResource) {</span>
 <span class="nc" id="L90">                                    ((SerializedEntandoResource) resource).setDefinition(definition);</span>
                                 }
-<span class="nc bnc" id="L92" title="All 2 branches missed.">                                if (predicate.test(resource)) {</span>
-<span class="nc" id="L93">                                    future.complete(resource);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                                if (predicate.test(resource)) {</span>
+<span class="fc" id="L93">                                    future.complete(resource);</span>
                                 }
-<span class="nc" id="L95">                            }</span>
+<span class="fc" id="L95">                            }</span>
 
                             @Override
                             public void onClose(WatcherException cause) {
@@ -108,19 +108,19 @@ public class EntandoResourceClientBase {
                                 }
 <span class="nc" id="L109">                            }</span>
                         }))) {
-<span class="nc" id="L111">            return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
+<span class="fc" id="L111">            return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
         }
     }
 
     protected SerializedEntandoResource loadCustomResource(String apiVersion, String kind, String namespace, String name) {
-<span class="fc" id="L116">        return ioSafe(() -&gt; {</span>
-<span class="fc" id="L117">            final CustomResourceDefinitionContext context = resolveDefinitionContext(kind, apiVersion);</span>
-<span class="fc" id="L118">            final Map&lt;String, Object&gt; crMap = client.customResource(context).get(namespace, name);</span>
-<span class="fc" id="L119">            final ObjectMapper objectMapper = new ObjectMapper();</span>
-<span class="fc" id="L120">            final SerializedEntandoResource serializedEntandoResource = objectMapper</span>
-<span class="fc" id="L121">                    .readValue(objectMapper.writeValueAsString(crMap), SerializedEntandoResource.class);</span>
-<span class="fc" id="L122">            serializedEntandoResource.setDefinition(context);</span>
-<span class="fc" id="L123">            return serializedEntandoResource;</span>
+<span class="nc" id="L116">        return ioSafe(() -&gt; {</span>
+<span class="nc" id="L117">            final CustomResourceDefinitionContext context = resolveDefinitionContext(kind, apiVersion);</span>
+<span class="nc" id="L118">            final Map&lt;String, Object&gt; crMap = client.customResource(context).get(namespace, name);</span>
+<span class="nc" id="L119">            final ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="nc" id="L120">            final SerializedEntandoResource serializedEntandoResource = objectMapper</span>
+<span class="nc" id="L121">                    .readValue(objectMapper.writeValueAsString(crMap), SerializedEntandoResource.class);</span>
+<span class="nc" id="L122">            serializedEntandoResource.setDefinition(context);</span>
+<span class="nc" id="L123">            return serializedEntandoResource;</span>
         });
     }
 
@@ -136,51 +136,51 @@ public class EntandoResourceClientBase {
     @SuppressWarnings({&quot;unchecked&quot;})
     protected &lt;T extends EntandoCustomResource&gt; T reload(T customResource) {
 <span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
-<span class="fc" id="L139">            return (T) loadCustomResource(</span>
-<span class="fc" id="L140">                    customResource.getApiVersion(),</span>
-<span class="fc" id="L141">                    customResource.getKind(),</span>
-<span class="fc" id="L142">                    customResource.getMetadata().getNamespace(),</span>
-<span class="fc" id="L143">                    customResource.getMetadata().getName());</span>
+<span class="nc" id="L139">            return (T) loadCustomResource(</span>
+<span class="nc" id="L140">                    customResource.getApiVersion(),</span>
+<span class="nc" id="L141">                    customResource.getKind(),</span>
+<span class="nc" id="L142">                    customResource.getMetadata().getNamespace(),</span>
+<span class="nc" id="L143">                    customResource.getMetadata().getName());</span>
         } else {
-<span class="nc" id="L145">            return (T) load(customResource.getClass(), customResource.getMetadata().getNamespace(), customResource.getMetadata().getName());</span>
+<span class="fc" id="L145">            return (T) load(customResource.getClass(), customResource.getMetadata().getNamespace(), customResource.getMetadata().getName());</span>
         }
     }
 
     protected CustomResourceDefinitionContext resolveDefinitionContext(String kind, String apiVersion) {
-<span class="fc" id="L150">        final String key = kind + &quot;.&quot; + apiVersion.substring(0, apiVersion.indexOf(&quot;/&quot;));</span>
-<span class="fc" id="L151">        final String name = getCrdNameMap().getData().get(key);</span>
-<span class="fc" id="L152">        return CustomResourceDefinitionContext.fromCrd(client.apiextensions().v1beta1().customResourceDefinitions()</span>
-<span class="fc" id="L153">                .withName(name).get());</span>
+<span class="nc" id="L150">        final String key = kind + &quot;.&quot; + apiVersion.substring(0, apiVersion.indexOf(&quot;/&quot;));</span>
+<span class="nc" id="L151">        final String name = getCrdNameMap().getData().get(key);</span>
+<span class="nc" id="L152">        return CustomResourceDefinitionContext.fromCrd(client.apiextensions().v1beta1().customResourceDefinitions()</span>
+<span class="nc" id="L153">                .withName(name).get());</span>
     }
 
     protected ConfigMap getCrdNameMap() {
-<span class="fc" id="L157">        crdNameMap = Objects.requireNonNullElseGet(crdNameMap,</span>
-<span class="fc" id="L158">                () -&gt; Objects.requireNonNullElseGet(</span>
-<span class="fc" id="L159">                        client.configMaps().inNamespace(client.getNamespace()).withName(</span>
-<span class="fc" id="L160">                                KubernetesClientForControllers.ENTANDO_CRD_NAMES_CONFIG_MAP).fromServer().get(),</span>
+<span class="nc" id="L157">        crdNameMap = Objects.requireNonNullElseGet(crdNameMap,</span>
+<span class="nc" id="L158">                () -&gt; Objects.requireNonNullElseGet(</span>
+<span class="nc" id="L159">                        client.configMaps().inNamespace(client.getNamespace()).withName(</span>
+<span class="nc" id="L160">                                KubernetesClientForControllers.ENTANDO_CRD_NAMES_CONFIG_MAP).fromServer().get(),</span>
                         this::createConfigMap));
 
-<span class="fc" id="L163">        return crdNameMap;</span>
+<span class="nc" id="L163">        return crdNameMap;</span>
     }
 
     private ConfigMap createConfigMap() {
         try {
-<span class="fc" id="L168">            return client.configMaps().inNamespace(client.getNamespace())</span>
-<span class="fc" id="L169">                    .create(new ConfigMapBuilder()</span>
-<span class="fc" id="L170">                            .withNewMetadata()</span>
-<span class="fc" id="L171">                            .withNamespace(client.getNamespace())</span>
-<span class="fc" id="L172">                            .withName(KubernetesClientForControllers.ENTANDO_CRD_NAMES_CONFIG_MAP)</span>
-<span class="fc" id="L173">                            .endMetadata()</span>
-<span class="fc" id="L174">                            .addToData(client.apiextensions().v1beta1().customResourceDefinitions()</span>
-<span class="fc" id="L175">                                    .withLabel(LabelNames.CRD_OF_INTEREST.getName())</span>
-<span class="fc" id="L176">                                    .list()</span>
-<span class="fc" id="L177">                                    .getItems()</span>
-<span class="fc" id="L178">                                    .stream()</span>
-<span class="fc" id="L179">                                    .collect(Collectors</span>
-<span class="fc" id="L180">                                            .toMap(crd -&gt; crd.getSpec().getNames().getKind() + &quot;.&quot; + crd.getSpec()</span>
-<span class="fc" id="L181">                                                            .getGroup(),</span>
-<span class="fc" id="L182">                                                    crd -&gt; crd.getMetadata().getName())))</span>
-<span class="fc" id="L183">                            .build());</span>
+<span class="nc" id="L168">            return client.configMaps().inNamespace(client.getNamespace())</span>
+<span class="nc" id="L169">                    .create(new ConfigMapBuilder()</span>
+<span class="nc" id="L170">                            .withNewMetadata()</span>
+<span class="nc" id="L171">                            .withNamespace(client.getNamespace())</span>
+<span class="nc" id="L172">                            .withName(KubernetesClientForControllers.ENTANDO_CRD_NAMES_CONFIG_MAP)</span>
+<span class="nc" id="L173">                            .endMetadata()</span>
+<span class="nc" id="L174">                            .addToData(client.apiextensions().v1beta1().customResourceDefinitions()</span>
+<span class="nc" id="L175">                                    .withLabel(LabelNames.CRD_OF_INTEREST.getName())</span>
+<span class="nc" id="L176">                                    .list()</span>
+<span class="nc" id="L177">                                    .getItems()</span>
+<span class="nc" id="L178">                                    .stream()</span>
+<span class="nc" id="L179">                                    .collect(Collectors</span>
+<span class="nc" id="L180">                                            .toMap(crd -&gt; crd.getSpec().getNames().getKind() + &quot;.&quot; + crd.getSpec()</span>
+<span class="nc" id="L181">                                                            .getGroup(),</span>
+<span class="nc" id="L182">                                                    crd -&gt; crd.getMetadata().getName())))</span>
+<span class="nc" id="L183">                            .build());</span>
 <span class="nc" id="L184">        } catch (KubernetesClientException e) {</span>
 <span class="nc bnc" id="L185" title="All 2 branches missed.">            if (e.getStatus().getCode() == HttpURLConnection.HTTP_CONFLICT) {</span>
 <span class="nc" id="L186">                return client.configMaps().inNamespace(client.getNamespace()).withName(</span>
@@ -195,7 +195,7 @@ public class EntandoResourceClientBase {
     protected &lt;T extends EntandoCustomResource&gt; T createOrPatchEntandoResource(T r) {
 <span class="fc" id="L196">        final MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations((Class&lt;T&gt;) r.getClass());</span>
 <span class="fc bfc" id="L197" title="All 2 branches covered.">        if (operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).get() == null) {</span>
-<span class="nc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
+<span class="fc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
         } else {
 <span class="fc" id="L200">            return operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).patch(r);</span>
         }
