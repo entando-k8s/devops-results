@@ -65,34 +65,34 @@ public class EntandoResourceClientBase {
 
     protected &lt;T extends EntandoCustomResource&gt; T waitForPhase(T customResource, int timeoutSeconds, EntandoDeploymentPhase... phases)
             throws TimeoutException {
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        Predicate&lt;EntandoCustomResource&gt; predicate = resource -&gt; resource.getStatus().getPhase() != null &amp;&amp; Set</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        Predicate&lt;EntandoCustomResource&gt; predicate = resource -&gt; resource.getStatus().getPhase() != null &amp;&amp; Set</span>
 <span class="pc bpc" id="L69" title="1 of 2 branches missed.">                .of(phases).contains(resource.getStatus().getPhase());</span>
 <span class="fc" id="L70">        final T reloaded = reload(customResource);</span>
-<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (predicate.test(reloaded)) {</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">        if (predicate.test(reloaded)) {</span>
 <span class="fc" id="L72">            return reloaded;</span>
         }
-<span class="fc" id="L74">        final CompletableFuture&lt;T&gt; future = new CompletableFuture&lt;&gt;();</span>
+<span class="nc" id="L74">        final CompletableFuture&lt;T&gt; future = new CompletableFuture&lt;&gt;();</span>
         final CustomResourceDefinitionContext definition;
-<span class="pc bpc" id="L76" title="1 of 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
 <span class="nc" id="L77">            definition = ((SerializedEntandoResource) customResource).getDefinition();</span>
         } else {
-<span class="fc" id="L79">            definition = CustomResourceDefinitionContext.fromCustomResourceType(((CustomResource&lt;?, ?&gt;) customResource).getClass());</span>
+<span class="nc" id="L79">            definition = CustomResourceDefinitionContext.fromCustomResourceType(((CustomResource&lt;?, ?&gt;) customResource).getClass());</span>
         }
-<span class="fc" id="L81">        try (Watch ignore = ioSafe(() -&gt; client.customResource(definition)</span>
-<span class="fc" id="L82">                .watch(customResource.getMetadata().getNamespace(), customResource.getMetadata().getName(), null,</span>
-<span class="fc" id="L83">                        (ListOptions) null, new Watcher&lt;&gt;() {</span>
-<span class="fc" id="L84">                            final ObjectMapper objectMapper = new ObjectMapper();</span>
+<span class="nc" id="L81">        try (Watch ignore = ioSafe(() -&gt; client.customResource(definition)</span>
+<span class="nc" id="L82">                .watch(customResource.getMetadata().getNamespace(), customResource.getMetadata().getName(), null,</span>
+<span class="nc" id="L83">                        (ListOptions) null, new Watcher&lt;&gt;() {</span>
+<span class="nc" id="L84">                            final ObjectMapper objectMapper = new ObjectMapper();</span>
 
                             @Override
                             public void eventReceived(Action action, String s) {
-<span class="fc" id="L88">                                final T resource = ioSafe(() -&gt; objectMapper.readValue(s, (Class&lt;T&gt;) customResource.getClass()));</span>
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                                if (resource instanceof SerializedEntandoResource) {</span>
+<span class="nc" id="L88">                                final T resource = ioSafe(() -&gt; objectMapper.readValue(s, (Class&lt;T&gt;) customResource.getClass()));</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                                if (resource instanceof SerializedEntandoResource) {</span>
 <span class="nc" id="L90">                                    ((SerializedEntandoResource) resource).setDefinition(definition);</span>
                                 }
-<span class="fc bfc" id="L92" title="All 2 branches covered.">                                if (predicate.test(resource)) {</span>
-<span class="fc" id="L93">                                    future.complete(resource);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                                if (predicate.test(resource)) {</span>
+<span class="nc" id="L93">                                    future.complete(resource);</span>
                                 }
-<span class="fc" id="L95">                            }</span>
+<span class="nc" id="L95">                            }</span>
 
                             @Override
                             public void onClose(WatcherException cause) {
@@ -108,7 +108,7 @@ public class EntandoResourceClientBase {
                                 }
 <span class="nc" id="L109">                            }</span>
                         }))) {
-<span class="fc" id="L111">            return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
+<span class="nc" id="L111">            return interruptionSafe(() -&gt; future.get(timeoutSeconds, TimeUnit.SECONDS));</span>
         }
     }
 
@@ -135,14 +135,14 @@ public class EntandoResourceClientBase {
 
     @SuppressWarnings({&quot;unchecked&quot;})
     protected &lt;T extends EntandoCustomResource&gt; T reload(T customResource) {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">        if (customResource instanceof SerializedEntandoResource) {</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        if (customResource instanceof SerializedEntandoResource) {</span>
 <span class="fc" id="L139">            return (T) loadCustomResource(</span>
 <span class="fc" id="L140">                    customResource.getApiVersion(),</span>
 <span class="fc" id="L141">                    customResource.getKind(),</span>
 <span class="fc" id="L142">                    customResource.getMetadata().getNamespace(),</span>
 <span class="fc" id="L143">                    customResource.getMetadata().getName());</span>
         } else {
-<span class="fc" id="L145">            return (T) load(customResource.getClass(), customResource.getMetadata().getNamespace(), customResource.getMetadata().getName());</span>
+<span class="nc" id="L145">            return (T) load(customResource.getClass(), customResource.getMetadata().getNamespace(), customResource.getMetadata().getName());</span>
         }
     }
 
@@ -195,7 +195,7 @@ public class EntandoResourceClientBase {
     protected &lt;T extends EntandoCustomResource&gt; T createOrPatchEntandoResource(T r) {
 <span class="fc" id="L196">        final MixedOperation&lt;T, KubernetesResourceList&lt;T&gt;, Resource&lt;T&gt;&gt; operations = getOperations((Class&lt;T&gt;) r.getClass());</span>
 <span class="fc bfc" id="L197" title="All 2 branches covered.">        if (operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).get() == null) {</span>
-<span class="fc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
+<span class="nc" id="L198">            return operations.inNamespace(r.getMetadata().getNamespace()).create(r);</span>
         } else {
 <span class="fc" id="L200">            return operations.inNamespace(r.getMetadata().getNamespace()).withName(r.getMetadata().getName()).patch(r);</span>
         }
