@@ -1,0 +1,20 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/entando-resource-kind: "EntandoKeycloakServer"
+    EntandoKeycloakServer: "my-keycloak"
+  name: "my-keycloak-admin-secret"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoKeycloakServer"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "f2b3dea5-294f-4430-bde1-720aad68211c"
+stringData:
+  username: "entando_keycloak_admin"
+  password: "b2a84e6b106440b0"

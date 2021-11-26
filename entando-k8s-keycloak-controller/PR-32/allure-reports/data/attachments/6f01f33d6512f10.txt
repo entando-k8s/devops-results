@@ -1,0 +1,77 @@
+--- !<EntandoKeycloakServer>
+apiVersion: "entando.org/v1"
+kind: "EntandoKeycloakServer"
+metadata:
+  generation: 1
+  labels:
+    entando.org/capability: "Sso"
+    entando.org/capability-implementation: "Keycloak"
+    entando.org/capability-provision-scope: "Dedicated"
+  name: "my-app-sso"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app-sso"
+    uid: "4610f281-575b-4274-a7e4-730820990610"
+  resourceVersion: "5115633"
+  uid: "2e497442-50b3-4099-87b0-509085f3c682"
+spec:
+  standardImage: "keycloak"
+  provisioningStrategy: "DeployDirectly"
+  dbms: "mysql"
+  ingressHostName: "myhost.com"
+  tlsSecretName: "my-tls-secret"
+  replicas: 1
+  isDefault: false
+  environmentVariables: []
+status:
+  serverStatuses:
+    db:
+      type: "WebServerStatus"
+      qualifier: "db"
+      started: "2021-11-26T03:25:49+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "default-mysql-dbms-in-namespace"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "my-test-pod"
+      serviceName: "default-mysql-dbms-in-namespace-service"
+      adminSecretName: "default-mysql-dbms-in-namespace-admin-secret"
+      derivedDeploymentParameters:
+        databaseName: "my_db"
+        dbmsVendor: "mysql"
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-11-26T03:25:50+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "ProvidedCapability"
+        namespace: "my-namespace"
+        name: "my-app-sso"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      finished: "2021-11-26T03:25:51+0000"
+      serviceName: "my-app-sso-service"
+      deploymentName: "my-app-sso-deployment"
+      adminSecretName: "my-app-sso-admin-secret"
+      webContexts:
+        server: "/auth"
+      podPhases:
+        my-app-sso-deployment: "Running"
+        my-app-sso-dbprep-7182: "Complete"
+      persistentVolumeClaimPhases:
+        my-app-sso-server-pvc: "Pending"
+      ingressName: "my-app-sso-ingress"
+      externalBaseUrl: "https://myhost.com/auth"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "entandokeycloakservers.entando.org"
