@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EntandoDatabaseServiceSpecFluent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Entando Kubernetes Custom Model</a> &gt; <a href="index.source.html" class="el_package">org.entando.kubernetes.model.externaldatabase</a> &gt; <span class="el_source">EntandoDatabaseServiceSpecFluent.java</span></div><h1>EntandoDatabaseServiceSpecFluent.java</h1><pre class="source lang-java linenums">/*
+ *
+ * Copyright 2015-Present Entando Inc. (http://www.entando.com) All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ *  This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ */
+
+package org.entando.kubernetes.model.externaldatabase;
+
+import static org.entando.kubernetes.model.common.Coalescence.coalesce;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import org.entando.kubernetes.model.capability.CapabilityProvisioningStrategy;
+import org.entando.kubernetes.model.capability.CapabilityScope;
+import org.entando.kubernetes.model.common.DbmsVendor;
+import org.entando.kubernetes.model.common.EntandoDeploymentSpecFluent;
+import org.entando.kubernetes.model.common.EntandoIngressingDeploymentSpecBaseFluent;
+
+public abstract class EntandoDatabaseServiceSpecFluent&lt;F extends EntandoDatabaseServiceSpecFluent&lt;F&gt;&gt;
+        extends EntandoDeploymentSpecFluent&lt;F&gt;
+        implements EntandoIngressingDeploymentSpecBaseFluent&lt;F&gt; {
+
+    private String databaseName;
+    private DbmsVendor dbms;
+    private String host;
+    private Integer port;
+    private String secretName;
+    private Map&lt;String, String&gt; jdbcParameters;
+    private String tablespace;
+    private Boolean createDeployment;
+    private CapabilityScope providedCapabilityScope;
+    private CapabilityProvisioningStrategy provisioningStrategy;
+
+    protected EntandoDatabaseServiceSpecFluent(EntandoDatabaseServiceSpec spec) {
+<span class="fc" id="L45">        super(spec);</span>
+<span class="fc" id="L46">        this.databaseName = spec.getDatabaseName().orElse(null);</span>
+<span class="fc" id="L47">        this.dbms = spec.getDbms().orElse(null);</span>
+<span class="fc" id="L48">        this.host = spec.getHost().orElse(null);</span>
+<span class="fc" id="L49">        this.port = spec.getPort().orElse(null);</span>
+<span class="fc" id="L50">        this.secretName = spec.getSecretName().orElse(null);</span>
+<span class="fc" id="L51">        this.tablespace = spec.getTablespace().orElse(null);</span>
+<span class="fc" id="L52">        this.createDeployment = spec.getCreateDeployment().orElse(null);</span>
+<span class="fc" id="L53">        this.jdbcParameters = coalesce(spec.getJdbcParameters(), this.jdbcParameters);</span>
+<span class="fc" id="L54">        this.providedCapabilityScope = spec.getProvidedCapabilityScope().orElse(null);</span>
+<span class="fc" id="L55">        this.provisioningStrategy = spec.getProvisioningStrategy().orElse(null);</span>
+<span class="fc" id="L56">    }</span>
+
+<span class="fc" id="L58">    protected EntandoDatabaseServiceSpecFluent() {</span>
+
+<span class="fc" id="L60">    }</span>
+
+    public EntandoDatabaseServiceSpec build() {
+<span class="fc" id="L63">        return new EntandoDatabaseServiceSpec(</span>
+                dbms,
+                host,
+                port,
+                databaseName,
+                tablespace,
+                secretName,
+                createDeployment,
+                jdbcParameters,
+                replicas,
+                serviceAccountToUse,
+                environmentVariables,
+                resourceRequirements,
+                storageClass,
+                providedCapabilityScope,
+                provisioningStrategy
+        );
+    }
+
+    public F withDatabaseName(String databaseName) {
+<span class="fc" id="L83">        this.databaseName = databaseName;</span>
+<span class="fc" id="L84">        return thisAsF();</span>
+    }
+
+    public F withCreateDeployment(Boolean createDeployment) {
+<span class="fc" id="L88">        this.createDeployment = createDeployment;</span>
+<span class="fc" id="L89">        return thisAsF();</span>
+    }
+
+    public F withDbms(DbmsVendor dbms) {
+<span class="fc" id="L93">        this.dbms = dbms;</span>
+<span class="fc" id="L94">        return thisAsF();</span>
+    }
+
+    public F withHost(String host) {
+<span class="fc" id="L98">        this.host = host;</span>
+<span class="fc" id="L99">        return thisAsF();</span>
+    }
+
+    public F withPort(Integer port) {
+<span class="fc" id="L103">        this.port = port;</span>
+<span class="fc" id="L104">        return thisAsF();</span>
+    }
+
+    public F withSecretName(String secretName) {
+<span class="fc" id="L108">        this.secretName = secretName;</span>
+<span class="fc" id="L109">        return thisAsF();</span>
+    }
+
+    public F withJdbcParameters(Map&lt;String, String&gt; jdbcParameters) {
+<span class="fc" id="L113">        this.jdbcParameters = new ConcurrentHashMap&lt;&gt;(jdbcParameters);</span>
+<span class="fc" id="L114">        return thisAsF();</span>
+    }
+
+    public F withProvidedCapabilityScope(CapabilityScope providedCapabilityScope) {
+<span class="fc" id="L118">        this.providedCapabilityScope = providedCapabilityScope;</span>
+<span class="fc" id="L119">        return thisAsF();</span>
+    }
+
+    public F addToJdbcParameters(String name, String value) {
+<span class="pc bpc" id="L123" title="1 of 2 branches missed.">        if (jdbcParameters == null) {</span>
+<span class="fc" id="L124">            jdbcParameters = new ConcurrentHashMap&lt;&gt;();</span>
+        }
+<span class="fc" id="L126">        this.jdbcParameters.put(name, value);</span>
+<span class="fc" id="L127">        return thisAsF();</span>
+    }
+
+    public F withTablespace(String tablespace) {
+<span class="fc" id="L131">        this.tablespace = tablespace;</span>
+<span class="fc" id="L132">        return thisAsF();</span>
+    }
+
+    @Override
+    public F withTlsSecretName(String tlsSecretName) {
+<span class="nc" id="L137">        return thisAsF();</span>
+    }
+
+    @Override
+    public F withIngressHostName(String ingressHostName) {
+<span class="nc" id="L142">        return thisAsF();</span>
+    }
+
+    public F withProvisioningStrategy(CapabilityProvisioningStrategy provisioningStrategy) {
+<span class="fc" id="L146">        this.provisioningStrategy = provisioningStrategy;</span>
+<span class="fc" id="L147">        return thisAsF();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
