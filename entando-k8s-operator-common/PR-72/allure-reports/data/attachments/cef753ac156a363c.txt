@@ -1,0 +1,15 @@
+---
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  name: "my-client-secret"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-app"
+    uid: "f070ed13-edf3-48ac-9a29-0c5269f59e19"
+stringData:
+  clientId: "my-client"
+  clientSecret: "SOME-ASDF-KEYCLOAK-SECRET"

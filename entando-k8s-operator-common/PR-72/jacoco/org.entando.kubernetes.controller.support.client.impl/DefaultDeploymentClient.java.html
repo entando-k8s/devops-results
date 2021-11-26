@@ -67,8 +67,8 @@ public class DefaultDeploymentClient implements DeploymentClient {
     public Deployment createOrPatchDeployment(EntandoCustomResource peerInNamespace, Deployment deployment, int timeoutSeconds)
             throws TimeoutException {
 <span class="fc" id="L69">        Deployment existingDeployment = getDeploymenResourceFor(peerInNamespace, deployment).get();</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (existingDeployment == null) {</span>
-<span class="fc" id="L71">            return client.apps().deployments().inNamespace(peerInNamespace.getMetadata().getNamespace()).create(deployment);</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if (existingDeployment == null) {</span>
+<span class="nc" id="L71">            return client.apps().deployments().inNamespace(peerInNamespace.getMetadata().getNamespace()).create(deployment);</span>
         } else {
             //Don't wait because the polling in Fabric8 is dodge
 <span class="fc" id="L74">            getDeploymenResourceFor(peerInNamespace, deployment).scale(0, true);</span>
