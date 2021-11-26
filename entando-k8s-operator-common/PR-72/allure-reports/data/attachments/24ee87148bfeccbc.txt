@@ -1,0 +1,23 @@
+---
+apiVersion: "v1"
+kind: "Endpoints"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "specified-dbms"
+    TestResource: "specified-dbms"
+    entando.org/entando-resource-kind: "TestResource"
+  name: "specified-dbms-service"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "test.org/v1"
+    kind: "TestResource"
+    blockOwnerDeletion: true
+    controller: true
+    name: "specified-dbms"
+    uid: "10e72c7a-eda2-446b-8f24-4935d806078f"
+subsets:
+- addresses:
+  - ip: "10.0.0.234"
+  ports:
+  - port: 3307
