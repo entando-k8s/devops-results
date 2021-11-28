@@ -53,14 +53,14 @@ public class DefaultPodClient implements PodClient {
 
     @Override
     public void removeAndWait(String namespace, Map&lt;String, String&gt; labels, int timeoutSeconds) throws TimeoutException {
-<span class="nc" id="L56">        interruptionSafe(() -&gt; {</span>
-<span class="nc" id="L57">            FilterWatchListDeletable&lt;Pod, PodList&gt; podResource = client.pods().inNamespace(namespace).withLabels(labels);</span>
-<span class="nc" id="L58">            podResource.delete();</span>
-<span class="nc" id="L59">            return podResource.waitUntilCondition(pod -&gt; podResource.list().getItems().isEmpty(),</span>
+<span class="fc" id="L56">        interruptionSafe(() -&gt; {</span>
+<span class="fc" id="L57">            FilterWatchListDeletable&lt;Pod, PodList&gt; podResource = client.pods().inNamespace(namespace).withLabels(labels);</span>
+<span class="fc" id="L58">            podResource.delete();</span>
+<span class="fc" id="L59">            return podResource.waitUntilCondition(pod -&gt; podResource.list().getItems().isEmpty(),</span>
                     timeoutSeconds,
                     TimeUnit.SECONDS);
         });
-<span class="nc" id="L63">    }</span>
+<span class="fc" id="L63">    }</span>
 
     @Override
     public Pod runToCompletion(Pod pod, int timeoutSeconds) throws TimeoutException {
@@ -76,7 +76,7 @@ public class DefaultPodClient implements PodClient {
     private boolean hasPodFailedContainers(Pod pod) {
 <span class="fc bfc" id="L77" title="All 2 branches covered.">        for (ContainerStatus cs : pod.getStatus().getContainerStatuses()) {</span>
 <span class="fc" id="L78">            ContainerStateWaiting waiting = cs.getState().getWaiting();</span>
-<span class="pc bpc" id="L79" title="2 of 4 branches missed.">            if (waiting != null &amp;&amp; waiting.getReason().toLowerCase(Locale.ROOT).contains(&quot;error&quot;)) {</span>
+<span class="pc bpc" id="L79" title="1 of 4 branches missed.">            if (waiting != null &amp;&amp; waiting.getReason().toLowerCase(Locale.ROOT).contains(&quot;error&quot;)) {</span>
 <span class="nc" id="L80">                return true;</span>
             }
 <span class="fc" id="L82">        }</span>

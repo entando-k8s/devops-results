@@ -1,0 +1,32 @@
+---
+apiVersion: "test.org/v1"
+kind: "TestResource"
+metadata:
+  generation: 1
+  name: "my-app"
+  namespace: "my-namespace"
+  resourceVersion: "3223511"
+  uid: "a873be18-270c-4686-affb-357b227a33c7"
+spec:
+  replicas: 1
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2021-11-28T08:05:29+0000"
+      originatingCustomResource:
+        apiVersion: "test.org/v1"
+        kind: "TestResource"
+        namespace: "my-namespace"
+        name: "my-app"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      deploymentName: "my-app-deployment"
+      podPhases:
+        my-app-deployment: "Running"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "testresources.test.org"
