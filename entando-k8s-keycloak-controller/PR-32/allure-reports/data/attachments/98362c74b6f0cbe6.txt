@@ -1,0 +1,29 @@
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "my-keycloak"
+    entando.org/entando-resource-kind: "EntandoKeycloakServer"
+    EntandoKeycloakServer: "my-keycloak"
+  name: "my-keycloak-deployment"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoKeycloakServer"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "7940f83c-8caa-4a09-ad8c-9fc3327f34b1"
+spec:
+  containers:
+  - {}
+status:
+  conditions:
+  - lastTransitionTime: "2021-11-30T10:02:53Z"
+    type: "Ready"
+  containerStatuses:
+  - state:
+      running: {}
+  phase: "Running"

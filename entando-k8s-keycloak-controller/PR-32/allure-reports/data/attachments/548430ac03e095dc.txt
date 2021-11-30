@@ -1,0 +1,26 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Ingress"
+metadata:
+  annotations:
+    entando.org/my-keycloak-server-path: "/auth"
+  labels:
+    EntandoKeycloakServer: "my-keycloak"
+  name: "my-keycloak-ingress"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoKeycloakServer"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-keycloak"
+    uid: "7940f83c-8caa-4a09-ad8c-9fc3327f34b1"
+spec:
+  rules:
+  - host: "my-keycloak-my-namespace.apps.serv.run"
+    http:
+      paths:
+      - backend:
+          serviceName: "my-keycloak-service"
+          servicePort: 8080
+        path: "/auth"
