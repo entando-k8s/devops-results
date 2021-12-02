@@ -115,101 +115,102 @@ import java.util.logging.Logger;
 
         @Override
         public void createUserAndSchema(Statement statement, DatabaseAdminConfig config) throws SQLException {
-<span class="fc" id="L118">            statement.execute(format(&quot;CREATE USER %s WITH PASSWORD '%s'&quot;, DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser()),</span>
+<span class="fc" id="L118">            statement.execute(format(&quot;CREATE USER %s WITH PASSWORD '%s'&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()),</span>
 <span class="fc" id="L119">                    config.getDatabasePassword()));</span>
-<span class="fc" id="L120">            statement.execute(format(&quot;GRANT %s TO %s&quot;, DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser()),</span>
-<span class="fc" id="L121">                    DbUtils.sanitizeAndQuoteValue(config.getDatabaseAdminUser())));</span>
-<span class="fc" id="L122">            statement.execute(format(&quot;CREATE SCHEMA %s AUTHORIZATION %s&quot;, DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser()),</span>
-<span class="fc" id="L123">                    DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser())));</span>
-<span class="fc" id="L124">            statement.execute(format(&quot;ALTER ROLE %s SET search_path = %s&quot;, DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser()),</span>
-<span class="fc" id="L125">                    DbUtils.sanitizeAndQuoteValue(config.getDatabaseUser())));</span>
+<span class="fc" id="L120">            statement.execute(format(&quot;GRANT %s TO %s&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()),</span>
+<span class="fc" id="L121">                    DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseAdminUser())));</span>
+<span class="fc" id="L122">            statement.execute(format(&quot;CREATE SCHEMA %s AUTHORIZATION %s&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()),</span>
+<span class="fc" id="L123">                    DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser())));</span>
+<span class="fc" id="L124">            statement.execute(format(&quot;ALTER ROLE %s SET search_path = %s&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()),</span>
+<span class="fc" id="L125">                    DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser())));</span>
 <span class="fc" id="L126">        }</span>
 
         @Override
         public void dropUserAndSchema(Statement st, DatabaseAdminConfig config) {
-<span class="fc" id="L130">            swallow(() -&gt; st.execute(format(&quot;DROP SCHEMA \&quot;%s\&quot; CASCADE&quot;, config.getDatabaseUser())));</span>
-<span class="fc" id="L131">            swallow(() -&gt; st.execute(format(&quot;DROP USER \&quot;%s\&quot;&quot;, config.getDatabaseUser())));</span>
+<span class="fc" id="L130">            swallow(() -&gt; st.execute(format(&quot;DROP SCHEMA %s CASCADE&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()))));</span>
+<span class="fc" id="L131">            swallow(() -&gt; st.execute(format(&quot;DROP USER %s&quot;, DbUtils.sanitizeAndDoubleQuoteValue(config.getDatabaseUser()))));</span>
 <span class="fc" id="L132">        }</span>
 
         @Override
         public void resetPassword(Statement st, DatabaseAdminConfig con) throws SQLException {
-<span class="fc" id="L136">            st.execute(format(&quot;ALTER USER \&quot;%s\&quot; WITH PASSWORD '%s'&quot;, con.getDatabaseUser(), con.getDatabasePassword()));</span>
-<span class="fc" id="L137">        }</span>
+<span class="fc" id="L136">            st.execute(format(&quot;ALTER USER %s WITH PASSWORD '%s'&quot;, DbUtils.sanitizeAndDoubleQuoteValue(con.getDatabaseUser()),</span>
+<span class="fc" id="L137">                    con.getDatabasePassword()));</span>
+<span class="fc" id="L138">        }</span>
     },
-<span class="fc" id="L139">    ORACLE() {</span>
+<span class="fc" id="L140">    ORACLE() {</span>
         @Override
         public Connection connectAsUser(DatabaseAdminConfig config) throws SQLException {
-<span class="fc" id="L142">            String url = buildUrl(config);</span>
-<span class="fc" id="L143">            return DriverManager.getConnection(url, config.getDatabaseUser(), config.getDatabasePassword());</span>
+<span class="fc" id="L143">            String url = buildUrl(config);</span>
+<span class="fc" id="L144">            return DriverManager.getConnection(url, config.getDatabaseUser(), config.getDatabasePassword());</span>
         }
 
         @Override
         public Connection connectAsAdmin(DatabaseAdminConfig config) throws SQLException {
-<span class="fc" id="L148">            String url = buildUrl(config);</span>
-<span class="fc" id="L149">            return DriverManager.getConnection(url, config.getDatabaseAdminUser(), config.getDatabaseAdminPassword());</span>
+<span class="fc" id="L149">            String url = buildUrl(config);</span>
+<span class="fc" id="L150">            return DriverManager.getConnection(url, config.getDatabaseAdminUser(), config.getDatabaseAdminPassword());</span>
         }
 
         @Override
         public boolean schemaExists(DatabaseAdminConfig config) throws SQLException {
-<span class="fc" id="L154">            String url = buildUrl(config);</span>
-<span class="fc" id="L155">            try (Connection connection = DriverManager</span>
-<span class="fc" id="L156">                    .getConnection(url, config.getDatabaseAdminUser(), config.getDatabaseAdminPassword())) {</span>
-<span class="fc" id="L157">                try (ResultSet resultSet = connection.createStatement()</span>
-<span class="fc" id="L158">                        .executeQuery(</span>
-<span class="fc" id="L159">                                format(&quot;SELECT COUNT(*) FROM DBA_USERS WHERE USERNAME='%s'&quot;, config.getDatabaseUser().toUpperCase()))) {</span>
-<span class="fc" id="L160">                    resultSet.next();</span>
-<span class="fc bfc" id="L161" title="All 2 branches covered.">                    return resultSet.getInt(1) == 1;</span>
+<span class="fc" id="L155">            String url = buildUrl(config);</span>
+<span class="fc" id="L156">            try (Connection connection = DriverManager</span>
+<span class="fc" id="L157">                    .getConnection(url, config.getDatabaseAdminUser(), config.getDatabaseAdminPassword())) {</span>
+<span class="fc" id="L158">                try (ResultSet resultSet = connection.createStatement()</span>
+<span class="fc" id="L159">                        .executeQuery(</span>
+<span class="fc" id="L160">                                format(&quot;SELECT COUNT(*) FROM DBA_USERS WHERE USERNAME='%s'&quot;, config.getDatabaseUser().toUpperCase()))) {</span>
+<span class="fc" id="L161">                    resultSet.next();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">                    return resultSet.getInt(1) == 1;</span>
                 }
             }
         }
 
         private String buildUrl(DatabaseAdminConfig config) {
-<span class="fc" id="L167">            return format(&quot;jdbc:oracle:thin:@//%s:%s/%s%s&quot;,</span>
-<span class="fc" id="L168">                    config.getDatabaseServerHost(),</span>
-<span class="fc" id="L169">                    config.getDatabaseServerPort(),</span>
-<span class="fc" id="L170">                    config.getDatabaseName(),</span>
-<span class="fc" id="L171">                    parameterSuffix(config.getJdbcParameters()));</span>
+<span class="fc" id="L168">            return format(&quot;jdbc:oracle:thin:@//%s:%s/%s%s&quot;,</span>
+<span class="fc" id="L169">                    config.getDatabaseServerHost(),</span>
+<span class="fc" id="L170">                    config.getDatabaseServerPort(),</span>
+<span class="fc" id="L171">                    config.getDatabaseName(),</span>
+<span class="fc" id="L172">                    parameterSuffix(config.getJdbcParameters()));</span>
         }
 
         @Override
         public void createUserAndSchema(Statement statement, DatabaseAdminConfig config) throws SQLException {
-<span class="fc" id="L176">            statement.execute(format(&quot;CREATE USER %s IDENTIFIED BY \&quot;%s\&quot;&quot;, config.getDatabaseUser(), config.getDatabasePassword()));</span>
-<span class="fc" id="L177">            String sql = format(</span>
+<span class="fc" id="L177">            statement.execute(format(&quot;CREATE USER %s IDENTIFIED BY \&quot;%s\&quot;&quot;, config.getDatabaseUser(), config.getDatabasePassword()));</span>
+<span class="fc" id="L178">            String sql = format(</span>
                     &quot;GRANT CREATE PROCEDURE, CREATE TRIGGER, CREATE PUBLIC SYNONYM, CREATE SEQUENCE, CREATE SESSION, CREATE SYNONYM,&quot;
                             + &quot;CREATE TABLE, CREATE VIEW TO %s&quot;,
-<span class="fc" id="L180">                    config.getDatabaseUser());</span>
-<span class="fc" id="L181">            statement.execute(sql);</span>
-<span class="fc" id="L182">            statement.execute(</span>
-<span class="fc" id="L183">                    format(&quot;ALTER USER %s quota unlimited on %s &quot;, config.getDatabaseUser(), config.getTablespace().orElse(&quot;USERS&quot;)));</span>
-<span class="pc bpc" id="L184" title="1 of 2 branches missed.">            if (config.getTablespace().orElse(&quot;SYSTEM&quot;).equalsIgnoreCase(&quot;system&quot;)) {</span>
+<span class="fc" id="L181">                    config.getDatabaseUser());</span>
+<span class="fc" id="L182">            statement.execute(sql);</span>
+<span class="fc" id="L183">            statement.execute(</span>
+<span class="fc" id="L184">                    format(&quot;ALTER USER %s quota unlimited on %s &quot;, config.getDatabaseUser(), config.getTablespace().orElse(&quot;USERS&quot;)));</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">            if (config.getTablespace().orElse(&quot;SYSTEM&quot;).equalsIgnoreCase(&quot;system&quot;)) {</span>
                 //On Oracle 11 on occasion the user needs quota allocation here
-<span class="fc" id="L186">                statement.execute(format(&quot;ALTER USER %s quota 50m on system&quot;, config.getDatabaseUser()));</span>
+<span class="fc" id="L187">                statement.execute(format(&quot;ALTER USER %s quota 50m on system&quot;, config.getDatabaseUser()));</span>
             }
-<span class="fc" id="L188">        }</span>
+<span class="fc" id="L189">        }</span>
 
         @Override
         public void dropUserAndSchema(Statement st, DatabaseAdminConfig config) {
-<span class="fc" id="L192">            swallow(() -&gt; st.execute(format(&quot;DROP USER %s CASCADE&quot;, config.getDatabaseUser())));</span>
-<span class="fc" id="L193">        }</span>
+<span class="fc" id="L193">            swallow(() -&gt; st.execute(format(&quot;DROP USER %s CASCADE&quot;, config.getDatabaseUser())));</span>
+<span class="fc" id="L194">        }</span>
 
         @Override
         public void resetPassword(Statement st, DatabaseAdminConfig databaseAdminConfig) throws SQLException {
-<span class="fc" id="L197">            st.execute(format(&quot;ALTER USER %s IDENTIFIED BY %s&quot;, databaseAdminConfig.getDatabaseUser(),</span>
-<span class="fc" id="L198">                    databaseAdminConfig.getDatabasePassword()));</span>
-<span class="fc" id="L199">        }</span>
+<span class="fc" id="L198">            st.execute(format(&quot;ALTER USER %s IDENTIFIED BY %s&quot;, databaseAdminConfig.getDatabaseUser(),</span>
+<span class="fc" id="L199">                    databaseAdminConfig.getDatabasePassword()));</span>
+<span class="fc" id="L200">        }</span>
     };
 
     public static DatabaseDialect resolveFor(String vendorName) {
-<span class="fc" id="L203">        return Enum.valueOf(DatabaseDialect.class, vendorName.toUpperCase());</span>
+<span class="fc" id="L204">        return Enum.valueOf(DatabaseDialect.class, vendorName.toUpperCase());</span>
     }
 
     private static void swallow(SqlAction action) {
         try {
-<span class="fc" id="L208">            action.execute();</span>
-<span class="nc" id="L209">        } catch (SQLException e) {</span>
-<span class="nc" id="L210">            Logger.getAnonymousLogger().log(Level.WARNING, &quot;Exception ignored.&quot;, e);</span>
-<span class="fc" id="L211">        }</span>
-<span class="fc" id="L212">    }</span>
+<span class="fc" id="L209">            action.execute();</span>
+<span class="nc" id="L210">        } catch (SQLException e) {</span>
+<span class="nc" id="L211">            Logger.getAnonymousLogger().log(Level.WARNING, &quot;Exception ignored.&quot;, e);</span>
+<span class="fc" id="L212">        }</span>
+<span class="fc" id="L213">    }</span>
 
     public abstract Connection connectAsUser(DatabaseAdminConfig config) throws SQLException;
 
@@ -222,10 +223,10 @@ import java.util.logging.Logger;
     public abstract void dropUserAndSchema(Statement st, DatabaseAdminConfig config);
 
     protected String parameterSuffix(List&lt;String&gt; jdbcParameters) {
-<span class="fc bfc" id="L225" title="All 2 branches covered.">        if (jdbcParameters.isEmpty()) {</span>
-<span class="fc" id="L226">            return &quot;&quot;;</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (jdbcParameters.isEmpty()) {</span>
+<span class="fc" id="L227">            return &quot;&quot;;</span>
         } else {
-<span class="fc" id="L228">            return &quot;?&quot; + String.join(&quot;&amp;&quot;, jdbcParameters);</span>
+<span class="fc" id="L229">            return &quot;?&quot; + String.join(&quot;&amp;&quot;, jdbcParameters);</span>
         }
     }
 
