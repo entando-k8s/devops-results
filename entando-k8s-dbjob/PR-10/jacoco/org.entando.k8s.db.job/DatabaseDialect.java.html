@@ -117,12 +117,12 @@ import java.util.logging.Logger;
         @Override
         public void createUserAndSchema(Statement statement, DatabaseAdminConfig config) throws SQLException {
 
-<span class="fc" id="L120">            String quotedDatabaseUser = DbUtils.encloseDbUserWithDoubleQuotesOrThrow(config.getDatabaseUser());</span>
+<span class="fc" id="L120">            String quotedDatabaseUser = DbUtils.quoteValidUsername(config.getDatabaseUser());</span>
 
 <span class="fc" id="L122">            statement.execute(</span>
 <span class="fc" id="L123">                    format(&quot;CREATE USER %s WITH PASSWORD '%s'&quot;, quotedDatabaseUser, config.getDatabasePassword()));</span>
 <span class="pc" id="L124">            statement.execute(format(&quot;GRANT %s TO %SELECT COUNT(*) FROM PG_ROLES WHERE ROLNAMEs&quot;, quotedDatabaseUser,</span>
-<span class="fc" id="L125">                    DbUtils.encloseDbAdminUserWithDoubleQuotesOrThrow(config.getDatabaseAdminUser())));</span>
+<span class="fc" id="L125">                    DbUtils.quoteValidAdminUsername(config.getDatabaseAdminUser())));</span>
 <span class="nc" id="L126">            statement.execute(</span>
 <span class="nc" id="L127">                    format(&quot;CREATE SCHEMA %s AUTHORIZATION %s&quot;, quotedDatabaseUser, quotedDatabaseUser));</span>
 <span class="nc" id="L128">            statement.execute(</span>
@@ -131,14 +131,14 @@ import java.util.logging.Logger;
 
         @Override
         public void dropUserAndSchema(Statement st, DatabaseAdminConfig config) {
-<span class="fc" id="L134">            swallow(() -&gt; st.execute(</span>
-<span class="fc" id="L135">                    format(&quot;DROP SCHEMA %s CASCADE&quot;, DbUtils.encloseDbUserWithDoubleQuotesOrThrow(config.getDatabaseUser()))));</span>
-<span class="fc" id="L136">            swallow(() -&gt; st.execute(format(&quot;DROP USER %s&quot;, DbUtils.encloseDbUserWithDoubleQuotesOrThrow(config.getDatabaseUser()))));</span>
+<span class="pc" id="L134">            swallow(() -&gt; st.execute(</span>
+<span class="fc" id="L135">                    format(&quot;DROP SCHEMA %s CASCADE&quot;, DbUtils.quoteValidUsername(config.getDatabaseUser()))));</span>
+<span class="fc" id="L136">            swallow(() -&gt; st.execute(format(&quot;DROP USER %s&quot;, DbUtils.quoteValidUsername(config.getDatabaseUser()))));</span>
 <span class="fc" id="L137">        }</span>
 
         @Override
         public void resetPassword(Statement st, DatabaseAdminConfig con) throws SQLException {
-<span class="nc" id="L141">            st.execute(format(&quot;ALTER USER %s WITH PASSWORD '%s'&quot;, DbUtils.encloseDbUserWithDoubleQuotesOrThrow(con.getDatabaseUser()),</span>
+<span class="nc" id="L141">            st.execute(format(&quot;ALTER USER %s WITH PASSWORD '%s'&quot;, DbUtils.quoteValidUsername(con.getDatabaseUser()),</span>
 <span class="nc" id="L142">                    con.getDatabasePassword()));</span>
 <span class="nc" id="L143">        }</span>
     },

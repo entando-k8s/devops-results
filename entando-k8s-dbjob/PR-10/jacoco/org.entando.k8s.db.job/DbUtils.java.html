@@ -29,8 +29,8 @@ public class DbUtils {
      * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
      * @return the generated value
      */
-    public static String encloseDbUserWithDoubleQuotesOrThrow(String value) {
-<span class="fc" id="L33">        return encloseWithDoubleQuotesOrThrow(value, &quot;db user&quot;);</span>
+    public static String quoteValidUsername(String value) {
+<span class="fc" id="L33">        return quoteValidValue(value, &quot;db user&quot;);</span>
     }
 
     /**
@@ -39,8 +39,8 @@ public class DbUtils {
      * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
      * @return the generated value
      */
-    public static String encloseDbAdminUserWithDoubleQuotesOrThrow(String value) {
-<span class="fc" id="L43">        return encloseWithDoubleQuotesOrThrow(value, &quot;db admin user&quot;);</span>
+    public static String quoteValidAdminUsername(String value) {
+<span class="fc" id="L43">        return quoteValidValue(value, &quot;db admin user&quot;);</span>
     }
 
     /**
@@ -50,7 +50,7 @@ public class DbUtils {
      * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
      * @return the generated value
      */
-    private static String encloseWithDoubleQuotesOrThrow(String value, String valueName) {
+    private static String quoteValidValue(String value, String valueName) {
 
 <span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (ObjectUtils.isEmpty(value)) {</span>
 <span class="nc" id="L56">            throw new DbJobException(&quot;Empty value received as &quot; + valueName);</span>
