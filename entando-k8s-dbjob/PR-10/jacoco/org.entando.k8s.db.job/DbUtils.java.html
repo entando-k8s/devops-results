@@ -21,19 +21,42 @@ import org.apache.commons.lang3.ObjectUtils;
 <span class="nc" id="L21">public class DbUtils {</span>
 
     /**
-     * remove quotes from the received value, then enclose it with double quotes.
+     * remove quotes from the received db user value, then enclose it with double quotes.
      * @param value the value to sanitize and surround with double quotes
+     * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
      * @return the generated value
      */
-    public static String sanitizeAndDoubleQuoteValue(String value) {
+    public static String encloseDbUserWithDoubleQuotesOrThrow(String value) {
+<span class="fc" id="L30">        return encloseWithDoubleQuotesOrThrow(value, &quot;db user&quot;);</span>
+    }
 
-<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if (ObjectUtils.isEmpty(value)) {</span>
-<span class="nc" id="L31">            return value;</span>
+    /**
+     * remove quotes from the received db admin user value, then enclose it with double quotes.
+     * @param value the value to sanitize and surround with double quotes
+     * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
+     * @return the generated value
+     */
+    public static String encloseDbAdminUserWithDoubleQuotesOrThrow(String value) {
+<span class="fc" id="L40">        return encloseWithDoubleQuotesOrThrow(value, &quot;db admin user&quot;);</span>
+    }
+
+    /**
+     * remove quotes from the received value, then enclose it with double quotes.
+     * @param value the value to sanitize and surround with double quotes
+     * @param valueName the name of the value to throw a meaningful exception in case of error
+     * @throws DbJobException if the received value is empty, null or if it contains quotes or doublequotes
+     * @return the generated value
+     */
+    private static String encloseWithDoubleQuotesOrThrow(String value, String valueName) {
+
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if (ObjectUtils.isEmpty(value)) {</span>
+<span class="nc" id="L53">            throw new DbJobException(&quot;Empty value received as &quot; + valueName);</span>
+        }
+<span class="pc bpc" id="L55" title="2 of 4 branches missed.">        if (value.contains(&quot;\&quot;&quot;) || value.contains(&quot;'&quot;)) {</span>
+<span class="nc" id="L56">            throw new DbJobException(&quot;The value received as &quot; + valueName + &quot; contains invalid chars (\&quot; or ')&quot;);</span>
         }
 
-<span class="fc" id="L34">        return &quot;\&quot;&quot;</span>
-<span class="fc" id="L35">                + value.replaceAll(&quot;\&quot;&quot;, &quot;&quot;).replaceAll(&quot;'&quot;, &quot;&quot;)</span>
-                + &quot;\&quot;&quot;;
+<span class="fc" id="L59">        return &quot;\&quot;&quot; + value + &quot;\&quot;&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
