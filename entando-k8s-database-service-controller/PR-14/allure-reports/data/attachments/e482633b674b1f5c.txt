@@ -1,0 +1,39 @@
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "mysql-dbms-8612"
+    EntandoDatabaseService: "mysql-dbms-8612"
+    entando.org/capability: "Dbms"
+    my-label: "my-label-value"
+    entando.org/capability-implementation: "Mysql"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+    entando.org/capability-provision-scope: "Labeled"
+  name: "mysql-dbms-8612-service"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "mysql-dbms-8612"
+    uid: "0e30508d-81c8-4f28-9669-dd5887352b45"
+spec:
+  clusterIP: "10.0.0.42"
+  ports:
+  - name: "db-port"
+    port: 3306
+    protocol: "TCP"
+    targetPort: 3306
+  selector:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "mysql-dbms-8612"
+    EntandoDatabaseService: "mysql-dbms-8612"
+    entando.org/capability: "Dbms"
+    my-label: "my-label-value"
+    entando.org/capability-implementation: "Mysql"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+    entando.org/capability-provision-scope: "Labeled"
+  type: "ClusterIP"

@@ -1,0 +1,41 @@
+---
+apiVersion: "v1"
+kind: "Event"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    EntandoDatabaseService: "my-labelled-mysql-dbms"
+    my-label: "my-label-value"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+  name: "my-labelled-mysql-dbms-16060194"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "my-labelled-mysql-dbms"
+    uid: "39e68729-6aaf-42a8-ac28-e6fc40f25041"
+action: "STATUS_CHANGE"
+count: 1
+firstTimestamp: "2021-12-10T10:24:03Z"
+involvedObject:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoDatabaseService"
+  fieldPath: "status"
+  name: "my-labelled-mysql-dbms"
+  namespace: "my-namespace"
+  resourceVersion: "4676081"
+  uid: "39e68729-6aaf-42a8-ac28-e6fc40f25041"
+lastTimestamp: "2021-12-10T10:24:03Z"
+message: "The EntandoDatabaseService  my-namespace/my-labelled-mysql-dbms received\
+  \ status update for main "
+reason: "StatusUpdate"
+related:
+  apiVersion: "v1"
+  kind: "Pod"
+  name: "test-controller-pod"
+  namespace: "controller-namespace"
+source:
+  component: "entando-k8s-database-service-controller"
+type: "Normal"
