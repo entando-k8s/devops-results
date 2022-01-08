@@ -1,0 +1,54 @@
+--- !<EntandoDatabaseService>
+apiVersion: "entando.org/v1"
+kind: "EntandoDatabaseService"
+metadata:
+  generation: 1
+  labels:
+    my-label: "my-label-value"
+    entando.org/capability: "Dbms"
+    entando.org/capability-implementation: "Mysql"
+    entando.org/capability-provision-scope: "Labeled"
+  name: "mysql-dbms-0015"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "ProvidedCapability"
+    blockOwnerDeletion: true
+    controller: true
+    name: "mysql-dbms-0015"
+    uid: "11287f36-a63b-427e-b800-2cc7a5174853"
+  resourceVersion: "9584887"
+  uid: "f05df480-4f1e-4cf1-99bf-b029cb7ded09"
+spec:
+  dbms: "mysql"
+  databaseName: "my_db"
+  createDeployment: true
+  jdbcParameters:
+    disconnectOnExpiredPasswords: "true"
+  replicas: 1
+  environmentVariables: []
+  providedCapabilityScope: "Labeled"
+status:
+  serverStatuses:
+    main:
+      type: "WebServerStatus"
+      qualifier: "main"
+      started: "2022-01-08T22:58:47+0000"
+      originatingCustomResource:
+        apiVersion: "entando.org/v1"
+        kind: "EntandoDatabaseService"
+        namespace: "my-namespace"
+        name: "mysql-dbms-0015"
+      originatingControllerPod:
+        namespace: "controller-namespace"
+        name: "test-controller-pod"
+      serviceName: "mysql-dbms-0015-service"
+      deploymentName: "mysql-dbms-0015-deployment"
+      podPhases:
+        mysql-dbms-0015-deployment: "Running"
+      persistentVolumeClaimPhases:
+        mysql-dbms-0015-db-pvc: "Pending"
+  observedGeneration: 1
+  phase: "successful"
+  entandoDeploymentPhase: "successful"
+crdName: "entandodatabaseservices.entando.org"

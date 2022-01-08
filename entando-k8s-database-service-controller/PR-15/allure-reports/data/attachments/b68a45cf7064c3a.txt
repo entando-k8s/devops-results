@@ -1,0 +1,22 @@
+---
+mixins:
+- "Deployable"
+- "Secretive"
+defaultServiceAccountName: "default"
+externalService:
+  mixins:
+  - "ExternalService"
+  port: 1521
+  host: "oracle.apps.serv.run"
+  createDelegateService: true
+replicas: 1
+customResource:
+  apiVersion: "entando.org/v1"
+  kind: "EntandoDatabaseService"
+  metadata:
+    name: "my-external-dbms"
+    namespace: "my-namespace"
+  isCustomResource: true
+containers: []
+secrets: []
+serviceAccountToUse: "default"

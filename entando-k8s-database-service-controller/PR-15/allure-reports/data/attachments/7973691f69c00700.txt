@@ -1,0 +1,26 @@
+---
+apiVersion: "v1"
+kind: "PersistentVolumeClaim"
+metadata:
+  labels:
+    entando.org/entando-resource-namespace: "my-namespace"
+    entando.org/deployment: "default-dbms-in-namespace"
+    EntandoDatabaseService: "default-dbms-in-namespace"
+    entando.org/entando-resource-kind: "EntandoDatabaseService"
+  name: "default-dbms-in-namespace-db-pvc"
+  namespace: "my-namespace"
+  ownerReferences:
+  - apiVersion: "entando.org/v1"
+    kind: "EntandoDatabaseService"
+    blockOwnerDeletion: true
+    controller: true
+    name: "default-dbms-in-namespace"
+    uid: "917d4b56-5f66-4338-857f-3c48693aed41"
+spec:
+  accessModes:
+  - "ReadWriteOnce"
+  resources:
+    limits:
+      storage: "2048Mi"
+    requests:
+      storage: "512Mi"
