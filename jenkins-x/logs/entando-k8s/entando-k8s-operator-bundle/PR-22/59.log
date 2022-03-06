@@ -1,0 +1,117 @@
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1646599456.304312,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-entando-k8s-entando-k8s-operato-kkqlc-42tdw[0m
+{"level":"info","ts":1646599576.131979,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/entando-k8s/entando-k8s-operator-bundle.git @ master in path /workspace/source"}
+{"level":"warn","ts":1646599576.1323674,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /****/.ssh: file exists"}
+{"level":"info","ts":1646599576.214195,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:7e7b89b894fc7b23cb6b103550008a17552b9816,22:21671e56ae79b011f46c105747a32eb3063d476c
+DEBUG: JX_LOG_LEVEL=error LC_ALL=C git fetch origin --unshallow 21671e56ae79b011f46c105747a32eb3063d476c: 7e7b89b894fc7b23cb6b103550008a17552b9816:
+DEBUG: ran git fetch --unshallow origin 21671e56ae79b011f46c105747a32eb3063d476c: 7e7b89b894fc7b23cb6b103550008a17552b9816: in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git branch
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git checkout master
+DEBUG: ran git checkout master in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git reset --hard 7e7b89b894fc7b23cb6b103550008a17552b9816
+DEBUG: ran git reset --hard 7e7b89b894fc7b23cb6b103550008a17552b9816 in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git clean -fd .
+DEBUG: ran clean --force -d . in 
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git merge 21671e56ae79b011f46c105747a32eb3063d476c
+DEBUG: ran git merge 21671e56ae79b011f46c105747a32eb3063d476c in 
+DEBUG: JX_LOG_LEVEL=error LC_ALL=C git log --format=%H%x1f%an%x1f%ae%x1f%cn%x1f%ce%x1f%s%n%b%x1e 7e7b89b894fc7b23cb6b103550008a17552b9816..HEAD
+Merged SHA 21671e56ae79b011f46c105747a32eb3063d476c with commit message 'v7.0.0-pre2-TMP1' into base branch master
+Merged SHA 737495d86f11b79ad4384079724f38f9c4336bea with commit message 'ENG-3364 entando app can't install under k3s' into base branch master
+Merged SHA 964eeed1d61d058bebb48cbad967b776766b8de4 with commit message 'ENG-3334 local-dev-publish to also support docker as cli tool + general code improvements' into base branch master
+Merged SHA 11d58164f11cfe8d7077b338196eb5818ae174a9 with commit message 'ENG-3334 use the proper registry for the entando-mysql image and fix the community images' into base branch master
+Merged SHA d2d417569eab5169d921eafac9089285016458b5 with commit message 'Updated entando-de-app versions' into base branch master
+Merged SHA 96876562f406eb93d0b74bb655baf97c25d0633b with commit message 'ENG-3166: Update ******** version' into base branch master
+Merged SHA a0f1d14f74ef6462e57832aeda7db177e6f063c6 with commit message 'ENG-3087/ENG-3147 use entando-keycloak image + ENG-3175 component-manager dependecies' into base branch master
+Merged SHA 82b3562c733507262709fd2b6afb071364182ff8 with commit message 'ENG-3139 Allow keycloak controller to run kcadm commands on KC15' into base branch master
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-build-set-csv-version[0m
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-build-container-build[0m
+This avoids unwanted kaniko command substitution
+Generating tags...
+ - entando/entando-k8s-operator-bundle-community -> *********/entando/entando-k8s-operator-bundle-community:0.0.0-SNAPSHOT-PR-22-59
+Checking cache...
+ - entando/entando-k8s-operator-bundle-community: Not found. Building
+Building [entando/entando-k8s-operator-bundle-community]...
+Sending build context to Docker daemon  153.6kB
+Step 1/18 : FROM scratch
+ ---> 
+Step 2/18 : LABEL operators.operatorframework.io.bundle.channels.v1 final
+ ---> Using cache
+ ---> e3367159a718
+Step 3/18 : LABEL operators.operatorframework.io.bundle.manifests.v1 manifests/
+ ---> Using cache
+ ---> 53d906f7568e
+Step 4/18 : LABEL operators.operatorframework.io.bundle.mediatype.v1 registry+v1
+ ---> Using cache
+ ---> e3b4714d5a5e
+Step 5/18 : LABEL operators.operatorframework.io.bundle.metadata.v1 metadata/
+ ---> Using cache
+ ---> 3052fe9d496f
+Step 6/18 : LABEL operators.operatorframework.io.bundle.package.v1 entando-k8s-operator
+ ---> Using cache
+ ---> e89892022c4c
+Step 7/18 : LABEL operators.operatorframework.io.metrics.builder operator-sdk-v1.2.0
+ ---> Using cache
+ ---> 20474efd0c99
+Step 8/18 : LABEL operators.operatorframework.io.bundle.channel.default.v1 final
+ ---> Using cache
+ ---> 5d97e2b951f2
+Step 9/18 : LABEL operators.operatorframework.io.metrics.mediatype.v1 metrics+v1
+ ---> Using cache
+ ---> 54b4d108ed2b
+Step 10/18 : LABEL operators.operatorframework.io.metrics.project_layout helm.sdk.operatorframework.io/v1
+ ---> Using cache
+ ---> a0aa4087e3a4
+Step 11/18 : LABEL operators.operatorframework.io.test.config.v1 tests/scorecard/
+ ---> Using cache
+ ---> 43b7d2da9edb
+Step 12/18 : LABEL operators.operatorframework.io.test.mediatype.v1 scorecard+v1
+ ---> Using cache
+ ---> 81049031c743
+Step 13/18 : LABEL com.redhat.openshift.versions "v4.6"
+ ---> Using cache
+ ---> 1ccbf8d20e3c
+Step 14/18 : LABEL com.redhat.delivery.operator.bundle ****
+ ---> Using cache
+ ---> 3d89133ef7e1
+Step 15/18 : LABEL com.redhat.delivery.backport false
+ ---> Using cache
+ ---> e84efd4b4ac2
+Step 16/18 : COPY manifests/k8s-116-and-later/cluster-resources manifests/k8s-116-and-later/community-deployment /manifests/
+ ---> ffb08f88e25e
+Step 17/18 : COPY metadata /metadata/
+ ---> d3f584bb9a7e
+Step 18/18 : COPY tests/scorecard /tests/scorecard/
+ ---> 4b6e2a61bc21
+Successfully built 4b6e2a61bc21
+The push refers to a repository [*********/entando/entando-k8s-operator-bundle-community]
+d4bce5dc34bc: Preparing
+7ed10ef5a3fa: Preparing
+449617685f44: Preparing
+d4bce5dc34bc: Pushed
+7ed10ef5a3fa: Pushed
+449617685f44: Pushed
+0.0.0-SNAPSHOT-PR-22-59: digest: sha256:24dd32c03edb9b7f1396063056892301f118c5df21465c94d325cd774b7ce1ac size: 940
+There is a new version (1.35.2) of Skaffold available. Download it at https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+
+
+Showing logs for build [32mentando-k8s-entando-k8s-operato-kkqlc-59[0m stage [32mfrom-build-pack[0m and container [32mstep-build-verify-bundle[0m
+time="2022-03-06T20:46:33Z" level=info msg="Unpacking image layers"
+time="2022-03-06T20:46:33Z" level=info msg="running /usr/bin/docker pull *********/entando/entando-k8s-operator-bundle-community:0.0.0-SNAPSHOT-PR-22-59"
+time="2022-03-06T20:46:36Z" level=info msg="running docker create"
+time="2022-03-06T20:46:37Z" level=info msg="running docker cp"
+time="2022-03-06T20:46:37Z" level=info msg="running docker rm"
+time="2022-03-06T20:46:37Z" level=info msg="All validation tests have completed successfully"
